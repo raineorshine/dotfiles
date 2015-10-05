@@ -1,0 +1,41 @@
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set editing-mode vi
+
+# http://stackoverflow.com/questions/23349325/inputrc-override-controlw
+set bind-tty-special-chars Off
+
+# to view key bindings:
+# bind -p (what bindings are shown depends on the current vi mode)
+
+# command mode
+set keymap vi-command
+"h": backward-char
+"i": forward-char
+"n": next-history
+"e": previous-history
+
+# # insert mode
+set keymap vi-insert
+"\C-k": vi-movement-mode
+"\C-n": next-history
+"\C-e": previous-history
+"\C-h": backward-char
+"\C-b": backward-word
+"\C-a": end-of-line
+
+# doesn't work?
+"\C-0": beginning-of-line
+"\C-p": beginning-of-line
+
+# kills tab-completion!
+# "\C-i": forward-char
+# doesn't work!
+# "í": forward-char
+
+# need to undefine word-erase default in order to use control+w
+# stty werase undef
+"\C-w": forward-word
+# "\C-f": forward-word

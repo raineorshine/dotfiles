@@ -1,0 +1,3 @@
+TODO:
+ ☐ gulp restore .gitconfig (check first if symlink goes to dotfiles repo - use `readlink`)
+ ☐ Add task to place current user dotfiles in repo

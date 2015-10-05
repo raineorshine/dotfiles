@@ -1,0 +1,40 @@
+[core]
+	excludesfile = ~/.gitignore
+[user]
+	name = metaraine
+	email = raineorshine@gmail.com
+[credential]
+	helper = osxkeychain
+[difftool "kdiff3"]
+    path = /Applications/kdiff3.app/Contents/MacOS/kdiff3
+    trustExitCode = false
+[difftool]
+    prompt = false
+[diff]
+    tool = kdiff3
+[mergetool "kdiff3"]
+    path = /Applications/kdiff3.app/Contents/MacOS/kdiff3
+    trustExitCode = false
+[mergetool]
+    keepBackup = false
+[merge]
+    tool = kdiff3
+[alias]
+	a = add -A
+	b = branch
+	c = commit
+	d = diff
+	r = remote -v
+	s = status
+	t = tag
+[color]
+	ui = auto
+[push]
+	default = simple
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
