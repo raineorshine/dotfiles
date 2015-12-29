@@ -1,5 +1,5 @@
 [core]
-	excludesfile = ~/.gitignore
+	excludesfile = /Users/raine/.gitignore_global
 [user]
 	name = metaraine
 	email = raineorshine@gmail.com

@@ -32,7 +32,7 @@ alias tra="trash" # requires brew install trash
 alias traa="trash ./*"
 alias key="subl ~/Google\ Drive/Settings/KeyRemap4MacBook/private.xml"
 alias pkg="echo {} > package.json"
-alias addrelic="heroku config:set RELIC_KEY=$(relic) && heroku addons:add newrelic:stark"
+#alias addrelic="heroku config:set RELIC_KEY=$(relic) && heroku addons:add newrelic:stark"
 alias js2coffee="js2coffee -sq -it"
 
 # project directory
@@ -227,7 +227,7 @@ dt() {
 #-------------------------#
 
 # Add tab-completion to grunt
-eval "$(grunt --completion=bash)"
+# eval "$(grunt --completion=bash)"
 
 . <(npm completion)
 
