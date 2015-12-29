@@ -206,6 +206,7 @@ alias nls="npm ls --depth=0"
 alias npmo="npm outdated --depth=0"
 alias nr="npm run"
 alias nt="npm test"
+alias nre="npm repo"
 
 # browse the home page of an npm module
 npmb() {
