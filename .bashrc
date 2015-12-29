@@ -223,6 +223,22 @@ dt() {
   npm view "$@" dist-tags
 }
 
+# bump the version, push, and publish
+npub() {
+
+  if [ $# -eq 0 ]
+  then
+    echo "You must specify major|minor|patch"
+    return 1
+  else
+    npm version "$@"
+    git push
+    git push --tags
+    npm publish
+  fi
+
+}
+
 #-------------------------#
 # Tab Completion
 #-------------------------#
