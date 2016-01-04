@@ -195,6 +195,20 @@ gcreate() {
   git create -d "$DESC"
 }
 
+# git create, bump to first major version, and publish to npm
+createandpub() {
+  gcreate
+  npub major
+}
+
+# git create, bump to first major version, publish to npm, and trigger travis build
+createandpubt() {
+  gcreate
+  npub major
+  travis enable
+  git commit --amend --no-edit && git push -f # trigger travis build
+}
+
 #-------------------------#
 # npm
 #-------------------------#
