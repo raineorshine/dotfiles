@@ -189,6 +189,12 @@ gcl() {
   git clone $1 && cd $(basename $1)
 }
 
+# git create with the description set from your package.json
+gcreate() {
+  DESC=`cat package.json | jq .description`
+  git create -d "$DESC"
+}
+
 #-------------------------#
 # npm
 #-------------------------#
