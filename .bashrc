@@ -191,7 +191,7 @@ gcl() {
 
 # git create with the description set from your package.json
 gcreate() {
-  DESC=`cat package.json | jq .description`
+  DESC=`cat package.json | jq -r .description`
   git create -d "$DESC"
 }
 
@@ -204,8 +204,9 @@ createandpub() {
 # git create, bump to first major version, publish to npm, and trigger travis build
 createandpubt() {
   gcreate
+  pushu
   npub major
-  travis enable
+  yes | travis enable
   git commit --amend --no-edit && git push -f # trigger travis build
 }
 
