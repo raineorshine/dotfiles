@@ -215,7 +215,7 @@ createandpubt() {
 #-------------------------#
 
 alias ni="npm install"
-alias nig="sudo npm install -g"
+alias nig="npm install -g"
 alias nu="npm update"
 alias nv="npm view"
 alias nis="npm install --save"
