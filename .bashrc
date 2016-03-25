@@ -267,7 +267,8 @@ npub() {
 # Add tab-completion to grunt
 # eval "$(grunt --completion=bash)"
 
-. <(npm completion)
+# this causes the prompt to disappear when bash starts
+# . <(npm completion)
 
 # added by travis gem
 [ -f /Users/raine/.travis/travis.sh ] && source /Users/raine/.travis/travis.sh
