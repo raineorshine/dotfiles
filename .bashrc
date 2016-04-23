@@ -266,17 +266,10 @@ npub() {
 }
 
 #-------------------------#
-# Tab Completion
+# Miscellaneous
 #-------------------------#
-
-# Add tab-completion to grunt
-# eval "$(grunt --completion=bash)"
-
-# this causes the prompt to disappear when bash starts
-# . <(npm completion)
 
 # added by travis gem
 [ -f /Users/raine/.travis/travis.sh ] && source /Users/raine/.travis/travis.sh
 
-alias iojs='env NODE_REPL_HISTORY_FILE=$HOME/.node_history iojs'
 alias node='env NODE_REPL_HISTORY_FILE=$HOME/.node_history node'
