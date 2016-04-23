@@ -31,7 +31,7 @@ alias grep="grep --color=always"
 alias tra="trash" # requires brew install trash
 alias traa="trash ./*"
 alias key="subl ~/Google\ Drive/Settings/KeyRemap4MacBook/private.xml"
-alias pkg="echo {} > package.json"
+alias pkg="cp -n ~/projects/new-package.json package.json && echo 'package.json created' || (echo 'package.json already exists' && false)"
 #alias addrelic="heroku config:set RELIC_KEY=$(relic) && heroku addons:add newrelic:stark"
 alias js2coffee="js2coffee -sq -it"
 
