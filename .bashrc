@@ -110,6 +110,11 @@ notify() {
   /usr/bin/osascript -e "display notification \"$*\" with title \"Notification\""
 }
 
+# encrypt and remove
+gpge() {
+  gpg -e -r raine "$@" && rm "$@"
+}
+
 #-------------------------#
 # git
 #-------------------------#
