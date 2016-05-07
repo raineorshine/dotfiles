@@ -1,8 +1,3 @@
-# import commands with private information
-if [ -f ~/.privatedata.sh ]; then
-   source ~/.privatedata.sh
-fi
-
 #-------------------------#
 # Aliases
 #-------------------------#
@@ -20,7 +15,7 @@ alias c="pbcopy"
 alias v="pbpaste"
 alias rc="subl ~/.bashrc"
 alias pro="subl ~/.bash_profile"
-alias pri="subl ~/.privatedata.sh"
+alias pri="gpg -d ~/Google\ Drive/Finance/Account\ Info/private.json.asc | less"
 alias so="source ~/.bashrc"
 alias ch='open -a Google\ Chrome'
 alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
