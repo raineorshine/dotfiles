@@ -210,6 +210,13 @@ createandpubt() {
   git commit --amend --no-edit && git push -f # trigger travis build
 }
 
+# amend and force push
+aforce() {
+  git add -A
+  amend
+  git push --force
+}
+
 #-------------------------#
 # npm
 #-------------------------#
