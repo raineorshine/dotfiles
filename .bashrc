@@ -268,6 +268,3 @@ npub() {
 [ -f /Users/raine/.travis/travis.sh ] && source /Users/raine/.travis/travis.sh
 
 alias node='env NODE_REPL_HISTORY_FILE=$HOME/.node_history node'
-
-# Docker
-eval "$(docker-machine env default)"
