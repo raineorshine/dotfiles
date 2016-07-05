@@ -193,6 +193,7 @@ gcl() {
 gcreate() {
   DESC=`cat package.json | jq -r .description`
   git create -d "$DESC"
+  git push -u origin master
 }
 
 # git create, bump to first major version, and publish to npm
