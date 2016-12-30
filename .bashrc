@@ -237,6 +237,11 @@ alias nr="npm run"
 alias nt="npm test"
 alias nre="npm repo"
 
+alias yi="yarn install"
+alias ya="yarn add"
+alias yr="yarn remove"
+alias yl="yarn link"
+
 # browse the home page of an npm module
 npmb() {
   npm view "$@" homepage | xargs open
