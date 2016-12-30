@@ -29,6 +29,7 @@ alias key="subl ~/Google\ Drive/Settings/KeyRemap4MacBook/private.xml"
 alias pkg="cp -n ~/projects/new-package.json package.json && echo 'package.json created' || (echo 'package.json already exists' && false)"
 #alias addrelic="heroku config:set RELIC_KEY=$(relic) && heroku addons:add newrelic:stark"
 alias js2coffee="js2coffee -sq -it"
+alias sublimebackup="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
 
 # project directory
 p() {
