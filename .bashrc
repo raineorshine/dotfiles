@@ -13,23 +13,20 @@ alias lsl="ls -AGFplh"
 alias lst="ls -AGFplht"
 alias c="pbcopy"
 alias v="pbpaste"
-alias rc="subl ~/.bashrc"
-alias pro="subl ~/.bash_profile"
-alias pri="gpg -d ~/Google\ Drive/Finance/Account\ Info/private.json.asc | less"
+alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
 alias so="source ~/.bashrc"
 alias ch='open -a Google\ Chrome'
 alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
-alias bi="bower install"
-alias bis="bower install --save"
-alias bow="echo -e '{\n  \"name\": \"test\"\n}\n' > bower.json"
 alias grep="grep --color=always"
 alias tra="trash" # requires brew install trash
 alias traa="trash ./*"
-alias key="subl ~/Google\ Drive/Settings/KeyRemap4MacBook/private.xml"
 alias pkg="cp -n ~/projects/new-package.json package.json && echo 'package.json created' || (echo 'package.json already exists' && false)"
-#alias addrelic="heroku config:set RELIC_KEY=$(relic) && heroku addons:add newrelic:stark"
-alias js2coffee="js2coffee -sq -it"
 alias sublimebackup="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
+
+# editing aliases
+alias rc="subl ~/.bashrc"
+alias pro="subl ~/.bash_profile"
+alias key="subl ~/Google\ Drive/Settings/Karabiner/private.xml"
 
 # project directory
 p() {
@@ -60,7 +57,7 @@ wl() {
 }
 
 # add, commit, and push ~/.bashrc to dotfiles repo
-cdot() {
+dotcommit() {
 	pushd ~/projects/dotfiles
 	git add -A
 	git commit -m "$@"
@@ -70,7 +67,7 @@ cdot() {
 }
 
 # diff the dotfiles repo
-cdiff() {
+dotdiff() {
 	pushd ~/projects/dotfiles
 	git diff
 	popd
@@ -106,7 +103,7 @@ notify() {
   /usr/bin/osascript -e "display notification \"$*\" with title \"Notification\""
 }
 
-# encrypt and remove
+# encrypt and remove original
 gpge() {
   gpg -e -r raine "$@" && rm "$@"
 }
@@ -137,9 +134,8 @@ alias br="git for-each-ref --sort=-committerdate refs/heads/ --format='%(committ
 # print working branch
 alias pwb="git rev-parse --abbrev-ref HEAD"
 
-# git commit --amend
+# amend with optional new message
 amend() {
-
 	if [ $# -eq 0 ]
 	then
 		git commit --amend --no-edit
@@ -148,22 +144,24 @@ amend() {
 	fi
 }
 
+# add all and amend with same message
 aamend() {
   git add -A
   amend
 }
 
+# add and commit
 gam() {
 	git add -A
 	git commit -m "$@"
 }
 
-# checkout prev (older) revision
+# checkout prev (older) commit
 gp() {
 	git checkout HEAD~
 }
 
-# checkout next (older) commit
+# checkout next (newer) commit
 gn() {
 	BRANCH=`git show-ref | grep $(git show-ref -s -- HEAD) | sed 's|.*/\(.*\)|\1|' | grep -v HEAD | sort | uniq`
 	HASH=`git rev-parse $BRANCH`
@@ -191,6 +189,7 @@ gcl() {
 }
 
 # git create with the description set from your package.json
+# requires jq be installed
 gcreate() {
   DESC=`cat package.json | jq -r .description`
   git create -d "$DESC"
