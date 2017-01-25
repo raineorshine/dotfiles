@@ -115,6 +115,13 @@ temp() {
   cd ~/test/temp
 }
 
+timen() {
+  for i in $(seq 1 $1)
+  do
+    time $($2) &> /dev/null
+  done
+}
+
 #-------------------------#
 # git
 #-------------------------#
