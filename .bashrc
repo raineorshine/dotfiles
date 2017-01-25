@@ -60,7 +60,7 @@ wl() {
 dotcommit() {
 	pushd ~/projects/dotfiles
 	git add -A
-	git commit -m "$@"
+	git commit -m "backup `date +%F-%T`"
 	git push
 	popd
 	so
@@ -211,7 +211,12 @@ createandpubt() {
   git commit --amend --no-edit && git push -f # trigger travis build
 }
 
-# amend and force push
+# force push
+force() {
+  git push --force
+}
+
+# add, amend, and force push
 aforce() {
   git add -A
   amend
@@ -265,9 +270,9 @@ npub() {
     echo "You must specify major|minor|patch"
     return 1
   else
-    npm version "$@"
-    git push
-    git push --tags
+    npm version "$@" &&
+    git push &&
+    git push --tags &&
     npm publish
   fi
 

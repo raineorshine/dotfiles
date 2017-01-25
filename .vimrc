@@ -73,18 +73,21 @@ cmap	<C-Space>	<Esc>
 
 " == MOVEMENT ===============
 
+" must be done before i is remapped
+noremap k		i
+
 " Regular movement (colemak)
 noremap n		gj
 noremap e		gk
 noremap i		l
 
 " Move between windows (colemak)
-nmap	<C-W>n		<C-W><Down>
-nmap	<C-W>e		<C-W><Up>
-nmap	<C-W>i		<C-W><Right>
-nmap	<C-W><C-n>	<C-W><Down>
-nmap	<C-W><C-e>	<C-W><Up>
-nmap	<C-W><C-i>	<C-W><Right>
+"nmap	<C-W>n		<C-W><Down>
+"nmap	<C-W>e		<C-W><Up>
+"nmap	<C-W>i		<C-W><Right>
+"nmap	<C-W><C-n>	<C-W><Down>
+"nmap	<C-W><C-e>	<C-W><Up>
+"nmap	<C-W><C-i>	<C-W><Right>
 
 " when a line wraps, move up or down by a display line, not the actual line
 "noremap	j		gj
@@ -129,10 +132,12 @@ noremap	^		0
 noremap	k			n
 noremap <S-k>		<S-n>
 
-" == EDITING ================
+" half-page scroll
+" TODO: Why won't this work?
+" noremap <M-k>		<C-Down>
+" noremap <M-e>		<C-Up>
 
-" easy delete line
-nmap	D			dd
+" == EDITING ================
 
 " join up
 nmap	<M-j>		mz:m-2<CR>J'z
