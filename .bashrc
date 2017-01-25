@@ -108,6 +108,13 @@ gpge() {
   gpg -e -r raine "$@" && rm "$@"
 }
 
+# empty the temp directory and cd there
+temp() {
+  rm -rf ~/test/temp &&
+  mkdir ~/test/temp &&
+  cd ~/test/temp
+}
+
 #-------------------------#
 # git
 #-------------------------#
