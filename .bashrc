@@ -59,7 +59,7 @@ wl() {
 
 # add, commit, and push ~/.bashrc to dotfiles repo
 dotcommit() {
-  DIR=$(pwd)
+  dir=$(pwd)
 
   cd ~/projects/dotfiles &&
   git add -A &&
@@ -67,17 +67,17 @@ dotcommit() {
   git push
   so
 
-  cd $DIR
+  cd $dir
   }
 
 # diff the dotfiles repo
 dotdiff() {
-  DIR=$(pwd)
+  dir=$(pwd)
 
   cd ~/projects/dotfiles &&
   git --no-pager diff
 
-  cd $DIR
+  cd $dir
 }
 
 # grep man page for a specific term
@@ -188,17 +188,10 @@ gp() {
 
 # checkout next (newer) commit
 gn() {
-  BRANCH=`git show-ref | grep $(git show-ref -s -- HEAD) | sed 's|.*/\(.*\)|\1|' | grep -v HEAD | sort | uniq`
-  HASH=`git rev-parse $BRANCH`
-  PREV=`git rev-list --topo-order HEAD..$HASH | tail -1`
-  git checkout $PREV
-}
-
-# same as 'git browse' with the hub cli
-gho() {
-  MATCH=$1
-  : ${MATCH:="github"}
-  git remote -v | grep --color=none $MATCH | head -n1 | awk '{print $2;}' | xargs open -a Google\ Chrome
+  branch=`git show-ref | grep $(git show-ref -s -- HEAD) | sed 's|.*/\(.*\)|\1|' | grep -v HEAD | sort | uniq`
+  hash=`git rev-parse $branch`
+  prev=`git rev-list --topo-order HEAD..$hash | tail -1`
+  git checkout $prev
 }
 
 # git commit and tag
@@ -216,8 +209,8 @@ gcl() {
 # git create with the description set from your package.json
 # requires jq be installed
 gcreate() {
-  DESC=`cat package.json | jq -r .description` &&
-  git create -d "$DESC" &&
+  desc=`cat package.json | jq -r .description` &&
+  git create -d "$desc" &&
   git push -u origin master
 }
 
