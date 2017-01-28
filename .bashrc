@@ -22,6 +22,9 @@ alias tra="trash" # requires brew install trash
 alias traa="trash ./*"
 alias pkg="cp -n ~/projects/new-package.json package.json && echo 'package.json created' || (echo 'package.json already exists' && false)"
 alias sublimebackup="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
+alias cd="pushd &> /dev/null"
+alias b="pushd +1 >& /dev/null"
+alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 
 # editing aliases
 alias rc="dotdiff && subl ~/.bashrc"
@@ -30,57 +33,61 @@ alias key="subl ~/Google\ Drive/Settings/Karabiner/private.xml"
 
 # project directory
 p() {
-	DIR=~/projects/$@
-	pushd "$DIR"
-	pwd
-	ls
+  pushd ~/projects &> /dev/null
+  ls
 }
 
 md() {
-	mkdir -p "$@"
-	cd "$@"
+  mkdir -p "$@"
+  cd "$@"
 }
 
 cs() {
-	cd "$@"
-	pwd
-	ls
+  cd "$@"
+  pwd
+  ls
 }
 
 rl() {
-	which "$@" | xargs readlink
+  which "$@" | xargs readlink
 }
 
 # display [w]here a sym[l]inked executable is pointing
 wl() {
-	which "$@" | xargs ls -lG
+  which "$@" | xargs ls -lG
 }
 
 # add, commit, and push ~/.bashrc to dotfiles repo
 dotcommit() {
-	pushd ~/projects/dotfiles
-	git add -A
-	git commit -m "backup `date +%F-%T`"
-	git push
-	popd
-	so
-}
+  DIR=$(pwd)
+
+  cd ~/projects/dotfiles &&
+  git add -A &&
+  git commit -m "backup `date +%F-%T`" &&
+  git push
+  so
+
+  cd $DIR
+  }
 
 # diff the dotfiles repo
 dotdiff() {
-	pushd ~/projects/dotfiles
-	git diff
-	popd
+  DIR=$(pwd)
+
+  cd ~/projects/dotfiles &&
+  git --no-pager diff
+
+  cd $DIR
 }
 
 # grep man page for a specific term
 mang() {
-	man "$1" | grep -n -C 2 "$2"
+  man "$1" | grep -n -C 2 "$2"
 }
 
 # echo the last command entered
 prev() {
-	history ${1:-2} | head -n 1 | sed 's/^ *[[:digit:]]* *//'
+  history ${1:-2} | head -n 1 | sed 's/^ *[[:digit:]]* *//'
 }
 
 # Command-line usage: trim "abc   "
@@ -154,12 +161,12 @@ pull() {
 
 # amend with optional new message
 amend() {
-	if [ $# -eq 0 ]
-	then
-		git commit --amend --no-edit
-	else
-		git commit --amend -m "$@"
-	fi
+  if [ $# -eq 0 ]
+  then
+    git commit --amend --no-edit
+  else
+    git commit --amend -m "$@"
+  fi
 }
 
 # add all and amend with same message
@@ -170,35 +177,35 @@ aamend() {
 
 # add and commit
 gam() {
-	git add -A &&
-	git commit -m "$@"
+  git add -A &&
+  git commit -m "$@"
 }
 
 # checkout prev (older) commit
 gp() {
-	git checkout HEAD~
+  git checkout HEAD~
 }
 
 # checkout next (newer) commit
 gn() {
-	BRANCH=`git show-ref | grep $(git show-ref -s -- HEAD) | sed 's|.*/\(.*\)|\1|' | grep -v HEAD | sort | uniq`
-	HASH=`git rev-parse $BRANCH`
-	PREV=`git rev-list --topo-order HEAD..$HASH | tail -1`
-	git checkout $PREV
+  BRANCH=`git show-ref | grep $(git show-ref -s -- HEAD) | sed 's|.*/\(.*\)|\1|' | grep -v HEAD | sort | uniq`
+  HASH=`git rev-parse $BRANCH`
+  PREV=`git rev-list --topo-order HEAD..$HASH | tail -1`
+  git checkout $PREV
 }
 
 # same as 'git browse' with the hub cli
 gho() {
-	MATCH=$1
-	: ${MATCH:="github"}
-	git remote -v | grep --color=none $MATCH | head -n1 | awk '{print $2;}' | xargs open -a Google\ Chrome
+  MATCH=$1
+  : ${MATCH:="github"}
+  git remote -v | grep --color=none $MATCH | head -n1 | awk '{print $2;}' | xargs open -a Google\ Chrome
 }
 
 # git commit and tag
 gcat() {
-	printf -v v "v%s" $(cat package.json | jsonpath version)
-	git commit -m "$v"
-	git tag "$v"
+  printf -v v "v%s" $(cat package.json | jsonpath version)
+  git commit -m "$v"
+  git tag "$v"
 }
 
 # git clone and cd
