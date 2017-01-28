@@ -61,11 +61,11 @@ wl() {
 dotcommit() {
   dir=$(pwd)
 
+  so &&
   cd ~/projects/dotfiles &&
   git add -A &&
   git commit -m "backup `date +%F-%T`" &&
   git push
-  so
 
   cd $dir
   }
