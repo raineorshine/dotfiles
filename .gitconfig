@@ -27,6 +27,7 @@
 	r = remote -v
 	s = status
 	t = tag
+	pullall = "!f(){ git pull \"$@\" && git submodule update --init --recursive; }; f"
 [color]
 	ui = auto
 [push]

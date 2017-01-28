@@ -24,7 +24,7 @@ alias pkg="cp -n ~/projects/new-package.json package.json && echo 'package.json 
 alias sublimebackup="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
 
 # editing aliases
-alias rc="subl ~/.bashrc"
+alias rc="dotdiff && subl ~/.bashrc"
 alias pro="subl ~/.bash_profile"
 alias key="subl ~/Google\ Drive/Settings/Karabiner/private.xml"
 
@@ -131,7 +131,6 @@ alias push="git push"
 alias pusht="git push && git push --tags"
 alias pushh="git push && git push heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
 alias pushu="git push -u origin master"
-alias pull="git pull"
 alias ga="git add -A"
 alias gb="git branch -v"
 alias gc="git checkout"
@@ -147,6 +146,11 @@ alias br="git for-each-ref --sort=-committerdate refs/heads/ --format='%(committ
 
 # print working branch
 alias pwb="git rev-parse --abbrev-ref HEAD"
+
+# pull all submodules
+pull() {
+  git pull "$@" && git submodule update --init --recursive
+}
 
 # amend with optional new message
 amend() {
