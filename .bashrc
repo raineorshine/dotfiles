@@ -164,13 +164,13 @@ amend() {
 
 # add all and amend with same message
 aamend() {
-  git add -A
+  git add -A &&
   amend
 }
 
 # add and commit
 gam() {
-	git add -A
+	git add -A &&
 	git commit -m "$@"
 }
 
@@ -209,23 +209,23 @@ gcl() {
 # git create with the description set from your package.json
 # requires jq be installed
 gcreate() {
-  DESC=`cat package.json | jq -r .description`
-  git create -d "$DESC"
+  DESC=`cat package.json | jq -r .description` &&
+  git create -d "$DESC" &&
   git push -u origin master
 }
 
 # git create, bump to first major version, and publish to npm
 createandpub() {
-  gcreate
+  gcreate &&
   npub major
 }
 
 # git create, bump to first major version, publish to npm, and trigger travis build
 createandpubt() {
-  gcreate
-  pushu
-  npub major
-  yes | travis enable
+  gcreate &&
+  pushu &&
+  npub major &&
+  yes | travis enable &&
   git commit --amend --no-edit && git push -f # trigger travis build
 }
 
@@ -236,8 +236,8 @@ force() {
 
 # add, amend, and force push
 aforce() {
-  git add -A
-  amend
+  git add -A &&
+  amend &&
   git push --force
 }
 
