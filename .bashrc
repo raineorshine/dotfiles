@@ -20,7 +20,7 @@ alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 alias grep="grep --color=always"
 alias tra="trash" # requires brew install trash
 alias traa="trash ./*"
-alias pkg="cp -n ~/projects/new-package.json package.json && echo 'package.json created' || (echo 'package.json already exists' && false)"
+
 alias sublimebackup="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
 alias cd="pushd &> /dev/null"
 alias b="pushd +1 >& /dev/null"
@@ -122,11 +122,25 @@ temp() {
   cd ~/test/temp
 }
 
+# measure the running time of a command repeated n times
 timen() {
   for i in $(seq 1 $1)
   do
     time $($2) &> /dev/null
   done
+}
+
+# create a black package.json in the current folder if it does not exist
+pkg() {
+  if [ ! -f ./package.json ]; then
+    if [ ! -f /tmp/new-package.json ]; then
+      curl https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/b9159ff9c5b13c000753b7d1fcc84929fddd698d/new-package.json > /tmp/new-package.json
+    fi
+    cp /tmp/new-package.json ./package.json
+    echo "package.json created"
+  else
+    echo "package.json already exists"
+  fi
 }
 
 #-------------------------#
