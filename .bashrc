@@ -27,9 +27,13 @@ alias b="pushd +1 >& /dev/null"
 alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 
 # editing aliases
-alias rc="dotdiff && subl ~/.bashrc"
 alias pro="subl ~/.bash_profile"
 alias key="subl ~/Google\ Drive/Settings/Karabiner/private.xml"
+
+rc() {
+  dotdiff &&
+  subl ~/.bashrc
+}
 
 # project directory
 p() {
@@ -44,7 +48,6 @@ md() {
 
 cs() {
   cd "$@"
-  pwd
   ls
 }
 
@@ -60,15 +63,15 @@ wl() {
 # add, commit, and push ~/.bashrc to dotfiles repo
 dotcommit() {
   dir=$(pwd)
+  cd ~/projects/dotfiles
 
   so &&
-  cd ~/projects/dotfiles &&
   git add -A &&
   git commit -m "backup `date +%F-%T`" &&
   git push
 
   cd $dir
-  }
+}
 
 # diff the dotfiles repo
 dotdiff() {
@@ -76,6 +79,16 @@ dotdiff() {
 
   cd ~/projects/dotfiles &&
   git --no-pager diff
+
+  cd $dir
+}
+
+# pull the dotfiles repo
+dotpull() {
+  dir=$(pwd)
+  cd ~/projects/dotfiles
+
+  git pull
 
   cd $dir
 }
@@ -217,7 +230,8 @@ gcat() {
 
 # git clone and cd
 gcl() {
-  git clone $1 && cd $(basename $1)
+  git clone $1 &&
+  cs $(basename $1)
 }
 
 # git create with the description set from your package.json
