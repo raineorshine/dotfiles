@@ -3,6 +3,7 @@
 #-------------------------#
 
 alias ~="cs ~"
+alias h="cs ~"
 alias ..="cs .."
 alias ...="cd ..;cs .."
 alias ....="cd ..;cd ..;cs .."
