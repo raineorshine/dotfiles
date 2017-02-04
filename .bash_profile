@@ -20,3 +20,5 @@ export NVM_DIR="/Users/raine/.nvm"
 if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
