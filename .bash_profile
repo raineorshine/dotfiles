@@ -8,7 +8,11 @@ export PATH="$HOME/Library/Haskell/bin:$PATH"
 export EDITOR='subl -w'
 
 # bashrcgenerator.com
+# e.g. name[pwd]$
 export PS1="\[\e[00;33m\]\u\[\e[0m\]\[\e[00;36m\][\W]\$\[\e[0m\]\[\e[00;37m\] \[\e[0m\]"
+
+# display working directory as title
+export PS1="$PS1\[\e]0;\w\a\]"
 
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:pwd:gs:gulp:gd:push:pull:p"
