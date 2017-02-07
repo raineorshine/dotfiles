@@ -163,10 +163,10 @@ pkg() {
 #-------------------------#
 
 alias git=hub
-alias push="git push"
+alias push="git push origin HEAD"
 alias pusht="git push && git push --tags"
 alias pushh="git push && git push heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
-alias pushu="git push -u origin master"
+alias pushu="git push -u origin HEAD"
 alias ga="git add -A"
 alias gb="git branch -v"
 alias gc="git checkout"
