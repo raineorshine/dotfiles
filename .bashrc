@@ -132,9 +132,9 @@ gpge() {
 
 # empty the temp directory and cd there
 temp() {
-  rm -rf ~/test/temp &&
-  mkdir ~/test/temp &&
-  cd ~/test/temp
+  rm -rf /tmp/temp ;
+  mkdir /tmp/temp &&
+  cd /tmp/temp
 }
 
 # measure the running time of a command repeated n times
@@ -304,6 +304,11 @@ npmb() {
 # npm view short
 nvs() {
   npm view "$@" name description repository.url version
+}
+
+# npm versions
+nvv() {
+  npm view "$@" versions
 }
 
 # print the dist-tags for an npm module
