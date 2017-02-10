@@ -174,12 +174,16 @@ alias gd="git diff"
 alias gds="git diff --staged"
 alias gi="git init"
 alias gl="git log"
+alias gl1="git log -1"
+alias gl3="git log -3"
+alias gl5="git log -5"
 alias glo="git log --format=oneline -10"
 alias gm="git commit -m"
 alias gr="git remote -v"
 alias gs="git status"
 alias gt="git tag"
 alias br="git for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate) %(authorname) %(refname:short)'"
+alias gbro="git browse"
 
 # print working branch
 alias pwb="git rev-parse --abbrev-ref HEAD"
@@ -297,7 +301,7 @@ alias yr="yarn remove"
 alias yl="yarn link"
 
 # browse the home page of an npm module
-npmb() {
+nbro() {
   npm view "$@" homepage | xargs open
 }
 
