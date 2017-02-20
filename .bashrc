@@ -342,6 +342,19 @@ npub() {
 # Miscellaneous
 #-------------------------#
 
+solidityexample() {
+  dir=$(pwd)
+  cd ~/projects/solidity-by-example
+
+  pbpaste > "$@.sol" &&
+  npm run build &&
+  git add -A &&
+  git commit -m "Add $@ example." &&
+  git push
+
+  cd $dir
+}
+
 # added by travis gem
 [ -f /Users/raine/.travis/travis.sh ] && source /Users/raine/.travis/travis.sh
 
