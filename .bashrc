@@ -186,6 +186,7 @@ alias gs="git status"
 alias gt="git tag"
 alias br="git for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate) %(authorname) %(refname:short)'"
 alias gbro="git browse"
+alias sub="git submodule init && git submodule update"
 
 # print working branch
 alias pwb="git rev-parse --abbrev-ref HEAD"
