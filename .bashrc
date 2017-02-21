@@ -301,6 +301,8 @@ alias yi="yarn install"
 alias ya="yarn add"
 alias yr="yarn remove"
 alias yl="yarn link"
+alias yga="yarn global add"
+alias ygr="yarn global remove"
 
 # browse the home page of an npm module
 nbro() {
