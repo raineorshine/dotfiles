@@ -33,7 +33,7 @@ alias pro="subl ~/.bash_profile"
 alias key="subl ~/Google\ Drive/Settings/Karabiner/private.xml"
 
 rc() {
-  dotdiff &&
+  dotdiff
   subl ~/.bashrc
 }
 
@@ -127,6 +127,7 @@ notify() {
 
 # encrypt and remove original
 gpge() {
+  # requires "brew install gnupg"
   gpg -e -r raine "$@" && rm "$@"
 }
 
