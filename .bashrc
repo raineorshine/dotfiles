@@ -24,7 +24,6 @@ alias traa="trash ./*"
 alias t="type"
 alias backupsublime="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
 alias backupatom="~/.atom/backup.sh"
-alias cd="pushd &> /dev/null"
 alias b="pushd +1 >& /dev/null"
 alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 
@@ -78,8 +77,8 @@ dotcommit() {
 # diff the dotfiles repo
 dotdiff() {
   dir=$(pwd)
+  cd ~/projects/dotfiles
 
-  cd ~/projects/dotfiles &&
   git --no-pager diff
 
   cd $dir
@@ -129,6 +128,13 @@ notify() {
 gpge() {
   # requires "brew install gnupg"
   gpg -e -r raine "$@" && rm "$@"
+}
+
+# decrypt a file and pipe to Preview.app
+gpgi() {
+  # http://apple.stackexchange.com/questions/175977/preview-image-from-pipe/175981#175981
+  # man open | grep -C 3 "\-f"
+  gpg -o - "$@" | open -a Preview.app -f
 }
 
 # empty the temp directory and cd there
