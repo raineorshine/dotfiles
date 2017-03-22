@@ -27,3 +27,9 @@ if [ -f ~/.bashrc ]; then
 fi
 
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+[ -f ~/.gpg-agent-info ] && source ~/.gpg-agent-info
+if [ -S "${GPG_AGENT_INFO%%:*}" ]; then
+  export GPG_AGENT_INFO
+else
+  eval $( gpg-agent --daemon ~/.gpg-agent-info )
+fi

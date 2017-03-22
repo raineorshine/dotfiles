@@ -71,7 +71,7 @@ dotcommit() {
   git commit -m "backup `date +%F-%T`" &&
   git push
 
-  cd $dir
+  cd "$dir"
 }
 
 # diff the dotfiles repo
@@ -81,7 +81,7 @@ dotdiff() {
 
   git --no-pager diff
 
-  cd $dir
+  cd "$dir"
 }
 
 # pull the dotfiles repo
@@ -91,7 +91,7 @@ dotpull() {
 
   git pull
 
-  cd $dir
+  cd "$dir"
 }
 
 # grep man page for a specific term
@@ -127,7 +127,13 @@ notify() {
 # encrypt and remove original
 gpge() {
   # requires "brew install gnupg"
-  gpg -e -r raine "$@" && rm "$@"
+  gpg -er raine "$@" && rm "$@"
+}
+
+# encrypt ascii armored and remove original
+gpga() {
+  # requires "brew install gnupg"
+  gpg -ear raine "$@" && rm "$@"
 }
 
 # decrypt a file and pipe to Preview.app
@@ -362,7 +368,7 @@ solidityexample() {
   git commit -m "Add $@ example." &&
   git push
 
-  cd $dir
+  cd "$dir"
 }
 
 # added by travis gem
