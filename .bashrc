@@ -209,6 +209,12 @@ pull() {
   git pull "$@" && git submodule update --init --recursive
 }
 
+spull() {
+  git stash
+  pull
+  git stash pop
+}
+
 # amend with optional new message
 amend() {
   if [ $# -eq 0 ]
