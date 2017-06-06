@@ -69,7 +69,7 @@ dotcommit() {
 
   so &&
   git add -A &&
-  git commit -m "backup `date +%F-%T`" &&
+  git commit -m "backup `date +%F-%T`"
   git push
 
   cd "$dir"
