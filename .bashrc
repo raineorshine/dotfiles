@@ -14,6 +14,7 @@ alias lsl="ls -AGFplh"
 alias lst="ls -AGFplht"
 alias c="pbcopy"
 alias v="pbpaste"
+alias gpg=gpg2
 alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
 alias so="source ~/.bashrc"
 alias ch='open -a Google\ Chrome'
