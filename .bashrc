@@ -187,6 +187,7 @@ alias gb="git branch -v"
 alias gc="git checkout"
 alias gd="git diff"
 alias gds="git diff --staged"
+alias gf="git fetch"
 alias gi="git init"
 alias gl="git log"
 alias gl1="git log -1"
@@ -290,14 +291,14 @@ createandpubt() {
 
 # force push
 force() {
-  git push --force
+  push --force
 }
 
 # add, amend, and force push
 aforce() {
   git add -A &&
   amend &&
-  git push --force
+  push --force
 }
 
 #-------------------------#
