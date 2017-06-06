@@ -80,7 +80,8 @@ dotdiff() {
   dir=$(pwd)
   cd ~/projects/dotfiles
 
-  git --no-pager diff
+  git --no-pager diff &&
+  echo "Run `dotcommit` to commit dotfile changes"
 
   cd "$dir"
 }
