@@ -14,7 +14,6 @@ alias lsl="ls -AGFplh"
 alias lst="ls -AGFplht"
 alias c="pbcopy"
 alias v="pbpaste"
-alias gpg=gpg2
 alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
 alias so="source ~/.bashrc"
 alias ch='open -a Google\ Chrome'
@@ -126,25 +125,6 @@ notify() {
   /usr/bin/osascript -e "display notification \"$*\" with title \"Notification\""
 }
 
-# encrypt and remove original
-gpge() {
-  # requires "brew install gnupg"
-  gpg -er raine "$@" && rm "$@"
-}
-
-# encrypt ascii armored and remove original
-gpga() {
-  # requires "brew install gnupg"
-  gpg -ear raine "$@" && rm "$@"
-}
-
-# decrypt a file and pipe to Preview.app
-gpgi() {
-  # http://apple.stackexchange.com/questions/175977/preview-image-from-pipe/175981#175981
-  # man open | grep -C 3 "\-f"
-  gpg -o - "$@" | open -a Preview.app -f
-}
-
 # empty the temp directory and cd there
 temp() {
   rm -rf /tmp/temp ;
@@ -171,6 +151,31 @@ pkg() {
   else
     echo "package.json already exists"
   fi
+}
+
+#-------------------------#
+# gpg
+#-------------------------#
+
+alias gpg="gpg2 -o -"
+
+# encrypt
+gpge() {
+  # requires "brew install gnupg"
+  gpg -er raine -o -
+}
+
+# encrypt ascii armored
+gpga() {
+  # requires "brew install gnupg"
+  gpg -ear raine -o -
+}
+
+# decrypt an image and pipe to Preview.app
+gpgi() {
+  # http://apple.stackexchange.com/questions/175977/preview-image-from-pipe/175981#175981
+  # man open | grep -C 3 "\-f"
+  gpg -o - "$@" | open -a Preview.app -f
 }
 
 #-------------------------#
