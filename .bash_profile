@@ -33,3 +33,6 @@ if [ -S "${GPG_AGENT_INFO%%:*}" ]; then
 else
   eval $( gpg-agent --daemon ~/.gpg-agent-info )
 fi
+
+export TZ='America/Denver'
+
