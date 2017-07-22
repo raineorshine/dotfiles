@@ -162,13 +162,13 @@ alias gpg="gpg2 -o -"
 # encrypt
 gpge() {
   # requires "brew install gnupg"
-  gpg -er raine -o -
+  gpg -er raine
 }
 
 # encrypt ascii armored
 gpga() {
   # requires "brew install gnupg"
-  gpg -ear raine -o -
+  gpg -ear raine
 }
 
 # decrypt an image and pipe to Preview.app
@@ -204,6 +204,8 @@ alias gl5="git log -5"
 alias glo="git log --format=oneline -10"
 alias gm="git commit -m"
 alias gr="git remote -v"
+alias grc="git rebase --continue"
+alias gra="git rebase --abort"
 alias gs="git status"
 alias gt="git tag"
 alias br="git for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate) %(authorname) %(refname:short)'"
