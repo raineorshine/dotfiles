@@ -36,6 +36,12 @@ rc() {
   subl ~/.bashrc
 }
 
+# icloud directory
+ic() {
+  pushd ~/Library/Mobile\ Documents/com~apple~CloudDocs/Documents &> /dev/null
+  ls
+}
+
 # project directory
 p() {
   pushd ~/projects &> /dev/null
@@ -159,13 +165,13 @@ pkg() {
 
 alias gpg="gpg2 -o -"
 
-# encrypt
+# encrypt and pipe to stdout
 gpge() {
   # requires "brew install gnupg"
   gpg -er raine
 }
 
-# encrypt ascii armored
+# encrypt ascii armored and pipe to stdout
 gpga() {
   # requires "brew install gnupg"
   gpg -ear raine
@@ -188,12 +194,14 @@ alias pusht="git push && git push --tags"
 alias pushh="git push && git push heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
 alias pushu="git push -u origin HEAD"
 alias ff="git pull --ff-only"
+alias gmff="git merge --ff-only"
 alias ga="git add -A"
 alias gb="git branch -v"
 alias gbr="git branch -vr"
 alias gc="git checkout"
 alias gd="git diff"
 alias gds="git diff --staged"
+alias gdl="git diff HEAD^"
 alias gf="git fetch"
 alias gi="git init"
 alias gl="git log"
@@ -205,6 +213,8 @@ alias gl5="git log -5"
 alias glo="git log --format=oneline -10"
 alias gm="git commit -m"
 alias gr="git remote -v"
+alias gro="git rebase --interactive head^^^^^^^^^^"
+alias gri="git rebase --interactive"
 alias grc="git rebase --continue"
 alias gra="git rebase --abort"
 alias gs="git status"
@@ -242,7 +252,7 @@ amend() {
 # add all and amend with same message
 aamend() {
   git add -A &&
-  amend
+  amend "$@"
 }
 
 # add and commit
@@ -377,19 +387,6 @@ npub() {
 #-------------------------#
 # Miscellaneous
 #-------------------------#
-
-solidityexample() {
-  dir=$(pwd)
-  cd ~/projects/solidity-by-example
-
-  pbpaste > "$@.sol" &&
-  npm run build &&
-  git add -A &&
-  git commit -m "Add $@ example." &&
-  git push
-
-  cd "$dir"
-}
 
 # added by travis gem
 [ -f /Users/raine/.travis/travis.sh ] && source /Users/raine/.travis/travis.sh
