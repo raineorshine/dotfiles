@@ -146,13 +146,17 @@ timen() {
   done
 }
 
-# create a black package.json in the current folder if it does not exist
+# create a blank package.json in the current folder if it does not exist
+# https://gist.github.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56
+# raw url must be updated if modified
 pkg() {
+  copySource="$HOME/.blank-package.json"
   if [ ! -f ./package.json ]; then
-    if [ ! -f /tmp/new-package.json ]; then
-      curl https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/b9159ff9c5b13c000753b7d1fcc84929fddd698d/new-package.json > /tmp/new-package.json
+    if [ ! -f $copySource ]; then
+      echo "Copying"
+      curl https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/4188a0601fb3accd1885636169bc9441b3bc10d0/new-package.json > $copySource
     fi
-    cp /tmp/new-package.json ./package.json
+    cp $copySource ./package.json
     echo "package.json created"
   else
     echo "package.json already exists"
