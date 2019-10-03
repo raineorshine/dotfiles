@@ -48,6 +48,11 @@ p() {
   ls
 }
 
+# Secure directory
+s() {
+  pushd ~/Documents/Secure &> /dev/null
+}
+
 md() {
   mkdir -p "$@"
   cd "$@"
