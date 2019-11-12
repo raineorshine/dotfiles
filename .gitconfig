@@ -2,7 +2,7 @@
 	excludesfile = /Users/raine/.gitignore_global
 [user]
 	name = Raine Revere
-	email = raineorshine@gmail.com
+	email = raine@cybersemics.org
 [credential]
 	helper = osxkeychain
 [difftool "kdiff3"]
