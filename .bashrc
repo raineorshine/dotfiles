@@ -366,19 +366,14 @@ nbro() {
   npm view "$@" homepage | xargs open
 }
 
-# npm view short
-nvs() {
-  npm view "$@" name description repository.url version
-}
-
 # npm versions
 nvv() {
   npm view "$@" versions
 }
 
-# print the dist-tags for an npm module
-dt() {
-  npm view "$@" dist-tags
+# npm time
+nvt() {
+  npm view "$@" time
 }
 
 # bump the version, push, and publish
