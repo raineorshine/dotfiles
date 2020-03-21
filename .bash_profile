@@ -37,3 +37,4 @@ fi
 
 export TZ='America/Denver'
 
+export PATH="/usr/local/sbin:$PATH"
