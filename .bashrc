@@ -140,7 +140,7 @@ notify() {
 temp() {
   rm -rf /tmp/temp ;
   mkdir /tmp/temp &&
-  cd /tmp/temp
+  pushd /tmp/temp
 }
 
 # measure the running time of a command repeated n times
@@ -228,7 +228,8 @@ alias gl40="git log --format=oneline -40"
 alias gl50="git log --format=oneline -50"
 alias glf="git log -1 --pretty=fuller"
 alias gm="git commit -m"
-alias gr="git remote -v"
+alias gre="git remote -v"
+alias gr="git rebase"
 alias gro="git rebase --interactive head^^^^^^^^^^"
 alias groo="git rebase --interactive head^^^^^^^^^^^^^^^^^^^^"
 alias gri="git rebase --interactive"
