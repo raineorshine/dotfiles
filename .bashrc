@@ -227,8 +227,6 @@ alias gl30="git log --format=oneline -30"
 alias gl40="git log --format=oneline -40"
 alias gl50="git log --format=oneline -50"
 alias glf="git log -1 --pretty=fuller"
-# log commits since last tag (inclusive)
-alias glt="git log $(git describe --tags --abbrev=0)^..HEAD --oneline"
 alias gm="git commit -m"
 alias gre="git remote -v"
 alias gr="git rebase"
@@ -346,6 +344,11 @@ aforce() {
   git add -A &&
   amend &&
   push --force
+}
+
+# log commits since last tag (inclusive)
+glt() {
+  git log $(git describe --tags --abbrev=0)^..HEAD --oneline
 }
 
 #-------------------------#
