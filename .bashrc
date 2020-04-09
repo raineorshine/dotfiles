@@ -220,7 +220,11 @@ alias gl2="git log -2"
 alias gl3="git log -3"
 alias gl4="git log -4"
 alias gl5="git log -5"
-alias glo="git log --format=oneline -10"
+alias glo1="git log --format=oneline -10"
+alias glo2="git log --format=oneline -10"
+alias glo3="git log --format=oneline -10"
+alias glo4="git log --format=oneline -10"
+alias glo5="git log --format=oneline -10"
 alias gl10="git log --format=oneline -10"
 alias gl20="git log --format=oneline -20"
 alias gl30="git log --format=oneline -30"
@@ -349,6 +353,12 @@ aforce() {
 # log commits since last tag (inclusive)
 glt() {
   git log $(git describe --tags --abbrev=0)^..HEAD --oneline
+}
+
+# delete branch from local and remote
+gbd() {
+  git branch -D "$@"
+  git push origin --delete "$@"
 }
 
 #-------------------------#
