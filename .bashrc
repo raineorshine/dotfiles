@@ -351,6 +351,11 @@ aforce() {
   push --force
 }
 
+# log commits since origin/dev (inclusive)
+gld() {
+  git log origin/dev^..HEAD --oneline
+}
+
 # log commits since last tag (inclusive)
 glt() {
   git log $(git describe --tags --abbrev=0)^..HEAD --oneline
