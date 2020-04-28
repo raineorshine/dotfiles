@@ -253,6 +253,7 @@ alias sub="git submodule init && git submodule update"
 alias gch="git cherry-pick"
 alias gcha="git cherry-pick --abort"
 alias gchc="git cherry-pick --continue"
+alias fix="git diff --name-only | uniq | xargs subl -n"
 
 # print working branch
 alias pwb="git rev-parse --abbrev-ref HEAD"
