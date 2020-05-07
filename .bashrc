@@ -198,22 +198,41 @@ gpgi() {
 #-------------------------#
 
 alias git=hub
+
+# push/pull/fetch
 alias push="git push origin HEAD"
 alias pusht="git push && git push --tags"
 alias pushh="git push && git push heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
 alias pushu="git push -u origin HEAD"
 alias ff="git pull --ff-only"
+alias gf="git fetch"
+
+# commit
+alias gm="git commit -m"
+alias gre="git remote -v"
+
+# merge
 alias gmff="git merge --ff-only"
-alias ga="git add -A"
+alias gmc="git merge --continue"
+alias gma="git merge --abort"
+
+# branch
 alias gb="git branch -v"
 alias gbre="git branch -vr"
-alias gc="git checkout"
+alias gbra="git for-each-ref --color=always --sort=-committerdate refs/heads/ --format='  %(color:yellow)%(committerdate:short)%(color:reset) %(refname:short) %09 %(objectname:short) %(subject) %(color:blue)(%(authorname))%(color:reset)'"
+alias gbr="gbra --count 10"
+alias gbr10="gbra --count 10"
+alias gbr20="gbra --count 20"
+alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
+
+# diff
 alias gd="git diff"
 alias gds="git diff --staged"
 alias gd1="git diff head^ head"
 alias gdp="git diff package.json"
-alias gf="git fetch"
-alias gi="git init"
+alias fix="git diff --name-only | uniq | xargs subl -n"
+
+# log
 alias gl="git log"
 alias gl1="git log -1"
 alias gl2="git log -2"
@@ -232,35 +251,32 @@ alias gl30="git log --oneline -30"
 alias gl40="git log --oneline -40"
 alias gl50="git log --oneline -50"
 alias glf="git log -1 --pretty=fuller"
-alias gm="git commit -m"
-alias gre="git remote -v"
+
+# rebase
 alias gr="git rebase"
 alias gro="git rebase --interactive head^^^^^^^^^^"
 alias groo="git rebase --interactive head^^^^^^^^^^^^^^^^^^^^"
 alias gri="git rebase --interactive"
 alias grc="git rebase --continue"
 alias gra="git rebase --abort"
-alias gmc="git merge --continue"
-alias gma="git merge --abort"
-alias grh='git reset head^'
-alias gs="git status"
-alias gst="git stash"
-alias gsp="git stash pop"
-alias gt="git tag"
-alias gbra="git for-each-ref --color=always --sort=-committerdate refs/heads/ --format='  %(color:yellow)%(committerdate:short)%(color:reset) %(refname:short) %09 %(objectname:short) %(subject) %(color:blue)(%(authorname))%(color:reset)'"
-alias gbr="gbra --count 10"
-alias gbr10="gbra --count 10"
-alias gbr20="gbra --count 20"
-alias gbro="git browse"
-alias sub="git submodule init && git submodule update"
+
+# cherry-pick
 alias gch="git cherry-pick"
 alias gcha="git cherry-pick --abort"
 alias gchc="git cherry-pick --continue"
-alias fix="git diff --name-only | uniq | xargs subl -n"
-alias gh="git rev-parse --short HEAD | tr -d '\n'"
 
-# print working branch
-alias pwb="git rev-parse --abbrev-ref HEAD"
+# misc
+alias ga="git add -A"
+alias gbro="git browse"
+alias gc="git checkout"
+alias gh="git rev-parse --short HEAD | tr -d '\n'"
+alias gi="git init"
+alias grh='git reset head^'
+alias gs="git status"
+alias gsp="git stash pop"
+alias gst="git stash"
+alias gt="git tag"
+alias sub="git submodule init && git submodule update"
 
 # pull all submodules
 pull() {
