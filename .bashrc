@@ -404,6 +404,7 @@ alias nusd="npm uninstall --save-dev"
 alias nls="npm ls --depth=0"
 alias npmo="npm outdated --depth=0"
 alias nr="npm run"
+alias ns="npm start"
 alias nt="npm test"
 alias nre="npm repo"
 
