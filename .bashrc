@@ -257,8 +257,9 @@ alias gr="git rebase"
 alias gro="git rebase --interactive head^^^^^^^^^^"
 alias groo="git rebase --interactive head^^^^^^^^^^^^^^^^^^^^"
 alias gri="git rebase --interactive"
-alias grc="git rebase --continue"
 alias gra="git rebase --abort"
+alias grc="git rebase --continue"
+alias grs="git rebase --skip"
 
 # cherry-pick
 alias gch="git cherry-pick"
