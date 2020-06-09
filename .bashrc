@@ -449,6 +449,22 @@ npub() {
 }
 
 #-------------------------#
+# Video Processing
+#-------------------------#
+
+# convert a video to an animated gif
+togif() {
+  if [ $# -lt 2 ]
+  then
+    echo "Usage:"
+    echo "togif input.mov output.gif"
+    return 1
+  else
+    ffmpeg -i $1 -r 25 -f gif - | gifsicle --optimize=3 > $2
+  fi
+}
+
+#-------------------------#
 # Miscellaneous
 #-------------------------#
 
