@@ -220,9 +220,10 @@ alias gma="git merge --abort"
 alias gb="git branch -v"
 alias gbre="git branch -vr"
 alias gbra="git for-each-ref --color=always --sort=-committerdate refs/heads/ --format='  %(color:yellow)%(committerdate:short)%(color:reset) %(refname:short) %09 %(objectname:short) %(subject) %(color:blue)(%(authorname))%(color:reset)'"
-alias gbr="gbra --count 10"
+alias gbr="gbra --count 20"
 alias gbr10="gbra --count 10"
 alias gbr20="gbra --count 20"
+alias gbr30="gbra --count 20"
 alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
 
 # diff
