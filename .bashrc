@@ -16,7 +16,8 @@ alias c="pbcopy"
 alias v="pbpaste"
 alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
 alias so="source ~/.bashrc"
-alias ch='open -a Google\ Chrome'
+alias brave='open -a Brave\ Browser'
+alias chrome='open -a Google\ Chrome'
 alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 alias grep="grep --color=always"
 alias tra="trash" # requires brew install trash
