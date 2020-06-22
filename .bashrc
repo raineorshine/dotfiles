@@ -268,6 +268,7 @@ alias grs="git rebase --skip"
 alias gch="git cherry-pick"
 alias gcha="git cherry-pick --abort"
 alias gchc="git cherry-pick --continue"
+alias gchs="git cherry-pick --skip"
 
 # misc
 alias ga="git add -A"
