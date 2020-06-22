@@ -463,7 +463,7 @@ togif() {
     echo "togif input.mov output.gif"
     return 1
   else
-    ffmpeg -i $1 -r 25 -f gif - | gifsicle --optimize=3 > $2
+    ffmpeg -i "$1" -r 25 -f gif - | gifsicle --optimize=3 > "$2"
   fi
 }
 
