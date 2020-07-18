@@ -457,13 +457,15 @@ npub() {
 
 # convert a video to an animated gif
 togif() {
-  if [ $# -lt 2 ]
+  if [ $# -lt 1 ]
   then
+    echo "Converts a video to a compressed, animated gif. Outputs to INPUT.MOV.gif"
+    echo ""
     echo "Usage:"
-    echo "togif input.mov output.gif"
+    echo "togif input.mov"
     return 1
   else
-    ffmpeg -i "$1" -r 25 -f gif - | gifsicle --optimize=3 > "$2"
+    ffmpeg -i "$@" -r 25 -f gif - | gifsicle --optimize=3 --lossy=90 --scale 0.5 --colors=32 > "$@.gif"
   fi
 }
 
