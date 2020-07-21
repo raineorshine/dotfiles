@@ -30,7 +30,7 @@ alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 
 # editing aliases
 alias pro="subl ~/.bash_profile"
-alias key="subl ~/Google\ Drive/Settings/Karabiner/private.xml"
+alias kar="subl ~/.config/karabiner/karabiner.json"
 
 rc() {
   dotdiff
@@ -412,6 +412,7 @@ alias nr="npm run"
 alias ns="npm start"
 alias nt="npm test"
 alias nre="npm repo"
+alias nw="npm run watch"
 
 alias yi="yarn install"
 alias ya="yarn add"
