@@ -30,7 +30,6 @@ alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 
 # editing aliases
 alias pro="subl ~/.bash_profile"
-alias kar="subl ~/.config/karabiner/karabiner.json"
 
 rc() {
   dotdiff
@@ -97,13 +96,31 @@ dotdiff() {
   cd "$dir"
 }
 
-# pull the dotfiles repo
-dotpull() {
+# edit karabiner.json
+kar() {
+  kardiff
+  subl ~/.config/karabiner/karabiner.json
+}
+
+# pushd to ~/.config/karabiner
+kardir() {
+  kardiff
+  pushd ~/.config/karabiner
+}
+
+# diff karabiner-config
+kardiff() {
   dir=$(pwd)
-  cd ~/projects/dotfiles
+  cd ~/.config/karabiner
+  git --no-pager diff
+  cd "$dir"
+}
 
+# pull karabiner-config
+karpull() {
+  dir=$(pwd)
+  cd ~/.config/karabiner
   git pull
-
   cd "$dir"
 }
 
@@ -182,6 +199,7 @@ gpge() {
 }
 
 # encrypt ascii armored and pipe to stdout
+# e.g. gpga < file.txt > file.txt.asc
 gpga() {
   # requires "brew install gnupg"
   gpg -ear raine
@@ -275,7 +293,7 @@ alias ga="git add -A"
 alias gbro="git browse"
 alias gc="git checkout"
 alias gh="git rev-parse --short HEAD | tr -d '\n'"
-alias gi="git init"
+alias gi="git init && git add -A && git commit -m 'init'"
 alias grh='git reset head^'
 alias gs="git status"
 alias gsp="git stash pop"
@@ -413,6 +431,8 @@ alias ns="npm start"
 alias nt="npm test"
 alias nre="npm repo"
 alias nw="npm run watch"
+alias nb="npm run build"
+alias lint="npm run lint"
 
 alias yi="yarn install"
 alias ya="yarn add"
