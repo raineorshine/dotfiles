@@ -27,6 +27,7 @@ alias backupsublime="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
 alias backupatom="~/.atom/backup.sh"
 alias b="pushd +1 >& /dev/null"
 alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
+alias m="mocha"
 
 # editing aliases
 alias pro="subl ~/.bash_profile"
