@@ -372,8 +372,14 @@ gcat() {
 
 # git clone and cd
 gcl() {
-  git clone $1 &&
-  cs $(basename $1)
+  if [ $# -eq 2 ]
+  then
+    git clone "$1" "$2" &&
+    cs "$2"
+  else
+    git clone $1 &&
+    cs $(basename $1)
+  fi
 }
 
 # git create with the description set from your package.json
