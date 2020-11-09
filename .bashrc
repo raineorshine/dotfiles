@@ -251,6 +251,8 @@ alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
 alias gd="git diff"
 alias gds="git diff --staged"
 alias gd1="git diff head^ head"
+alias gd2="git diff head^^ head"
+alias gd3="git diff head^^^ head"
 alias gdp="git diff package.json"
 alias fix="git diff --name-only | uniq | xargs subl -n"
 
@@ -512,3 +514,7 @@ togif() {
 [ -f /Users/raine/.travis/travis.sh ] && source /Users/raine/.travis/travis.sh
 
 alias node='env NODE_REPL_HISTORY_FILE=$HOME/.node_history node'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
