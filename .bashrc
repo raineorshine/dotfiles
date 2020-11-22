@@ -30,6 +30,9 @@ alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 alias m="mocha"
 alias mb="mocha --bail"
 
+# https://rtyley.github.io/bfg-repo-cleaner/
+alias bfg="java -jar /usr/local/bin/bfg.jar"
+
 # editing aliases
 alias pro="subl ~/.bash_profile"
 
