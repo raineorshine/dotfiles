@@ -304,9 +304,9 @@ alias gi="git init && git add -A && git commit -m 'init'"
 alias grh='git reset head^'
 alias gs="git status"
 alias gsp="git stash pop"
+alias gspd="git stash show -p"
+alias gsps="git stash show"
 alias gst="git stash"
-alias gsts="git stash show"
-alias gstd="git stash show -p"
 alias gt="git tag"
 alias sub="git submodule init && git submodule update"
 
