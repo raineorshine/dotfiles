@@ -166,11 +166,23 @@ temp() {
   pushd /tmp/temp
 }
 
+# repeat a command n times
+repeat() {
+  n=$1
+  shift
+  for i in $(seq 1 $n)
+  do
+    "$@"
+  done
+}
+
 # measure the running time of a command repeated n times
 timen() {
-  for i in $(seq 1 $1)
+  n=$1
+  shift
+  for i in $(seq 1 $n)
   do
-    time $($2) &> /dev/null
+    time "$@" &> /dev/null
   done
 }
 
