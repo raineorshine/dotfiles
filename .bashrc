@@ -301,6 +301,7 @@ alias gbro="git browse"
 alias gc="git checkout"
 alias gh="git rev-parse --short HEAD | tr -d '\n'"
 alias gi="git init && git add -A && git commit -m 'init'"
+alias gres='git reset'
 alias grh='git reset head^'
 alias gs="git status"
 alias gsp="git stash pop"
@@ -442,6 +443,7 @@ gbd() {
 
 alias ni="npm install"
 alias nig="npm install -g"
+alias nug="npm uninstall -g"
 alias nu="npm update"
 alias nv="npm view"
 alias nis="npm install --save"
@@ -454,6 +456,7 @@ alias npmo="npm outdated --depth=0"
 alias nr="npm run"
 alias ns="npm start"
 alias nt="npm test"
+alias ntw="npm test -- --watch"
 alias nre="npm repo"
 alias nw="npm run watch"
 alias nb="npm run build"
