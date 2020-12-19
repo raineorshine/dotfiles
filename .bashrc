@@ -248,6 +248,7 @@ alias gm="git commit -m"
 alias gre="git remote -v"
 
 # merge
+alias gme="git merge"
 alias gmff="git merge --ff-only"
 alias gmc="git merge --continue"
 alias gma="git merge --abort"
