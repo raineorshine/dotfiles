@@ -475,7 +475,7 @@ alias nw="npm run watch"
 alias nb="npm run build"
 alias l="npm run lint"
 alias lint="npm run lint"
-alias lf="npm run lintfix"
+alias lf="npm run lint -- --fix"
 
 alias yi="yarn install"
 alias ya="yarn add"
