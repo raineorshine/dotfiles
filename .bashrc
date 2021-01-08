@@ -489,6 +489,24 @@ nbro() {
   npm view "$@" homepage | xargs open
 }
 
+# npm view short
+nvs() {
+  underline=`tput smul`
+  yellow=`tput setaf 3`
+  cyan=`tput setaf 6`
+  reset=`tput sgr0`
+  pkg=$(npm view --json "$@" name description homepage version)
+  name=$(echo "$pkg" | jq -r ".name")
+  description=$(echo "$pkg" | jq -r ".description")
+  homepage=$(echo "$pkg" | jq -r ".homepage")
+  version=$(echo "$pkg" | jq -r ".version")
+  echo
+  echo "$yellow$underline$name@$version$reset"
+  echo $description
+  echo "$cyan$homepage$reset"
+  echo
+}
+
 # npm versions
 nvv() {
   npm view "$@" versions
