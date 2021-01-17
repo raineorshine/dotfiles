@@ -1,4 +1,4 @@
-" === Collin's custom gvimrc ============================================
+" === Raine's custom gvimrc ============================================
 
 " start window maximized
 "au GUIEnter * simalt ~x
