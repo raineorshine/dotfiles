@@ -556,6 +556,15 @@ togif() {
 # Miscellaneous
 #-------------------------#
 
+PROMPT="%F{yellow}%n%f%F{cyan}[%1~]%# %f"
+
+# display "✓" on right side if error code 0, otherwise display "✗"
+RPROMPT="%(?.%F{green}✓%f.%F{red}✗%f)"
+
+# timestamp
+# RPROMPT="%*"
+
+
 # added by travis gem
 [ -f /Users/raine/.travis/travis.sh ] && source /Users/raine/.travis/travis.sh
 
