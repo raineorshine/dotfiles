@@ -1,8 +1,19 @@
-Store your dotfiles in a repo and symlink them to your user root.
+Store your dotfiles in a repo and symlink them to your home directory.
+
+**Note:** This is a legacy project requiring node `v10.15.0` for gulp `v3`.
 
 ## Usage
 
-	gulp setup
+Setup:
+
+```
+gulp setup
+```
+
+Add new dotfiles to the repo:
+
+1. `cp ~/.zprofile .`
+2. `gulp setup`
 
 ## Gulp Tasks
 <table>
