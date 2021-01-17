@@ -14,7 +14,6 @@ alias lsl="ls -AGFplh"
 alias lst="ls -AGFplht"
 alias c="pbcopy"
 alias v="pbpaste"
-alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
 alias so="source ~/.zshrc"
 alias pro="subl ~/.zprofile"
 alias brave='open -a Brave\ Browser'
@@ -101,34 +100,6 @@ dotdiff() {
   cd "$dir"
 }
 
-# edit karabiner.json
-kar() {
-  kardiff
-  subl ~/.config/karabiner/karabiner.json
-}
-
-# pushd to ~/.config/karabiner
-kardir() {
-  kardiff
-  pushd ~/.config/karabiner
-}
-
-# diff karabiner-config
-kardiff() {
-  dir=$(pwd)
-  cd ~/.config/karabiner
-  git --no-pager diff
-  cd "$dir"
-}
-
-# pull karabiner-config
-karpull() {
-  dir=$(pwd)
-  cd ~/.config/karabiner
-  git pull
-  cd "$dir"
-}
-
 # grep man page for a specific term
 mang() {
   man "$1" | grep -n -C 2 "$2"
@@ -191,13 +162,14 @@ timen() {
 # https://gist.github.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56
 # raw url must be updated if modified
 pkg() {
-  copySource="$HOME/.blank-package.json"
+  cachedPkg="$HOME/package.new.json"
+  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/324f383f6230fd1111098b5524d7486f4f86d879/new-package.json"
   if [ ! -f ./package.json ]; then
-    if [ ! -f $copySource ]; then
+    if [ ! -f $cachedPkg ]; then
       echo "Copying"
-      curl https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/4188a0601fb3accd1885636169bc9441b3bc10d0/new-package.json > $copySource
+      curl $src > $cachedPkg
     fi
-    cp $copySource ./package.json
+    cp $cachedPkg ./package.json
     echo "package.json created"
   else
     echo "package.json already exists"
@@ -209,6 +181,7 @@ pkg() {
 #-------------------------#
 
 alias gpg="gpg2 -o -"
+alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
 
 # encrypt and pipe to stdout
 gpge() {
@@ -532,6 +505,38 @@ npub() {
     npm publish
   fi
 
+}
+
+#-------------------------#
+# Karabiner
+#-------------------------#
+
+# edit karabiner.json
+kar() {
+  kardiff
+  subl ~/.config/karabiner/karabiner.json
+}
+
+# pushd to ~/.config/karabiner
+kardir() {
+  kardiff
+  pushd ~/.config/karabiner
+}
+
+# diff karabiner-config
+kardiff() {
+  dir=$(pwd)
+  cd ~/.config/karabiner
+  git --no-pager diff
+  cd "$dir"
+}
+
+# pull karabiner-config
+karpull() {
+  dir=$(pwd)
+  cd ~/.config/karabiner
+  git pull
+  cd "$dir"
 }
 
 #-------------------------#
