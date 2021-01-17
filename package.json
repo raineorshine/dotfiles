@@ -1,24 +1,25 @@
 {
   "name": "dotfiles",
   "version": "0.0.0",
+  "author": "Raine Revere",
   "description": "Raine's dotfiles",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/metaraine/dotfiles"
+    "url": "https://github.com/raineorshine/dotfiles"
   },
   "keywords": [
     "dotfiles",
     "bashrc"
   ],
-  "author": "Raine Lourie",
+  "engines": {
+    "node": "10.15.0"
+  },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/metaraine/dotfiles/issues"
+    "url": "https://github.com/raineorshine/dotfiles/issues"
   },
-  "homepage": "https://github.com/metaraine/dotfiles",
+  "homepage": "https://github.com/raineorshine/dotfiles",
+  "reporitory": "https://github.com/raineorshine/dotfiles",
   "dependencies": {
     "cint": "^6",
     "glob": "^3",
