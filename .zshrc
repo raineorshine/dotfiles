@@ -476,8 +476,14 @@ nvs() {
   version=$(echo "$pkg" | jq -r ".version")
   echo
   echo "$yellow$underline$name@$version$reset"
-  echo $description
-  echo "$cyan$homepage$reset"
+  if [ $description != "null" ]
+  then
+    echo $description
+  fi
+  if [ $homepage != "null" ]
+  then
+    echo "$cyan$homepage$reset"
+  fi
   echo
 }
 
@@ -569,6 +575,8 @@ RPROMPT="%(?.%F{green}✓%f.%F{red}✗%f)"
 # timestamp
 # RPROMPT="%*"
 
+# set window title to current working directory after returning from a command
+precmd() { echo -ne "\e]1;${PWD##*/}\a" }
 
 # added by travis gem
 [ -f /Users/raine/.travis/travis.sh ] && source /Users/raine/.travis/travis.sh
