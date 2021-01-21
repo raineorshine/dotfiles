@@ -57,14 +57,22 @@ s() {
   pushd ~/Documents/Secure &> /dev/null
 }
 
+# make a directory and cd to it
 md() {
   mkdir -p "$@"
   cd "$@"
 }
 
+# cd and ls
 cs() {
   cd "$@"
   ls
+}
+
+# recursive copy, cd to the destinaation, and ls
+cps() {
+  cp -r "$1" "$2"
+  cs "$2"
 }
 
 rl() {
