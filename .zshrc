@@ -572,6 +572,27 @@ togif() {
 }
 
 #-------------------------#
+# Key Bindings
+#-------------------------#
+
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set editing-mode vi
+
+# http://stackoverflow.com/questions/23349325/inputrc-override-controlw
+set bind-tty-special-chars Off
+
+bindkey "\C-h" backward-char
+# kills tab-completion!
+# bindkey "\C-i" forward-char
+bindkey "\C-b" backward-word
+bindkey "\C-a" end-of-line
+
+# doesn't work?
+bindkey "\C-0" beginning-of-line
+bindkey "\C-p" beginning-of-line
+
+#-------------------------#
 # Miscellaneous
 #-------------------------#
 
