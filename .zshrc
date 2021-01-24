@@ -22,7 +22,7 @@ alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 alias grep="grep --color=always"
 alias tra="trash" # requires brew install trash
 alias traa="trash ./*"
-alias t="type"
+alias t="type -af"
 alias backupsublime="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
 alias backupatom="~/.atom/backup.sh"
 alias b="pushd +1 >& /dev/null"
@@ -456,6 +456,7 @@ alias nre="npm repo"
 alias nw="npm run watch"
 alias nb="npm run build"
 alias l="npm run lint"
+alias lpkg="less package.json"
 alias lint="npm run lint"
 alias lf="npm run lint -- --fix"
 
