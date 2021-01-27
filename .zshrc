@@ -291,6 +291,7 @@ alias gchc="git cherry-pick --continue"
 alias gchs="git cherry-pick --skip"
 
 # misc
+alias a="amend"
 alias ga="git add -A"
 alias gbro="git browse"
 alias gc="git checkout"
@@ -341,6 +342,12 @@ amend() {
 aamend() {
   git add -A &&
   amend "$@"
+}
+
+# amend at a specific commit
+gat() {
+  # see ~/.gitconfig for amend-to definition
+  git amend-to "$@"
 }
 
 # add and commit
