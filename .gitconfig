@@ -28,6 +28,13 @@
 	s = status
 	t = tag
 	pullall = "!f(){ git pull \"$@\" && git submodule update --init --recursive; }; f"
+
+  # amend a specific commit with all staged files
+  # e.g. git amend-to head^^
+  #      git amend-to :/my commit
+  # https://stackoverflow.com/a/48999882/480608
+	amend-to = "!f() { SHA=`git rev-parse \"$1\"`; git commit --fixup \"$SHA\" && GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash \"$SHA^\"; }; f"
+
 [color]
 	ui = auto
 [push]
