@@ -184,6 +184,11 @@ pkg() {
   fi
 }
 
+# get the process using a port
+port() {
+  lsof -i ":$@"
+}
+
 #-------------------------#
 # gpg
 #-------------------------#
