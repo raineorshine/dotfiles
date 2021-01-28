@@ -29,6 +29,7 @@ alias b="pushd +1 >& /dev/null"
 alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 alias m="mocha"
 alias mb="mocha --bail"
+alias rmrf="rm -rf"
 
 # https://rtyley.github.io/bfg-repo-cleaner/
 alias bfg="java -jar /usr/local/bin/bfg.jar"
@@ -532,6 +533,16 @@ npub() {
     npm publish
   fi
 
+}
+
+# show files that will be published to npm
+nf() {
+  name=$(jq -r .name < package.json)
+  version=$(jq -r .version < package.json)
+  tarfile="$name-$version.tgz"
+  npm pack
+  tar -tzf $tarfile
+  rm -rf $tarfile
 }
 
 #-------------------------#
