@@ -114,9 +114,15 @@ mang() {
   man "$1" | grep -n -C 2 "$2"
 }
 
-# echo the last command entered
+# echo the last command(s) entered
 prev() {
-  history ${1:-2} | head -n 1 | sed 's/^ *[[:digit:]]* *//'
+  if [ $# -eq 0 ]
+  then
+    n=1
+  else
+    n="$@"
+  fi
+  history "-$n" | head -1 | sed 's/^ *[[:digit:]]* *//'
 }
 
 # Command-line usage: trim "abc   "
