@@ -2,6 +2,8 @@
 # Aliases
 #-------------------------#
 
+dothome="~/projects/dotfiles"
+
 alias ~="cs ~"
 alias h="cs ~"
 alias ..="cs .."
@@ -14,8 +16,8 @@ alias lsl="ls -AGFplh"
 alias lst="ls -AGFplht"
 alias c="pbcopy"
 alias v="pbpaste"
-alias so="source ~/.zshrc"
-alias pro="subl ~/.zprofile"
+alias so="source $dothome/.zshrc"
+alias pro="subl $dothome/.zprofile"
 alias brave='open -a Brave\ Browser'
 alias chrome='open -a Google\ Chrome'
 alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
@@ -38,7 +40,7 @@ alias bfg="java -jar /usr/local/bin/bfg.jar"
 
 rc() {
   dotdiff
-  subl ~/.zshrc
+  subl "$dothome/.zshrc"
 }
 
 # icloud directory
@@ -88,7 +90,7 @@ wl() {
 # add, commit, and push to dotfiles repo
 dotcommit() {
   dir=$(pwd)
-  cd ~/projects/dotfiles
+  cd "$dothome"
 
   so &&
   git add -A &&
@@ -101,7 +103,7 @@ dotcommit() {
 # diff the dotfiles repo
 dotdiff() {
   dir=$(pwd)
-  cd ~/projects/dotfiles
+  cd "$dothome"
 
   git --no-pager diff --exit-code ||
   echo -e "\nRun 'dotcommit' to commit dotfile changes"
@@ -451,6 +453,17 @@ gbd() {
   git push origin --delete "$@"
 }
 
+# delete all remote branches that are not in the local repo
+gbda() {
+  git fetch --prune
+  for branch in $(git for-each-ref --format='%(refname:lstrip=3)' refs/remotes/origin); do
+    if ! git show-ref --quiet refs/heads/${branch}; then
+      echo "Delete remote branch '${branch}'"
+      git push origin --delete ${branch}
+    fi
+  done
+}
+
 #-------------------------#
 # npm
 #-------------------------#
@@ -530,7 +543,7 @@ npub() {
 
   if [ $# -eq 0 ]
   then
-    echo "You must specify major|minor|patch"
+    echo "You must specify major|minor|patch" >&2
     return 1
   else
     npm version "$@" &&
@@ -595,7 +608,6 @@ togif() {
     echo ""
     echo "Usage:"
     echo "togif input.mov"
-    return 1
   else
     ffmpeg -i "$@" -r 25 -f gif - | gifsicle --optimize=3 --lossy=90 --scale 0.5 --colors=32 > "$@.gif"
   fi
