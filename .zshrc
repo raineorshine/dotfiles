@@ -2,7 +2,7 @@
 # Aliases
 #-------------------------#
 
-dothome="~/projects/dotfiles"
+dothome="$HOME/projects/dotfiles"
 
 alias ~="cs ~"
 alias h="cs ~"
@@ -88,20 +88,25 @@ wl() {
 }
 
 # add, commit, and push to dotfiles repo
-dotcommit() {
+dm() {
   dir=$(pwd)
   cd "$dothome"
 
+  # supply commit message as argument
+  # or default to timestamp
+  args="$@"
+  msg=${args:="backup `date +%F-%T`"}
+
   so &&
   git add -A &&
-  git commit -m "backup `date +%F-%T`"
+  git commit -m "$msg"
   git push
 
   cd "$dir"
 }
 
 # diff the dotfiles repo
-dotdiff() {
+dd() {
   dir=$(pwd)
   cd "$dothome"
 
