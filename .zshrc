@@ -105,7 +105,21 @@ dm() {
   cd "$dir"
 }
 
+# add, amend, and force push to dotfiles repo
+damend() {
+  dir=$(pwd)
+  cd "$dothome"
+
+  so &&
+  git add -A &&
+  git commit --amend --no-edit
+  git push --force
+
+  cd "$dir"
+}
+
 # diff the dotfiles repo
+# overrides unused /bin/dd
 dd() {
   dir=$(pwd)
   cd "$dothome"
