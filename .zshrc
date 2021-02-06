@@ -27,6 +27,7 @@ alias grep="grep --color=always"
 alias tra="trash" # requires brew install trash
 alias traa="trash ./*"
 alias t="type -af"
+alias tscw="tsc --watch"
 alias backupsublime="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
 alias backupatom="~/.atom/backup.sh"
 alias b="pushd +1 >& /dev/null"
