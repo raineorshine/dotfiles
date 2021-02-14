@@ -352,6 +352,7 @@ alias gchs="git cherry-pick --skip"
 # misc
 alias a="amend"
 alias ga="git add -A"
+alias gaat="ga && gat"
 alias gbro="git browse"
 alias gc="git checkout"
 alias gh="git rev-parse --short HEAD | tr -d '\n'"
