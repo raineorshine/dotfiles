@@ -280,7 +280,7 @@ alias gf="git fetch"
 
 # commit
 alias gm="git commit -m"
-alias gre="git remote -v"
+alias grm="git remote -v"
 
 # merge
 alias gme="git merge"
@@ -344,7 +344,7 @@ alias gri4="git rebase --interactive head^^^^"
 alias gri5="git rebase --interactive head^^^^^"
 alias gra="git rebase --abort"
 alias grc="git rebase --continue"
-alias grs="git rebase --skip"
+alias grk="git rebase --skip"
 
 # cherry-pick
 alias gch="git cherry-pick"
@@ -360,7 +360,7 @@ alias gbro="git browse"
 alias gc="git checkout"
 alias gh="git rev-parse --short HEAD | tr -d '\n'"
 alias gi="git init && git add -A && git commit -m 'init'"
-alias gres='git reset'
+alias grs='git reset'
 alias grh='git reset head^'
 alias gs="git status"
 alias gsp="git stash pop"
