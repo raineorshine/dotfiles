@@ -56,7 +56,7 @@ alias bfg="java -jar /usr/local/bin/bfg.jar"
 # editing aliases
 
 rc() {
-  dotdiff
+  dd
   subl "$dothome/.zshrc"
 }
 
@@ -85,7 +85,10 @@ md() {
 
 # cd and ls
 cs() {
-  cd "$@"
+  if [ $# -ne 0 ]
+  then
+    cd "$@"
+  fi
   ls
 }
 
@@ -142,7 +145,7 @@ dd() {
   cd "$dothome"
 
   git --no-pager diff --exit-code ||
-  echo -e "\nRun 'dotcommit' to commit dotfile changes"
+  echo -e "\nRun 'dm' to commit dotfile changes"
 
   cd "$dir"
 }
