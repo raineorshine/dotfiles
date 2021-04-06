@@ -539,6 +539,7 @@ alias nb="npm run build"
 alias l="npm run lint"
 alias lint="npm run lint"
 alias lf="npm run lint -- --fix"
+alias lnt="npm run lint && npm run test"
 
 alias yi="yarn install"
 alias ya="yarn add"
