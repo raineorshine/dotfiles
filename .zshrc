@@ -24,6 +24,7 @@ alias h20="head -20"
 alias h30="head -30"
 alias h40="head -40"
 alias h50="head -50"
+alias less="less -r" # --raw-control-chars to parse color codes
 alias lpkg="less package.json"
 alias lr="less README.md"
 alias ls="ls -GF"
