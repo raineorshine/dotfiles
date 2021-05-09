@@ -26,7 +26,7 @@ alias h40="head -40"
 alias h50="head -50"
 alias less="less -r" # --raw-control-chars to parse color codes
 alias lpkg="less package.json"
-alias lr="less README.md"
+alias lr="lessmd README.md"
 alias ls="ls -GF"
 alias lsa="ls -AGF"
 alias lsl="ls -AGFplh"
@@ -236,6 +236,11 @@ pkg() {
 # get the process using a port
 port() {
   lsof -i ":$@"
+}
+
+# read markdown file with marked-terminal-cli and pass to less
+lessmd() {
+  FORCE_COLOR=1 marked-terminal-cli "$@" | less -r
 }
 
 #-------------------------#
