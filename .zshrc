@@ -698,6 +698,10 @@ PROMPT="%F{yellow}%n%f%F{cyan}[%1~]%# %f"
 # display "✓" on right side if error code 0, otherwise display "✗"
 RPROMPT="%(?.%F{green}✓%f.%F{red}✗%f)"
 
+# strip rprompt checkmark
+# useful for copying the shell output to a github issue
+alias stripr=sed 's/\w*✓//'
+
 # timestamp
 # RPROMPT="%*"
 
