@@ -376,6 +376,9 @@ alias gst="git stash"
 alias gt="git tag"
 alias sub="git submodule init && git submodule update"
 
+# git tab completion
+autoload -Uz compinit && compinit
+
 # pull all submodules
 pull() {
   git pull "$@" && git submodule update --init --recursive
