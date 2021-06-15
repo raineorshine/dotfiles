@@ -370,6 +370,7 @@ alias gi="git init && git add -A && git commit -m 'init'"
 alias grs='git reset'
 alias grh='git reset head^'
 alias grhh='git reset --hard head'
+alias grhh^='git reset --hard head^'
 alias gs="git status"
 alias gsp="git stash pop"
 alias gspd="git stash show -p"
