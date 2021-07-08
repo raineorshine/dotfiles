@@ -34,6 +34,7 @@
   #      git amend-to :/my commit
   # https://stackoverflow.com/a/48999882/480608
 	amend-to = "!f() { SHA=`git rev-parse \"$1\"`; git commit --fixup \"$SHA\" && GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash \"$SHA^\"; }; f"
+	sweep = !git branch --merged $([[ $1 != \"-f\" ]] \\\n&& git rev-parse dev) | egrep -v \"(^\\*|^\\s*(master|develop|dev)$)\" \\\n| xargs echo
 
 [color]
 	ui = auto

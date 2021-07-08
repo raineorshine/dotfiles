@@ -304,6 +304,7 @@ alias gbr10="gbra --count 10"
 alias gbr20="gbra --count 20"
 alias gbr30="gbra --count 20"
 alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
+alias gbm="git branch --merged"
 
 # diff
 alias gd="git diff"
@@ -556,7 +557,7 @@ alias lint="npm run lint"
 alias lf="npm run lint -- --fix"
 alias lnt="npm run lint && npm run test"
 
-alias yi="yarn install"
+alias y="yarn"
 alias ya="yarn add"
 alias yr="yarn remove"
 alias yl="yarn link"
