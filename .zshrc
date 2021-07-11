@@ -559,6 +559,7 @@ alias lnt="npm run lint && npm run test"
 
 alias y="yarn"
 alias ya="yarn add"
+alias yad="yarn add --dev"
 alias yr="yarn remove"
 alias yl="yarn link"
 alias yga="yarn global add"
