@@ -296,15 +296,18 @@ alias gmc="git merge --continue"
 alias gma="git merge --abort"
 
 # branch
-alias gb="git branch -v"
-alias gbre="git branch -vr"
-alias gbra="git for-each-ref --color=always --sort=-committerdate refs/heads/ --format='  %(color:yellow)%(committerdate:short)%(color:reset) %(refname:short) %09 %(objectname:short) %(subject) %(color:blue)(%(authorname))%(color:reset)'"
-alias gbr="gbra --count 20"
-alias gbr10="gbra --count 10"
-alias gbr20="gbra --count 20"
-alias gbr30="gbra --count 20"
-alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
+alias gb="gbra --count 20"
+alias gb10="gbra --count 10"
+alias gb20="gbra --count 20"
+alias gb30="gbra --count 30"
 alias gbm="git branch --merged"
+# verbose (branch name, commit hash, and commit message)
+alias gbr="git branch -v"
+# verbose + remote
+alias gbrr="git branch -vr"
+# verbose + date + committer
+alias gbra="git for-each-ref --color=always --sort=-committerdate refs/heads/ --format='%(color:yellow)%(committerdate:short)%(color:reset) %(align:width=18)%(refname:short)%(end) %(objectname:short) %(subject) %(color:blue)(%(authorname))%(color:reset)'"
+alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
 
 # diff
 alias gd="git diff"
