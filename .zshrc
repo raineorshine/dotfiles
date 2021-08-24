@@ -283,6 +283,7 @@ alias pusht="git push && git push --tags"
 alias pushh="git push && git push heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
 alias pushu="git push -u origin HEAD"
 alias ff="git pull --ff-only"
+alias ffd="git pull --ff-only origin dev"
 alias gf="git fetch"
 
 # commit
@@ -296,15 +297,12 @@ alias gmc="git merge --continue"
 alias gma="git merge --abort"
 
 # branch
-alias gb="gbra --count 20"
 alias gb10="gbra --count 10"
 alias gb20="gbra --count 20"
 alias gb30="gbra --count 30"
 alias gbm="git branch --merged"
-# verbose (branch name, commit hash, and commit message)
-alias gbr="git branch -v"
 # verbose + remote
-alias gbrr="git branch -vr"
+alias gbr="git branch -vr"
 # verbose + date + committer
 alias gbra="git for-each-ref --color=always --sort=-committerdate refs/heads/ --format='%(color:yellow)%(committerdate:short)%(color:reset) %(align:width=18)%(refname:short)%(end) %(objectname:short) %(subject) %(color:blue)(%(authorname))%(color:reset)'"
 alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
@@ -513,6 +511,18 @@ gld() {
 # log commits since last tag (inclusive)
 glt() {
   git log $(git describe --tags --abbrev=0)^..HEAD --oneline
+}
+
+# list branches in reverse chronological order (using for-each-ref)
+# if arguments are passed, use git branch
+gb() {
+  if [ $# -eq 0 ]
+  then
+    gbra --count 10
+  else
+    # verbose (branch name, commit hash, and commit message)
+    git branch -v
+  fi
 }
 
 # delete branch from local and remote
