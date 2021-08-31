@@ -53,6 +53,7 @@ alias fds="firebase hosting:channel:deploy staging"
 alias m="mocha"
 alias mb="mocha --bail"
 alias rmrf="rm -rf"
+alias n="notify"
 
 # https://rtyley.github.io/bfg-repo-cleaner/
 alias bfg="java -jar /usr/local/bin/bfg.jar"
