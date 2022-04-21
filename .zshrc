@@ -55,6 +55,9 @@ alias mb="mocha --bail"
 alias rmrf="rm -rf"
 alias n="notify"
 
+# use Ctrl + Z to suspend and fg to unsuspend
+# alias mysqld="sudo mysqld_safe --skip-grant-tables --port=3306"
+
 # https://rtyley.github.io/bfg-repo-cleaner/
 alias bfg="java -jar /usr/local/bin/bfg.jar"
 
@@ -568,10 +571,12 @@ alias ntw="npm test -- --watch"
 alias nre="npm repo"
 alias nw="npm run watch"
 alias nb="npm run build"
+alias nbw="npm run build -- --watch"
 alias l="npm run lint"
 alias lint="npm run lint"
 alias lf="npm run lint -- --fix"
 alias lnt="npm run lint && npm run test"
+alias nrd="npm run deploy && pusht"
 
 alias y="yarn"
 alias ya="yarn add"
