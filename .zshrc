@@ -383,6 +383,7 @@ alias grhhhh='git reset --hard head^^^'
 alias grhhhhh='git reset --hard head^^^^'
 alias grhhhhhh='git reset --hard head^^^^^'
 alias gs="git status"
+alias gsn="git stash show --name-only"
 alias gsp="git stash pop"
 alias gspd="git stash show -p"
 alias gsps="git stash show"
