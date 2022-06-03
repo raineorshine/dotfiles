@@ -235,7 +235,7 @@ timen() {
 # raw url must be updated if modified
 pkg() {
   cachedPkg="$HOME/package.new.json"
-  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/324f383f6230fd1111098b5524d7486f4f86d879/new-package.json"
+  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/4e8798fb8240b9cdc6f037f8e9859ca66546fecb/new-package.json"
   if [ ! -f ./package.json ]; then
     if [ ! -f $cachedPkg ]; then
       echo "Copying"
