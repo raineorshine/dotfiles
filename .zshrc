@@ -567,7 +567,7 @@ gbda() {
 #-------------------------#
 
 alias ni="npm install"
-alias nig="npm install -g"
+alias nig="npm install --location=global"
 alias nug="npm uninstall -g"
 alias nu="npm update"
 alias nv="npm view"
