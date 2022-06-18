@@ -88,7 +88,7 @@ ic() {
 # project directory
 p() {
   pushd ~/projects &> /dev/null
-  ls
+  lstt
 }
 
 # Secure directory
