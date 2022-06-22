@@ -296,8 +296,8 @@ alias git=hub
 
 # push/pull/fetch
 alias push="git push origin HEAD"
-alias pusht="git push && git push --tags"
-alias pushh="git push && git push heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
+alias pusht="git push && git push --no-verify --tags"
+alias pushh="git push && git push --no-verify heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
 alias pushu="git push -u origin HEAD"
 alias ff="git pull --ff-only"
 alias ffd="git pull --ff-only origin dev"
