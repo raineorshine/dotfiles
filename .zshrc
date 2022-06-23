@@ -321,6 +321,7 @@ alias gbm="git branch --merged"
 # verbose + remote
 alias gbr="git branch -vr"
 # verbose + date + committer
+# used by gb as default
 alias gbra="git for-each-ref --color=always --sort=-committerdate refs/heads/ --format='%(color:yellow)%(committerdate:short)%(color:reset) %(align:width=18)%(refname:short)%(end) %(objectname:short) %(subject) %(color:blue)(%(authorname))%(color:reset)'"
 alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
 
@@ -544,8 +545,7 @@ gb() {
   then
     gbra --count 10
   else
-    # verbose (branch name, commit hash, and commit message)
-    git branch -v
+    git branch "$@"
   fi
 }
 
