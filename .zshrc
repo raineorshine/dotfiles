@@ -33,7 +33,7 @@ alias h30="head -30"
 alias h40="head -40"
 alias h50="head -50"
 alias less="less -R" # --raw-control-chars to parse color codes
-alias lpkg="jq < package.json -C | less"
+alias lpkg="jq < package.json -C | less -R"
 alias lr="lessmd README.md"
 alias ls="ls -GF"
 alias lsa="ls -AGF"
@@ -699,6 +699,18 @@ karpull() {
   cd ~/.config/karabiner
   git pull
   cd "$dir"
+}
+
+# pipe package.json to jq for syntax highlighting
+# select a specific property by passing a jq selector as an argument
+# if no arguments, uses less
+jqp() {
+  if [ $# -eq 0 ]
+  then
+    jq < package.json -C | less -R
+  else
+    jq $@ < package.json
+  fi
 }
 
 #-------------------------#
