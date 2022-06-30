@@ -50,8 +50,8 @@ alias brave='open -a Brave\ Browser'
 alias chrome='open -a Google\ Chrome'
 alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 alias grep="grep --color=always"
-alias tra="trash" # requires brew install trash
-alias traa="trash ./*"
+alias tra="npx trash-cli"
+alias traa="npx trash-cli ./*"
 alias t="type -af"
 alias tscw="tsc --watch"
 alias backupsublime="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
