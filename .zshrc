@@ -435,12 +435,17 @@ gstls() {
 }
 
 # amend with optional new message
+# if no message is provided and there are staged changes, amend the commit with the changes
+# otherwise, if no message is provided and there are no staged changes, prompt for a new commit message (and ignore unstaged changes)
 amend() {
-  if [ $# -eq 0 ]
+  if [ $# -ne 0 ]
   then
-    git commit --amend --no-edit
-  else
     git commit --amend -m "$@"
+  elif [ -z "$(git diff --cached --exit-code)" ]
+  then
+    git commit --amend
+  else
+    git commit --amend --no-edit
   fi
 }
 
