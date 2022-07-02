@@ -386,6 +386,7 @@ alias gchs="git cherry-pick --skip"
 
 # misc
 alias a="amend"
+alias aam="aamend"
 alias ga="git add -A"
 alias gaat="ga && gat"
 alias gbro="git browse"
