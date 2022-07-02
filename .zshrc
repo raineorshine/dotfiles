@@ -157,6 +157,11 @@ damend() {
   cd "$dir"
 }
 
+# open dotfiles repo
+dbro() {
+  open "https://github.com/raineorshine/dotfiles"
+}
+
 # diff the dotfiles repo
 # overrides unused /bin/dd
 dd() {
