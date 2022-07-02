@@ -145,7 +145,7 @@ dm() {
 }
 
 # add, amend, and force push to dotfiles repo
-damend() {
+daforce() {
   dir=$(pwd)
   cd "$dothome"
 
@@ -160,6 +160,11 @@ damend() {
 # open dotfiles repo
 dbro() {
   open "https://github.com/raineorshine/dotfiles"
+}
+
+# change directory to ~/projects/dotfiles
+dcs() {
+  cs $dothome
 }
 
 # diff the dotfiles repo
