@@ -39,9 +39,10 @@ alias ls="ls -GF"
 alias lsa="ls -AGF"
 alias lsl="ls -AGFplh"
 alias lst="ls -AGFplht"
-alias lstt="ls -AGFplht | head -10"
-alias lsttt="ls -AGFplht | head -20"
-alias lstttt="ls -AGFplht | head -30"
+alias lstc="ls -AGFplht --color=always"
+alias lstt="ls -AGFplht --color=always | grep -v .DS_Store | head -10"
+alias lsttt="ls -AGFplht --color=always | grep -v .DS_Store | head -20"
+alias lstttt="ls -AGFplht --color=always | grep -v .DS_Store | head -30"
 alias c="pbcopy"
 alias v="pbpaste"
 alias so="source $dothome/.zshrc"
@@ -88,7 +89,8 @@ ic() {
 # project directory
 p() {
   pushd ~/projects &> /dev/null
-  lstt
+  ls -AGFplht --color=always | grep -v .DS_Store | tail +2 | head -10
+  echo ...
 }
 
 # Secure directory
