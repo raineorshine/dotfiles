@@ -1,6 +1,8 @@
 Store your dotfiles in a repo and symlink them to your home directory.
 
-**Note:** This is a legacy project requiring node `v10.15.0` for gulp `v3`.
+This repo also contains my personal dotfiles.
+
+**Note:** The gulp app is a legacy project requiring node `v10.15.0` for gulp `v3`. The dotfiles themselves however are up-to-date and quite usable.
 
 ## Usage
 
