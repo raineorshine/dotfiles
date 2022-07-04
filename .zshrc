@@ -753,6 +753,11 @@ jqp() {
   fi
 }
 
+# read a json file with syntax highlighting in less
+ljq() {
+  jq < "$@" -C | less -R
+}
+
 #-------------------------#
 # Video Processing
 #-------------------------#
