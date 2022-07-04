@@ -313,10 +313,6 @@ alias ff="git pull --ff-only"
 alias ffd="git pull --ff-only origin dev"
 alias gf="git fetch"
 
-# commit
-alias gm="git commit -m"
-alias grm="git remote -v"
-
 # merge
 alias gme="git merge"
 alias gmff="git merge --ff-only"
@@ -411,6 +407,7 @@ alias grhhh='git reset --hard head^^'
 alias grhhhh='git reset --hard head^^^'
 alias grhhhhh='git reset --hard head^^^^'
 alias grhhhhhh='git reset --hard head^^^^^'
+alias grm="git remote -v"
 alias gs="git status"
 alias gsc="gc stash@{0}"
 alias gsn="git stash show --name-only"
@@ -472,10 +469,35 @@ gat() {
   git amend-to "$@"
 }
 
-# add and commit
+# add all and commit
+# When no arguments are provided, opens $EDITOR to write the commit message
+# Usage:
+#   gam
+#   gam [shortmessage]
+#   gam [shortmessage] -m [longmessage]
 gam() {
-  git add -A &&
-  git commit -m "$@"
+  git add -A
+  if [ $# -ne 0 ]
+  then
+    git commit -m "$@"
+  else
+    git commit
+  fi
+}
+
+# git commit
+# When no arguments are provided, opens $EDITOR to write the commit message
+# Usage:
+#   gm
+#   gm [shortmessage]
+#   gm [shortmessage] -m [longmessage]
+gm() {
+  if [ $# -ne 0 ]
+  then
+    git commit -m "$@"
+  else
+    git commit
+  fi
 }
 
 # checkout prev (older) commit
