@@ -694,7 +694,7 @@ npub() {
   else
     npm version "$@" &&
     git push &&
-    git push --tags &&
+    git push --no-verify --tags &&
     npm publish
   fi
 
