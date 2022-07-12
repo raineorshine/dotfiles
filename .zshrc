@@ -6,6 +6,18 @@
 #   Next: Ctrl + r
 #   Prev: Ctrl + s
 
+
+#-------------------------#
+# Constants
+#-------------------------#
+
+# use echo -e to print colors
+# e.g. echo -e "${RED}hello${NC}"
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+
 #-------------------------#
 # Aliases
 #-------------------------#
@@ -414,6 +426,8 @@ alias grhhhhhh='git reset --hard head^^^^^'
 alias grm="git remote -v"
 alias gs="git status"
 alias gsc="gc stash@{0}"
+alias gsl="git stash list | head -10"
+alias gsll="git stash list"
 alias gsn="git stash show --name-only"
 alias gsp="git stash pop"
 alias gsd="git stash show -p"
@@ -607,6 +621,37 @@ gbda() {
       git push origin --delete ${branch}
     fi
   done
+}
+
+# stash console.logs
+rmc() {
+  # stage current changes
+  git add -A &&
+
+  # remove console.logs
+  rm-diff-consoles &&
+
+  # store the diff
+  reverseDiff=$(git diff -R) &&
+  reverseDiffColor=$(git diff -R --color=always) &&
+  echo -e $reverseDiffColor &&
+
+  # stage the removed console.logs
+  git add -A &&
+
+  # make a temporary commit
+  # the commit message will show up in the stash
+  git commit --quiet -m "console.logs" &&
+
+  # restore the console.logs by applying the reverse patch
+  echo $reverseDiff | git apply &&
+
+  # stash the console.logs in case we changed our mind
+  git stash --quiet &&
+  echo "${GREEN}✓${NC} console.logs stashed" &&
+
+  # reset the TEMP commit so the original changes minus console.logs are restored
+  git reset --quiet head^
 }
 
 #-------------------------#
