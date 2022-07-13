@@ -9,6 +9,8 @@
 # Suspend foreground process: Ctrl + Z
 #   Unsuspend: fg
 
+# Exit code: $?
+
 #-------------------------#
 # CONSTANTS
 #-------------------------#
@@ -84,6 +86,22 @@ alias v="pbpaste"
 
 # https://rtyley.github.io/bfg-repo-cleaner/
 alias bfg="java -jar /usr/local/bin/bfg.jar"
+
+# prompt the user with a y/n question
+confirm() {
+  printf "$@"
+  old_stty_cfg=$(stty -g)
+  stty raw -echo
+  answer=$( while ! head -c 1 ;do true ;done )
+  stty $old_stty_cfg
+  if echo "$answer" | grep -iq "^y" ;then
+    echo yes
+    return 0
+  else
+    echo no
+    return 1
+  fi
+}
 
 # cd and ls
 cs() {
@@ -281,7 +299,7 @@ dd() {
   dir=$(pwd)
   cd "$dothome"
 
-  git --no-pager diff --exit-code ||
+  git --no-pager diff --exit-code --color=always ||
   echo -e "\nRun 'dm' to commit dotfile changes"
 
   cd "$dir"
@@ -799,14 +817,47 @@ karpull() {
 lo() {
   if [ $# -eq 0 ]
   then
-    echo "Please specify a json file"
+    echo "Please specify a json or markdown file"
     return 1
-  elif [ $# -eq 1 ]
-  then
-    jq $2 < $1 -C | less -R
-  else
-    jq $2 < $1 -C
   fi
+
+  EXT=$(echo $1 | sed 's/^.*\.//')
+
+  case $EXT in
+
+    # json
+    json)
+      if [ $# -eq 1 ]
+      then
+        jq $2 < $1 -C | less -R
+      else
+        jq $2 < $1 -C
+      fi
+      ;;
+
+    # markdown
+    md)
+      # check that marked-terminal is installed
+      # npx marked-terminal-cli is too slow, so install the global
+      MARKED_TERMINAL_TYPE=$(type -af marked-terminal-cli)
+      if [ "$MARKED_TERMINAL_TYPE" = "marked-terminal-cli not found" ]
+      then
+        # printf 'Install marked-terminal-cli (y/n)? '
+        # read -n 1 -p "Is this a good question (y/n)? " answer
+        confirm "Install marked-terminal-cli (y/n)? "
+        if [ "$?" -eq 1 ]
+        then
+          return 1
+        fi
+        npm install -g marked-terminal-cli
+      fi
+      FORCE_COLOR=1 marked-terminal-cli "$1" | less -r
+      ;;
+
+    # other
+    *)
+      less $1
+  esac
 }
 
 # parse the package.json file and output to less with syntax highlighting
