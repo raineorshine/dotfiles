@@ -45,7 +45,6 @@ alias h30="head -30"
 alias h40="head -40"
 alias h50="head -50"
 alias less="less -R" # --raw-control-chars to parse color codes
-alias lpkg="jq < package.json -C | less -R"
 alias lr="lessmd README.md"
 alias ls="ls -GF"
 alias lsa="ls -AGF"
@@ -788,21 +787,34 @@ karpull() {
   cd "$dir"
 }
 
-# pipe package.json to jq for syntax highlighting
-# select a specific property by passing a jq selector as an argument
-# if no arguments, uses less
-jqp() {
+#-------------------------#
+# JSON
+#-------------------------#
+
+# parse a json file and output to less with syntax highlighting
+# select a specific property by passing a jq selector as a second argument (outputs without less)
+lo() {
+  if [ $# -eq 0 ]
+  then
+    echo "Please specify a json file"
+    return 1
+  elif [ $# -eq 1 ]
+  then
+    jq $2 < $1 -C | less -R
+  else
+    jq $2 < $1 -C
+  fi
+}
+
+# parse the package.json file and output to less with syntax highlighting
+# select a specific property by passing a jq selector as an argument (outputs without less)
+lp() {
   if [ $# -eq 0 ]
   then
     jq < package.json -C | less -R
   else
     jq $@ < package.json
   fi
-}
-
-# read a json file with syntax highlighting in less
-ljq() {
-  jq < "$@" -C | less -R
 }
 
 #-------------------------#
