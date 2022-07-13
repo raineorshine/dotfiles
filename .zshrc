@@ -2,13 +2,15 @@
 # Tips
 #-------------------------#
 
-# Reverse History Search: Ctrl + R
+# Reverse History Search: Ctrl + r
 #   Next: Ctrl + r
 #   Prev: Ctrl + s
 
+# Suspend foreground process: Ctrl + Z
+#   Unsuspend: fg
 
 #-------------------------#
-# Constants
+# CONSTANTS
 #-------------------------#
 
 # use echo -e to print colors
@@ -18,32 +20,44 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
-#-------------------------#
-# Aliases
-#-------------------------#
-
 dothome="$HOME/projects/dotfiles"
 
+#-------------------------#
+# UTIL
+#-------------------------#
+
 alias ~="cs ~"
-alias h="cs ~"
 alias ..="cs .."
 alias ...="cd ..;cs .."
 alias ....="cd ..;cd ..;cs .."
 alias .....="cd ..;cd ..;cd ..;cs .."
+alias b="pushd +1 >& /dev/null"
+alias backupatom="~/.atom/backup.sh"
+alias backupsublime="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
+alias brave='open -a Brave\ Browser'
+alias c="pbcopy"
+alias chrome='open -a Google\ Chrome'
+alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
+alias fb="firebase"
+alias fd="firebase deploy --only hosting"
+alias fds="firebase hosting:channel:deploy staging"
+alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
+alias grep="grep --color=always"
+alias h10="head -10"
 alias h1="head -1"
+alias h20="head -20"
 alias h2="head -2"
+alias h30="head -30"
 alias h3="head -3"
+alias h40="head -40"
 alias h4="head -4"
+alias h50="head -50"
 alias h5="head -5"
 alias h6="head -6"
 alias h7="head -7"
 alias h8="head -8"
 alias h9="head -9"
-alias h10="head -10"
-alias h20="head -20"
-alias h30="head -30"
-alias h40="head -40"
-alias h50="head -50"
+alias h="cs ~"
 alias less="less -R" # --raw-control-chars to parse color codes
 alias lr="lessmd README.md"
 alias ls="ls -GF"
@@ -54,66 +68,22 @@ alias lstc="ls -AGFplht --color=always"
 alias lstt="ls -AGFplht --color=always | grep -v .DS_Store | head -10"
 alias lsttt="ls -AGFplht --color=always | grep -v .DS_Store | head -20"
 alias lstttt="ls -AGFplht --color=always | grep -v .DS_Store | head -30"
-alias c="pbcopy"
-alias v="pbpaste"
-alias so="source $dothome/.zshrc"
-alias pro="subl $dothome/.zprofile"
-alias brave='open -a Brave\ Browser'
-alias chrome='open -a Google\ Chrome'
-alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
-alias grep="grep --color=always"
-alias tra="npx trash-cli"
-alias traa="npx trash-cli ./*"
-alias t="type -af"
-alias tscw="tsc --watch"
-alias backupsublime="~/Library/Application\ Support/Sublime\ Text\ 3/backup.sh"
-alias backupatom="~/.atom/backup.sh"
-alias b="pushd +1 >& /dev/null"
-alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
-alias fb="firebase"
-alias fd="firebase deploy --only hosting"
-alias fds="firebase hosting:channel:deploy staging"
 alias m="mocha"
 alias mb="mocha --bail"
-alias rmrf="rm -rf"
 alias n="notify"
+alias pro="subl $dothome/.zprofile"
+alias rmrf="rm -rf"
+alias so="source $dothome/.zshrc"
+alias t="type -af"
+alias tra="npx trash-cli"
+alias traa="npx trash-cli ./*"
+alias tscw="tsc --watch"
+alias v="pbpaste"
 
-# use Ctrl + Z to suspend and fg to unsuspend
 # alias mysqld="sudo mysqld_safe --skip-grant-tables --port=3306"
 
 # https://rtyley.github.io/bfg-repo-cleaner/
 alias bfg="java -jar /usr/local/bin/bfg.jar"
-
-# editing aliases
-
-rc() {
-  dd
-  subl "$dothome/.zshrc"
-}
-
-# icloud directory
-ic() {
-  pushd ~/Library/Mobile\ Documents/com~apple~CloudDocs/Documents &> /dev/null
-  ls
-}
-
-# project directory
-p() {
-  pushd ~/projects &> /dev/null
-  ls -AGFplht --color=always | grep -v .DS_Store | tail +2 | head -10
-  echo ...
-}
-
-# Secure directory
-s() {
-  pushd ~/Documents/Secure &> /dev/null
-}
-
-# make a directory and cd to it
-md() {
-  mkdir -p "$@"
-  cd "$@"
-}
 
 # cd and ls
 cs() {
@@ -130,14 +100,139 @@ cps() {
   cs "$2"
 }
 
+# icloud directory
+ic() {
+  pushd ~/Library/Mobile\ Documents/com~apple~CloudDocs/Documents &> /dev/null
+  ls
+}
+
+# read markdown file with marked-terminal-cli and pass to less
+lessmd() {
+  FORCE_COLOR=1 marked-terminal-cli "$@" | less -r
+}
+
+# repeat a command n times
+loop() {
+  n=$1
+  shift
+  for i in $(seq 1 $n)
+  do
+    "$@"
+  done
+}
+
+# grep man page for a specific term
+mang() {
+  man "$1" | grep -n -C 2 "$2"
+}
+
+# make a directory and cd to it
+md() {
+  mkdir -p "$@"
+  cd "$@"
+}
+
+notify() {
+  /usr/bin/osascript -e "display notification \"$*\" with title \"Notification\""
+}
+
+# project directory
+p() {
+  pushd ~/projects &> /dev/null
+  ls -AGFplht --color=always | grep -v .DS_Store | tail +2 | head -10
+  echo ...
+}
+
+# create a blank package.json in the current folder if it does not exist
+# https://gist.github.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56
+# raw url must be updated if modified
+pkg() {
+  cachedPkg="$HOME/package.new.json"
+  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/4e8798fb8240b9cdc6f037f8e9859ca66546fecb/new-package.json"
+  if [ ! -f ./package.json ]; then
+    if [ ! -f $cachedPkg ]; then
+      echo "Copying"
+      curl $src > $cachedPkg
+    fi
+    cp $cachedPkg ./package.json
+    echo "package.json created"
+  else
+    echo "package.json already exists"
+  fi
+}
+
+# get the process using a port
+port() {
+  lsof -i ":$@"
+}
+
+# echo the last command(s) entered
+prev() {
+  if [ $# -eq 0 ]
+  then
+    n=1
+  else
+    n="$@"
+  fi
+  history "-$n" | head -1 | sed 's/^ *[[:digit:]]* *//'
+}
+
+# edit .zhrc file
+rc() {
+  dd
+  subl "$dothome/.zshrc"
+}
+
 rl() {
   which "$@" | xargs readlink
+}
+
+# Secure directory
+s() {
+  pushd ~/Documents/Secure &> /dev/null
+}
+
+# empty the temp directory and cd there
+temp() {
+  rm -rf /tmp/temp ;
+  mkdir /tmp/temp &&
+  pushd /tmp/temp
+}
+
+# measure the running time of a command repeated n times
+timen() {
+  n=$1
+  shift
+  for i in $(seq 1 $n)
+  do
+    time "$@" &> /dev/null
+  done
+}
+
+# Command-line usage: trim "abc   "
+# Command-line usage: trim `echo "abc   "`
+# Script usage:  $(trim "abc   ")
+trim() {
+    # Determine if 'extglob' is currently on.
+    local extglobWasOff=1
+    shopt extglob >/dev/null && extglobWasOff=0
+    (( extglobWasOff )) && shopt -s extglob # Turn 'extglob' on, if currently turned off.
+    # Trim leading and trailing whitespace
+    local var=$1
+    var=${var##+([[:space:]])}
+    var=${var%%+([[:space:]])}
+    (( extglobWasOff )) && shopt -u extglob # If 'extglob' was off before, turn it back off.
+    echo -n "$var"  # Output trimmed string.
 }
 
 # display [w]here a sym[l]inked executable is pointing
 wl() {
   which "$@" | xargs ls -lG
 }
+
+#-------------------------#
+# dotfiles
+#-------------------------#
 
 # add, commit, and push to dotfiles repo
 dm() {
@@ -190,98 +285,6 @@ dd() {
   echo -e "\nRun 'dm' to commit dotfile changes"
 
   cd "$dir"
-}
-
-# grep man page for a specific term
-mang() {
-  man "$1" | grep -n -C 2 "$2"
-}
-
-# echo the last command(s) entered
-prev() {
-  if [ $# -eq 0 ]
-  then
-    n=1
-  else
-    n="$@"
-  fi
-  history "-$n" | head -1 | sed 's/^ *[[:digit:]]* *//'
-}
-
-# Command-line usage: trim "abc   "
-# Command-line usage: trim `echo "abc   "`
-# Script usage:  $(trim "abc   ")
-trim() {
-    # Determine if 'extglob' is currently on.
-    local extglobWasOff=1
-    shopt extglob >/dev/null && extglobWasOff=0
-    (( extglobWasOff )) && shopt -s extglob # Turn 'extglob' on, if currently turned off.
-    # Trim leading and trailing whitespace
-    local var=$1
-    var=${var##+([[:space:]])}
-    var=${var%%+([[:space:]])}
-    (( extglobWasOff )) && shopt -u extglob # If 'extglob' was off before, turn it back off.
-    echo -n "$var"  # Output trimmed string.
-}
-
-notify() {
-  /usr/bin/osascript -e "display notification \"$*\" with title \"Notification\""
-}
-
-# empty the temp directory and cd there
-temp() {
-  rm -rf /tmp/temp ;
-  mkdir /tmp/temp &&
-  pushd /tmp/temp
-}
-
-# repeat a command n times
-# repeat is a reserved word
-rpt() {
-  n=$1
-  shift
-  for i in $(seq 1 $n)
-  do
-    "$@"
-  done
-}
-
-# measure the running time of a command repeated n times
-timen() {
-  n=$1
-  shift
-  for i in $(seq 1 $n)
-  do
-    time "$@" &> /dev/null
-  done
-}
-
-# create a blank package.json in the current folder if it does not exist
-# https://gist.github.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56
-# raw url must be updated if modified
-pkg() {
-  cachedPkg="$HOME/package.new.json"
-  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/4e8798fb8240b9cdc6f037f8e9859ca66546fecb/new-package.json"
-  if [ ! -f ./package.json ]; then
-    if [ ! -f $cachedPkg ]; then
-      echo "Copying"
-      curl $src > $cachedPkg
-    fi
-    cp $cachedPkg ./package.json
-    echo "package.json created"
-  else
-    echo "package.json already exists"
-  fi
-}
-
-# get the process using a port
-port() {
-  lsof -i ":$@"
-}
-
-# read markdown file with marked-terminal-cli and pass to less
-lessmd() {
-  FORCE_COLOR=1 marked-terminal-cli "$@" | less -r
 }
 
 #-------------------------#
