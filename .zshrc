@@ -712,6 +712,11 @@ alias yl="yarn link"
 alias yga="yarn global add"
 alias ygr="yarn global remove"
 
+# show a package's tags
+dt() {
+  npm view "$@" dist-tags
+}
+
 # browse the home page of an npm module
 nbro() {
   npm view "$@" homepage | xargs open
