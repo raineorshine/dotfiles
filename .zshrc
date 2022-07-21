@@ -79,7 +79,7 @@ alias so="source $dothome/.zshrc"
 alias t="type -af"
 alias tra="npx trash-cli"
 alias traa="npx trash-cli ./*"
-alias tscw="tsc --watch"
+alias tw="npx tsc --watch"
 alias v="pbpaste"
 
 # alias mysqld="sudo mysqld_safe --skip-grant-tables --port=3306"
