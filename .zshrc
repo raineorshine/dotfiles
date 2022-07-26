@@ -489,7 +489,7 @@ amend() {
     git commit --amend -m "$@"
   elif [ -z "$(git diff --cached --exit-code)" ]
   then
-    git commit --amend
+    GIT_EDITOR=vim git commit --amend
   else
     git commit --amend --no-edit
   fi
