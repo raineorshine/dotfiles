@@ -3,13 +3,16 @@
 #-------------------------#
 
 # Reverse History Search: Ctrl + r
-#   Next: Ctrl + r
-#   Prev: Ctrl + s
+# Next: Ctrl + r
+# Prev: Ctrl + s
 
 # Suspend foreground process: Ctrl + Z
-#   Unsuspend: fg
+# Unsuspend: fg
 
 # Exit code: $?
+
+# Redirect stdout: 1>
+# Redirect stderr: 2>
 
 #-------------------------#
 # CONSTANTS
