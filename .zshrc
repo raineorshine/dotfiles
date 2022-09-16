@@ -768,7 +768,7 @@ npub() {
 
   if [ $# -eq 0 ]
   then
-    echo "You must specify major|minor|patch" >&2
+    echo "You must specify major | minor | patch | premajor | preminor | prepatch | prerelease" >&2
     return 1
   else
     npm version "$@" &&
