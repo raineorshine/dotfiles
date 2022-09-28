@@ -710,6 +710,7 @@ alias lf="npm run lint -- --fix"
 alias lnt="npm run lint && npm run test"
 alias nrd="npm run deploy && pusht"
 alias nrs="npm run deploy:staging"
+alias pi="pnpm install"
 
 alias y="yarn"
 alias ya="yarn add"
