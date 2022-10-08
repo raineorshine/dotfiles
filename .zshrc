@@ -207,6 +207,11 @@ rc() {
   subl "$dothome/.zshrc"
 }
 
+# edit .npmrc file
+nrc() {
+  subl ~/.npmrc
+}
+
 rl() {
   which "$@" | xargs readlink
 }
