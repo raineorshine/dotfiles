@@ -626,6 +626,11 @@ glt() {
   git log $(git describe --tags --abbrev=0)^..HEAD --oneline
 }
 
+
+grit() {
+  git rebase --interactive $(git describe --tags --abbrev=0)^
+}
+
 # list branches in reverse chronological order (using for-each-ref)
 # if arguments are passed, use git branch
 gb() {
