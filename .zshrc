@@ -745,14 +745,20 @@ nvs() {
   underline=`tput smul`
   yellow=`tput setaf 3`
   cyan=`tput setaf 6`
+  gray=`tput setaf 8`
   reset=`tput sgr0`
-  pkg=$(npm view --json "$@" name description homepage version)
+  pkg=$(npm view --json "$@" name description homepage version time.modified)
   name=$(echo "$pkg" | jq -r ".name")
   description=$(echo "$pkg" | jq -r ".description")
   homepage=$(echo "$pkg" | jq -r ".homepage")
   version=$(echo "$pkg" | jq -r ".version")
+  timeModified=$(echo "$pkg" | jq -r '."time.modified"' | date +%D)
   echo
   echo "$yellow$underline$name@$version$reset"
+  if [ $timeModified != "null" ]
+  then
+    echo "$gray$timeModified$reset"
+  fi
   if [ $description != "null" ]
   then
     echo $description
