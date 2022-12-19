@@ -87,6 +87,8 @@ alias tra="npx trash-cli"
 alias traa="npx trash-cli ./*"
 alias tw="npx tsc --watch"
 alias v="pbpaste"
+# strip colors
+alias strip='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g"'
 
 # alias mysqld="sudo mysqld_safe --skip-grant-tables --port=3306"
 
