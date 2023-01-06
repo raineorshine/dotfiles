@@ -164,8 +164,9 @@ notify() {
 
 # project directory
 p() {
+  if [ $# -eq 0 ]; then n=10; else n="$1" fi
   pushd ~/projects &> /dev/null
-  ls -AGFplht --color=always | grep -v .DS_Store | tail +2 | head -10
+  ls -AGFplht --color=always | grep -v .DS_Store | tail +2 | head -n "$n"
   echo ...
 }
 
