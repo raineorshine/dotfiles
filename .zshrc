@@ -572,8 +572,20 @@ gcat() {
   git tag "$v"
 }
 
-# git clone and cd
+# git clone (shallow)
 gcl() {
+  if [ $# -eq 2 ]
+  then
+    git clone --depth=1 "$1" "$2" &&
+    cs "$2"
+  else
+    git clone --depth=1 $1 &&
+    cs $(basename $1)
+  fi
+}
+
+# git clone (unshallow)
+gclu() {
   if [ $# -eq 2 ]
   then
     git clone "$1" "$2" &&
