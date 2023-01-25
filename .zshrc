@@ -86,6 +86,11 @@ alias tra="npx trash-cli"
 alias traa="npx trash-cli ./*"
 alias tw="npx tsc --watch"
 alias v="pbpaste"
+# xargs using placeholder %
+# increase replstr size (-I)
+alias xa="xargs -S 100000 -I%"
+# interactive (useful for dry run)
+alias xap="xargs -p -S 100000 -I%"
 
 # alias mysqld="sudo mysqld_safe --skip-grant-tables --port=3306"
 
