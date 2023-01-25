@@ -2,17 +2,14 @@
 # Tips
 #-------------------------#
 
-# Reverse History Search: Ctrl + r
-# Next: Ctrl + r
-# Prev: Ctrl + s
-
-# Suspend foreground process: Ctrl + Z
-# Unsuspend: fg
-
-# Exit code: $?
-
-# Redirect stdout: 1>
-# Redirect stderr: 2>
+# Reverse History Search:       Ctrl + r
+#   Next:                       Ctrl + r
+#   Prev:                       Ctrl + s
+# Suspend foreground process:   Ctrl + Z
+#   Unsuspend:                  fg
+# Exit code:                    $?
+# Redirect stdout:              1>
+# Redirect stderr:              2>
 
 #-------------------------#
 # CONSTANTS
@@ -82,13 +79,13 @@ alias n="notify"
 alias pro="subl $dothome/.zprofile"
 alias rmrf="rm -rf"
 alias so="source $dothome/.zshrc"
+# strip colors
+alias strip='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g"'
 alias t="type -af"
 alias tra="npx trash-cli"
 alias traa="npx trash-cli ./*"
 alias tw="npx tsc --watch"
 alias v="pbpaste"
-# strip colors
-alias strip='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g"'
 
 # alias mysqld="sudo mysqld_safe --skip-grant-tables --port=3306"
 
