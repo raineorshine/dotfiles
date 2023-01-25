@@ -382,7 +382,7 @@ alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
 # diff
 alias gd="git diff"
 alias gdn="git diff --name-only"
-alias gdn1="git diff --name-only head^ head"
+alias gd1n="git diff --name-only head^ head"
 alias gds="git diff --staged"
 alias gd1="git diff head^ head"
 alias gd2="git diff head^^ head"
