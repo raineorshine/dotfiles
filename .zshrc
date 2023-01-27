@@ -34,7 +34,6 @@ alias ...="cd ..;cs .."
 alias ....="cd ..;cd ..;cs .."
 alias .....="cd ..;cd ..;cd ..;cs .."
 alias b="pushd +1 >& /dev/null"
-alias backupatom="~/.atom/backup.sh"
 alias backupsublime="~/Library/Application\ Support/Sublime\ Text/backup.sh"
 alias brave='open -a Brave\ Browser'
 alias c="pbcopy"
