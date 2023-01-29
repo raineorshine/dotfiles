@@ -361,6 +361,7 @@ alias pushu="git push -u origin HEAD"
 alias ff="git pull --ff-only"
 alias ffd="git pull --ff-only origin dev"
 alias gf="git fetch"
+alias gfu="git fetch --unshallow"
 
 # merge
 alias gme="git merge"
