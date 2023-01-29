@@ -362,6 +362,8 @@ alias ff="git pull --ff-only"
 alias ffd="git pull --ff-only origin dev"
 alias gf="git fetch"
 alias gfu="git fetch --unshallow"
+# pull upstream into current branch
+alias up='git pull upstream $(git rev-parse --abbrev-ref HEAD)'
 
 # merge
 alias gme="git merge"
