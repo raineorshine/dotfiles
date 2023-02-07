@@ -365,6 +365,12 @@ alias gfu="git fetch --unshallow"
 # pull upstream into current branch
 alias up='git pull upstream $(git rev-parse --abbrev-ref HEAD)'
 
+# bisect
+alias gbi="git bisect"
+alias gbir="git bisect reset"
+alias gg="git bisect good"
+alias bb="git bisect bad"
+
 # merge
 alias gme="git merge"
 alias gmff="git merge --ff-only"
