@@ -10,6 +10,7 @@
 # Exit code:                    $?
 # Redirect stdout:              1>
 # Redirect stderr:              2>
+# Symlink:                      ln -s source name
 
 #-------------------------#
 # CONSTANTS
