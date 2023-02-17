@@ -752,6 +752,7 @@ alias ya="yarn add"
 alias yad="yarn add --dev"
 alias yr="yarn remove"
 alias yl="yarn link"
+alias yul="yarn unlink"
 alias yga="yarn global add"
 alias ygr="yarn global remove"
 
