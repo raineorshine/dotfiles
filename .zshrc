@@ -451,6 +451,12 @@ alias gcha="git cherry-pick --abort"
 alias gchc="git cherry-pick --continue"
 alias gchs="git cherry-pick --skip"
 
+# revert
+alias gv="git revert"
+alias gva="git revert --abort"
+alias gvc="git revert --continue"
+alias gvs="git revert --skip"
+
 # misc
 alias a="amend"
 alias aa="aamend"
