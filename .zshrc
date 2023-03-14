@@ -287,7 +287,7 @@ dm() {
 }
 
 # add, amend, and force push to dotfiles repo
-daf() {
+dforce() {
   dir=$(pwd)
   cd "$dothome"
 
