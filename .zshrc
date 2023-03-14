@@ -483,6 +483,8 @@ alias gsl="git stash list | head -10"
 alias gsll="git stash list"
 alias gsn="git stash show --name-only"
 alias gsp="git stash pop"
+# exit detached HEAD state
+alias gsw="git switch -"
 alias gsd="git stash show -p"
 alias gsps="git stash show"
 alias gst="git stash"
