@@ -662,7 +662,12 @@ glt() {
   git log $(git describe --tags --abbrev=0)^..HEAD --oneline
 }
 
+# git checkout last tag
+gcit() {
+  git checkout $(git describe --tags --abbrev=0)^
+}
 
+# rebase back to last tag
 grit() {
   git rebase --interactive $(git describe --tags --abbrev=0)^
 }
@@ -739,7 +744,6 @@ alias nisd="npm install --save-dev"
 alias nun="npm uninstall"
 alias nus="npm uninstall --save"
 alias nusd="npm uninstall --save-dev"
-alias nls="npm ls --depth=0"
 alias npmo="npm outdated --depth=0"
 alias nr="npm run"
 alias ns="npm start"
@@ -766,6 +770,15 @@ alias yl="yarn link"
 alias yul="yarn unlink"
 alias yga="yarn global add"
 alias ygr="yarn global remove"
+
+nls() {
+  if [ $# -eq 0 ]
+  then
+    npm ls --depth=0
+  else
+    npm ls "$@"
+  fi
+}
 
 # show a package's tags
 dt() {
