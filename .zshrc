@@ -442,6 +442,7 @@ alias griiii="git rebase --interactive head^^^^"
 alias griiiii="git rebase --interactive head^^^^^"
 alias gra="git rebase --abort"
 alias grc="git rebase --continue"
+alias garc="git add -A && git -c core.editor=true rebase --continue"
 alias grk="git rebase --skip"
 
 # cherry-pick
