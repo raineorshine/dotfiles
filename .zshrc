@@ -440,7 +440,6 @@ alias grii="git rebase --interactive head^^"
 alias griii="git rebase --interactive head^^^"
 alias griiii="git rebase --interactive head^^^^"
 alias griiiii="git rebase --interactive head^^^^^"
-alias grid="git rebase --interactive origin/dev"
 alias gra="git rebase --abort"
 alias grc="git rebase --continue"
 alias grk="git rebase --skip"
@@ -667,9 +666,14 @@ gcit() {
   git checkout $(git describe --tags --abbrev=0)^
 }
 
-# rebase back to last tag
+# rebase to last tag (inclusive)
 grit() {
   git rebase --interactive $(git describe --tags --abbrev=0)^
+}
+
+# rebase to origin/CURRENT_BRANCH (exclusive)
+grid() {
+  git rebase --interactive origin/$(git rev-parse --abbrev-ref HEAD)
 }
 
 # list branches in reverse chronological order (using for-each-ref)
