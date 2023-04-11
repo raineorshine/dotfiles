@@ -741,6 +741,7 @@ rmc() {
 #-------------------------#
 
 alias ni="npm install"
+alias niu="npm install && npm update"
 alias nig="npm install --location=global"
 alias nug="npm uninstall -g"
 alias nu="npm update"
