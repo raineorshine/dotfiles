@@ -741,6 +741,8 @@ rmc() {
 #-------------------------#
 
 alias ni="npm install"
+# if the dependency is already in devDependencies, --save is needed to add it to dependencies
+alias nis="npm install --save"
 alias niu="npm install && npm update"
 alias nig="npm install --location=global"
 alias nug="npm uninstall -g"
