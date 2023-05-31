@@ -287,7 +287,7 @@ dm() {
 }
 
 # add, amend, and force push to dotfiles repo
-dforce() {
+damend() {
   dir=$(pwd)
   cd "$dothome"
 
@@ -477,8 +477,6 @@ alias grhhhh='git reset --hard head^^^'
 alias grhhhhh='git reset --hard head^^^^'
 alias grhhhhhh='git reset --hard head^^^^^'
 alias grm="git remote -v"
-alias grma="git remote add && git remote -v"
-alias grmr="git remote remove && git remote -v"
 alias gs="git status"
 alias gsc="gc stash@{0}"
 alias gsl="git stash list | head -10"
@@ -705,6 +703,18 @@ gbda() {
       git push origin --delete ${branch}
     fi
   done
+}
+
+# git remote add
+grma() {
+  git remote add "$@" &&
+  git remote -v
+}
+
+# git remote remove
+grmr() {
+  git remote remove "$@" &&
+  git remote -v
 }
 
 # stash console.logs
