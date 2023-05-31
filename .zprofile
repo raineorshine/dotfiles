@@ -9,7 +9,7 @@ export PATH="~/bin:$PATH"
 export PATH=$HOME/local/bin:$PATH
 export PATH="/Users/raine/Library/pnpm:$PATH"
 
-export EDITOR='subl -w'
+export EDITOR='code'
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:pwd:gs:gulp:gd:push:pull:p"
 export TZ='America/New York'
