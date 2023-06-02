@@ -76,7 +76,7 @@ alias lst50="ls -AGFplht --color=always | grep -v .DS_Store | head -50"
 alias m="mocha"
 alias mb="mocha --bail"
 alias n="notify"
-alias pro="subl $dothome/.zprofile"
+alias pro="$EDITOR $dothome/.zprofile"
 alias rmrf="rm -rf"
 alias so="source $dothome/.zshrc"
 # strip colors
@@ -209,12 +209,12 @@ prev() {
 # edit .zhrc file
 rc() {
   dd
-  subl "$dothome/.zshrc"
+  $EDITOR "$dothome/.zshrc"
 }
 
 # edit .npmrc file
 nrc() {
-  subl ~/.npmrc
+  $EDITOR ~/.npmrc
 }
 
 rl() {
@@ -399,7 +399,7 @@ alias gd1="git diff head^ head"
 alias gd2="git diff head^^ head"
 alias gd3="git diff head^^^ head"
 alias gdp="git diff package.json"
-alias fix="git diff --name-only | uniq | xargs subl -n"
+alias fix="git diff --name-only | uniq | xargs $EDITOR -n"
 
 # log
 alias gl="git log"
@@ -884,7 +884,7 @@ nf() {
 # edit karabiner.json
 kar() {
   kardiff
-  subl ~/.config/karabiner/karabiner.json
+  $EDITOR ~/.config/karabiner/karabiner.json
 }
 
 # pushd to ~/.config/karabiner
