@@ -10,6 +10,7 @@ export PATH=$HOME/local/bin:$PATH
 export PATH="/Users/raine/Library/pnpm:$PATH"
 
 export EDITOR='code'
+export GIT_EDITOR='vim'
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:pwd:gs:gulp:gd:push:pull:p"
 export TZ='America/New York'
