@@ -368,9 +368,9 @@ alias up='git pull upstream $(git rev-parse --abbrev-ref HEAD)'
 
 # bisect
 alias gbi="git bisect"
+alias gbil="git bisect log"
 alias gbir="git bisect reset"
 alias gg="git bisect good"
-alias bb="git bisect bad"
 
 # merge
 alias gme="git merge"
@@ -746,6 +746,17 @@ rmc() {
 
   # reset the TEMP commit so the original changes minus console.logs are restored
   git reset --quiet head^
+}
+
+# start bisecting if we are not already, and then call git bisect bad
+bb() {
+  LOG=$(git bisect log &>/dev/null)
+  if [ "$?" -eq 1 ]
+  then
+    echo "starting bisect"
+    git bisect start &>/dev/null
+  fi
+  git bisect bad
 }
 
 #-------------------------#
