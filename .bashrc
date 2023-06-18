@@ -80,9 +80,9 @@ alias lst50="ls -AGFplht --color=always | grep -v .DS_Store | head -50"
 alias m="mocha"
 alias mb="mocha --bail"
 alias n="notify"
-alias pro="$EDITOR $dothome/.zprofile"
+alias pro="$EDITOR $dothome/.bash_profile"
+alias zpro="$EDITOR $dothome/.zprofile"
 alias rmrf="rm -rf"
-alias so="source $dothome/.zshrc"
 # strip colors
 alias strip='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g"'
 alias t="type -af"
@@ -100,6 +100,11 @@ alias xap="xargs -p -S 100000 -I%"
 
 # https://rtyley.github.io/bfg-repo-cleaner/
 alias bfg="java -jar /usr/local/bin/bfg.jar"
+
+
+so() {
+  source $dothome/.bashrc
+}
 
 # prompt the user with a y/n question
 confirm() {
@@ -202,8 +207,14 @@ prev() {
   history "-$n" | head -1 | sed 's/^ *[[:digit:]]* *//'
 }
 
-# edit .zhrc file
+# edit .bashrc file
 rc() {
+  dd
+  $EDITOR "$dothome/.bashrc"
+}
+
+# edit .zhrc file
+zrc() {
   dd
   $EDITOR "$dothome/.zshrc"
 }

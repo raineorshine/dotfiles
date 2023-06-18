@@ -5,6 +5,10 @@
 
 source ~/.bashrc
 
+so() {
+  source $dothome/.zshrc
+}
+
 alias git=hub
 
 # project directory
