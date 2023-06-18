@@ -44,3 +44,27 @@ alias stripr=sed 's/\w*✓//'
 
 # set window title to current working directory after returning from a command
 precmd() { echo -ne "\e]1;${PWD##*/}\a" }
+
+# lazy load nvm
+# https://github.com/nvm-sh/nvm/issues/2724#issuecomment-1336537635
+lazy_load_nvm() {
+  unset -f node npm nvm
+  export NVM_DIR=~/.nvm
+  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+}
+
+node() {
+  lazy_load_nvm
+  node $@
+}
+
+npm() {
+  lazy_load_nvm
+  npm $@
+}
+
+nvm() {
+  lazy_load_nvm
+  nvm $@
+}

@@ -5,3 +5,7 @@
 # Put aliases, functions, and most everything except environment variables here.
 
 source ~/.bash_profile
+
+export PATH="~/Library/pnpm:$PATH"
+export PATH="~/Library/Haskell/bin:$PATH"
+export PATH="/Library/Frameworks/Python.framework/Versions/3.3/bin:${PATH}"

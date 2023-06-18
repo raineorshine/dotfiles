@@ -1024,27 +1024,3 @@ PROMPT="%F{yellow}%n%f%F{cyan}[%1~]%# %f"
 
 # added by travis gem
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
-
-# lazy load nvm
-# https://github.com/nvm-sh/nvm/issues/2724#issuecomment-1336537635
-lazy_load_nvm() {
-  unset -f node npm nvm
-  export NVM_DIR=~/.nvm
-  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-}
-
-node() {
-  lazy_load_nvm
-  node $@
-}
-
-npm() {
-  lazy_load_nvm
-  node $@
-}
-
-nvm() {
-  lazy_load_nvm
-  node $@
-}
