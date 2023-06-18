@@ -19,9 +19,6 @@ if &t_Co > 2 || has("gui_running")
   syntax on
 endif
 
-" set color scheme
-colo	slate
-
 " === Key Mappings =====================================================
 
 " quick preferences (edit this file)
@@ -229,9 +226,6 @@ set nofoldenable " disable folding
 
 "autocmd BufWritePost *.coffee call xolox#shell#execute('coffee ' . expand('%') . ' ' . expand('%') . '.js', 0)
 
-" default filetype is markdown
-autocmd BufEnter * if &filetype == "" | setlocal ft=mkd | endif
-
 " Why I can't use Unicode in Vim even though I'd like to
 "   (see :help map-alt-keys, and :help beos-meta)
 " ------------------------------------------------------
@@ -241,3 +235,10 @@ autocmd BufEnter * if &filetype == "" | setlocal ft=mkd | endif
 " precludes the use of ALT in any key mappings.  (latin1 does use the 8th bit, so I'm not sure why this
 " problem occurs with unicode and not latin1...)
 
+" NOTE: slate may not be installed in some versions of vim
+" set color scheme
+colo slate
+
+" NOTE: autocmd may not be available in some versions of vim
+" default filetype is markdown
+autocmd BufEnter * if &filetype == "" | setlocal ft=mkd | endif
