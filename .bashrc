@@ -260,9 +260,11 @@ wl() {
 
 # push/pull/fetch
 alias push="git push origin HEAD"
+alias pushn="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify"
 alias pusht="git push && git push --no-verify --tags"
 alias pushh="git push && git push --no-verify heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
 alias pushu="git push -u origin HEAD"
+alias forcen="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify --force"
 alias ff="git pull --ff-only"
 alias ffd="git pull --ff-only origin dev"
 alias gf="git fetch"
