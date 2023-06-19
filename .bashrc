@@ -40,9 +40,7 @@ alias ....="cd ..;cd ..;cs .."
 alias .....="cd ..;cd ..;cd ..;cs .."
 alias b="pushd +1 >& /dev/null"
 alias backupsublime="~/Library/Application\ Support/Sublime\ Text/backup.sh"
-alias brave='open -a Brave\ Browser'
 alias c="pbcopy"
-alias chrome='open -a Google\ Chrome'
 alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 alias fb="firebase"
 alias fd="firebase deploy --only hosting"
@@ -137,12 +135,6 @@ cps() {
   cs "$2"
 }
 
-# icloud directory
-ic() {
-  pushd ~/Library/Mobile\ Documents/com~apple~CloudDocs/Documents &> /dev/null
-  ls
-}
-
 # read markdown file with marked-terminal-cli and pass to less
 lessmd() {
   FORCE_COLOR=1 marked-terminal-cli "$@" | less -r
@@ -167,10 +159,6 @@ mang() {
 md() {
   mkdir -p "$@"
   cd "$@"
-}
-
-notify() {
-  /usr/bin/osascript -e "display notification \"$*\" with title \"Notification\""
 }
 
 # create a blank package.json in the current folder if it does not exist
@@ -228,11 +216,6 @@ rl() {
   which "$@" | xargs readlink
 }
 
-# Secure directory
-s() {
-  pushd ~/Documents/Secure &> /dev/null
-}
-
 # empty the temp directory and cd there
 temp() {
   rm -rf /tmp/temp ;
@@ -269,90 +252,6 @@ trim() {
 # display [w]here a sym[l]inked executable is pointing
 wl() {
   which "$@" | xargs ls -lG
-}
-
-#-------------------------#
-# dotfiles
-#-------------------------#
-
-# add, commit, and push to dotfiles repo
-dm() {
-  dir=$(pwd)
-  cd "$dothome"
-
-  # supply commit message as argument
-  # or default to timestamp
-  args="$@"
-  msg=${args:="backup `date +%F-%T`"}
-
-  so &&
-  git add -A &&
-  git commit -m "$msg"
-  git push
-
-  cd "$dir"
-}
-
-# add, amend, and force push to dotfiles repo
-damend() {
-  dir=$(pwd)
-  cd "$dothome"
-
-  so &&
-  git add -A &&
-  git commit --amend --no-edit
-  git push --force
-
-  cd "$dir"
-}
-
-# open dotfiles repo
-dbro() {
-  open "https://github.com/raineorshine/dotfiles"
-}
-
-# change directory to ~/projects/dotfiles
-dcs() {
-  cs $dothome
-}
-
-# diff the dotfiles repo
-# overrides unused /bin/dd
-dd() {
-  dir=$(pwd)
-  cd "$dothome"
-
-  git --no-pager diff --exit-code --color=always ||
-  echo -e "\nRun 'dm' to commit dotfile changes"
-
-  cd "$dir"
-}
-
-#-------------------------#
-# gpg
-#-------------------------#
-
-alias gpg="gpg2 -o -"
-alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
-
-# encrypt and pipe to stdout
-gpge() {
-  # requires "brew install gnupg"
-  gpg -er raine
-}
-
-# encrypt ascii armored and pipe to stdout
-# e.g. gpga < file.txt > file.txt.asc
-gpga() {
-  # requires "brew install gnupg"
-  gpg -ear raine
-}
-
-# decrypt an image and pipe to Preview.app
-gpgi() {
-  # http://apple.stackexchange.com/questions/175977/preview-image-from-pipe/175981#175981
-  # man open | grep -C 3 "\-f"
-  gpg -o - "$@" | open -a Preview.app -f
 }
 
 #-------------------------#
@@ -822,11 +721,6 @@ dt() {
   npm view "$@" dist-tags
 }
 
-# browse the home page of an npm module
-nbro() {
-  npm view "$@" homepage | xargs open
-}
-
 # npm view short
 nvs() {
   underline=`tput smul`
@@ -891,38 +785,6 @@ nf() {
   npm pack
   tar -tzf $tarfile
   rm -rf $tarfile
-}
-
-#-------------------------#
-# Karabiner
-#-------------------------#
-
-# edit karabiner.json
-kar() {
-  kardiff
-  $EDITOR ~/.config/karabiner/karabiner.json
-}
-
-# pushd to ~/.config/karabiner
-kardir() {
-  kardiff
-  pushd ~/.config/karabiner
-}
-
-# diff karabiner-config
-kardiff() {
-  dir=$(pwd)
-  cd ~/.config/karabiner
-  git --no-pager diff
-  cd "$dir"
-}
-
-# pull karabiner-config
-karpull() {
-  dir=$(pwd)
-  cd ~/.config/karabiner
-  git pull
-  cd "$dir"
 }
 
 #-------------------------#
