@@ -662,6 +662,12 @@ bb() {
   git bisect bad
 }
 
+# git tag delete on local and remote
+gtd() {
+  git tag --delete $1 &&
+  git push --delete origin $1
+}
+
 #-------------------------#
 # npm
 #-------------------------#
