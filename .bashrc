@@ -315,12 +315,10 @@ alias gl3="git log -3"
 alias gl4="git log -4"
 alias gl5="git log -5"
 alias gl5="git log -5"
-alias gl6="git log -5"
-alias gl7="git log -5"
-alias gl8="git log -5"
-alias gl9="git log -5"
-alias glo="git log --oneline -10"
-alias gloo="git log --oneline"
+alias gl6="git log -6"
+alias gl7="git log -7"
+alias gl8="git log -8"
+alias gl9="git log -9"
 alias gl10="git log --oneline -10"
 alias gl20="git log --oneline -20"
 alias gl30="git log --oneline -30"
@@ -666,6 +664,16 @@ bb() {
 gtd() {
   git tag --delete $1 &&
   git push --delete origin $1
+}
+
+# git log --oneline
+# default to 10
+glo() {
+  if [ $# -eq 0 ]; then
+    git log --oneline -10
+  else
+    git log --oneline "$@"
+  fi
 }
 
 #-------------------------#
