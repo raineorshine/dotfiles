@@ -769,20 +769,23 @@ nvt() {
   npm view "$@" time
 }
 
-# bump the version, push, and publish
+# bump the version, push, and publish to latest
 npub() {
-
-  if [ $# -eq 0 ]
-  then
-    echo "You must specify major | minor | patch | premajor | preminor | prepatch | prerelease" >&2
+  case $1 in
+    pre*)
+      echo "Prereleases should not be published to latest" >&2
+      return 1
+    ;;
+    major|minor|patch)
+      npm version "$@" &&
+      git push &&
+      git push --no-verify --tags &&
+      npm publish
+    ;;
+    *)
+    echo "You must specify major | minor | patch" >&2
     return 1
-  else
-    npm version "$@" &&
-    git push &&
-    git push --no-verify --tags &&
-    npm publish
-  fi
-
+  esac
 }
 
 # show files that will be published to npm
