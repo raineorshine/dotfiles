@@ -364,8 +364,11 @@ alias gvs="git revert --skip"
 alias a="amend"
 alias aa="aamend"
 alias ga="git add -A"
+# amend-to a given commit or :/search pattern
 alias gaat="ga && gat"
+# amend-to second-to-last commit
 alias gaatt="ga && gat head^"
+# amend-to third-to-last commit
 alias gaattt="ga && gat head^^"
 alias gbro="git browse"
 alias gc="git checkout"
