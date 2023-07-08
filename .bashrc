@@ -276,7 +276,6 @@ alias up='git pull upstream $(git rev-parse --abbrev-ref HEAD)'
 alias gbi="git bisect"
 alias gbil="git bisect log"
 alias gbir="git bisect reset"
-alias gg="git bisect good"
 
 # merge
 alias gme="git merge"
@@ -649,15 +648,26 @@ rmc() {
   git reset --quiet head^
 }
 
-# start bisecting if we are not already, and then call git bisect bad
-bb() {
+# start bisecting if we are not already, and then call git bisect [value]
+bisect() {
   LOG=$(git bisect log &>/dev/null)
   if [ "$?" -eq 1 ]
   then
     echo "starting bisect"
     git bisect start &>/dev/null
   fi
-  git bisect bad
+
+  git bisect $1
+}
+
+# start bisecting if we are not already, and then call git bisect bad
+gg() {
+  bisect good
+}
+
+# start bisecting if we are not already, and then call git bisect good
+bb() {
+  bisect bad
 }
 
 # git tag delete on local and remote
