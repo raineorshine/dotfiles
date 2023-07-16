@@ -61,7 +61,6 @@ alias h6="head -6"
 alias h7="head -7"
 alias h8="head -8"
 alias h9="head -9"
-alias h="cs ~"
 alias less="less -R" # --raw-control-chars to parse color codes
 alias lr="lessmd README.md"
 alias ls="ls -GF"
@@ -252,6 +251,20 @@ trim() {
 # display [w]here a sym[l]inked executable is pointing
 wl() {
   which "$@" | xargs ls -lG
+}
+
+# man with support for builtins
+h () {
+  case $(type $1) in
+    *"shell builtin"*)
+      if [[ -n $ZSH_VERSION ]]; then
+        man zshbuiltins | less -p "^       $1 "
+      else
+        man bash | less -p "^       $1 "
+      fi
+    ;;
+    *) man "$1";;
+  esac
 }
 
 #-------------------------#
