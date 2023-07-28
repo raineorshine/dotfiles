@@ -702,6 +702,11 @@ glo() {
   fi
 }
 
+# show the changes from a specific commit
+gdd() {
+  git diff "$@"^ "$@"
+}
+
 #-------------------------#
 # npm
 #-------------------------#
