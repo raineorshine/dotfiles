@@ -9,6 +9,7 @@ export PATH="/usr/local/heroku/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="~/bin:$PATH"
 export PATH="~/local/bin:$PATH"
+export PATH="/Users/raine/Library/pnpm:$PATH"
 
 export EDITOR='code'
 export GIT_EDITOR='vim'
