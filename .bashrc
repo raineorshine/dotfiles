@@ -87,6 +87,9 @@ alias tra="npx trash-cli"
 alias traa="npx trash-cli ./*"
 alias tw="npx tsc --watch"
 alias v="pbpaste"
+alias va="v > /tmp/a"
+alias vb="v > /tmp/b"
+alias vc="v > /tmp/c"
 # xargs using placeholder %
 # increase replstr size (-I)
 alias xa="xargs -S 100000 -I%"
