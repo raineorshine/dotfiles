@@ -243,3 +243,6 @@ gpgi() {
   # man open | grep -C 3 "\-f"
   gpg -o - "$@" | open -a Preview.app -f
 }
+
+# bun completions
+[ -s "/Users/raine/.bun/_bun" ] && source "/Users/raine/.bun/_bun"
