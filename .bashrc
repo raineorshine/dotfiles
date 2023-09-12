@@ -748,6 +748,7 @@ alias nrd="npm run deploy && pusht"
 alias nrs="npm run deploy:staging"
 alias pi="pnpm install"
 
+# yarn
 alias y="yarn"
 alias ya="yarn add"
 alias yad="yarn add --dev"
@@ -757,6 +758,16 @@ alias yu="yarn upgrade"
 alias yul="yarn unlink"
 alias yga="yarn global add"
 alias ygr="yarn global remove"
+
+# bun
+alias ba="bun add"
+alias bag="bun add --global"
+alias bi="bun install"
+alias big="bun install"
+alias br="bun run"
+alias brg="bun remove --global"
+alias bl="bun link"
+alias bu="bun upgrade"
 
 nls() {
   if [ $# -eq 0 ]
