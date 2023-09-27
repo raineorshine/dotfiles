@@ -167,14 +167,15 @@ md() {
 # https://gist.github.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56
 # raw url must be updated if modified
 pkg() {
-  cachedPkg="$HOME/package.new.json"
-  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/c80a67b1b5651b6551393ed6c7bc82c835b0d6b4/new-package.json"
+  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/d1e78693e8bf8983e6a46dcfcd04c2629b0ef2e2/package.json"
+  dest="$HOME/package.new.json"
+
   if [ ! -f ./package.json ]; then
-    if [ ! -f $cachedPkg ]; then
+    if [ ! -f $dest ]; then
       echo "Copying"
-      curl $src > $cachedPkg
+      curl $src > $dest
     fi
-    cp $cachedPkg ./package.json
+    cp $dest ./package.json
     echo "package.json created"
   else
     echo "package.json already exists"
