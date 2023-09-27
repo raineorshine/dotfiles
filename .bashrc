@@ -167,7 +167,7 @@ md() {
 # https://gist.github.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56
 # raw url must be updated if modified
 pkg() {
-  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/d1e78693e8bf8983e6a46dcfcd04c2629b0ef2e2/package.json"
+  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/47569f9278b52043f509c0e61d3436f130412524/package.json"
   dest="$HOME/package.new.json"
 
   if [ ! -f ./package.json ]; then
