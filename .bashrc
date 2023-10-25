@@ -92,9 +92,9 @@ alias vb="v > /tmp/b"
 alias vc="v > /tmp/c"
 # xargs using placeholder %
 # increase replstr size (-I)
-alias xa="xargs -S 100000 -I%"
-# interactive (useful for dry run)
-alias xap="xargs -p -S 100000 -I%"
+alias xa="xargs --verbose -S 100000 -I%"
+# interactive prompts for y/n
+alias xap="xargs --verbose --interactive -S 100000 -I%"
 
 # alias mysqld="sudo mysqld_safe --skip-grant-tables --port=3306"
 
