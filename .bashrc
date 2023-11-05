@@ -321,6 +321,7 @@ alias gd1="git diff head^ head"
 alias gd2="git diff head^^ head"
 alias gd3="git diff head^^^ head"
 alias gdp="git diff package.json"
+alias gdsp="git diff --staged package.json"
 alias fix="git diff --name-only | uniq | xargs $EDITOR -n"
 
 # log
