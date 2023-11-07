@@ -1,0 +1,310 @@
+// VS Code - User Key Bindings
+// ~/Library/Application Support/Code/User/keybindings.json
+[
+  {
+    "key": "n",
+    "command": "notebook.focusNextEditor",
+    "when": "editorTextFocus && inputFocus && notebookEditorFocused && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'none' && notebookEditorCursorAtBoundary != 'top'"
+  },
+  {
+    "key": "j",
+    "command": "-notebook.focusNextEditor",
+    "when": "editorTextFocus && inputFocus && notebookEditorFocused && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'none' && notebookEditorCursorAtBoundary != 'top'"
+  },
+  {
+    "key": "e",
+    "command": "notebook.focusPreviousEditor",
+    "when": "editorTextFocus && inputFocus && notebookEditorFocused && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'bottom' && notebookEditorCursorAtBoundary != 'none'"
+  },
+  {
+    "key": "k",
+    "command": "-notebook.focusPreviousEditor",
+    "when": "editorTextFocus && inputFocus && notebookEditorFocused && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'bottom' && notebookEditorCursorAtBoundary != 'none'"
+  },
+  {
+    "key": "cmd+e",
+    "command": "extension.vim_ctrl+u",
+    "when": "editorTextFocus && vim.active && vim.use<C-u> && !inDebugRepl"
+  },
+  {
+    "key": "cmd+e",
+    "command": "list.focusPageUp",
+    "when": "listFocus && !inputFocus"
+  },
+  {
+    "key": "cmd+t",
+    "command": "workbench.action.files.newUntitledFile"
+  },
+  {
+    "key": "cmd+n",
+    "command": "-workbench.action.files.newUntitledFile"
+  },
+  {
+    "key": "cmd+n",
+    "command": "extension.vim_ctrl+d",
+    "when": "editorTextFocus && vim.active && vim.use<C-d> && !inDebugRepl"
+  },
+  {
+    "key": "cmd+n",
+    "command": "list.focusPageDown",
+    "when": "listFocus && !inputFocus"
+  },
+  {
+    "key": "ctrl+d",
+    "command": "-list.focusPageDown",
+    "when": "listFocus && !inputFocus"
+  },
+  {
+    "key": "e",
+    "command": "list.focusUp",
+    "when": "listFocus && !inputFocus"
+  },
+  {
+    "key": "k",
+    "command": "-list.focusUp",
+    "when": "listFocus && !inputFocus"
+  },
+  {
+    "key": "k",
+    "command": "extension.vim_insert",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal'"
+  },
+  // Move the cursor by each display line on wrapped lines.
+  // Must map up/down as well to support Vi Mode in Karabiner Elements.
+  // https://github.com/VSCodeVim/Vim#-faq
+  {
+    "key": "up",
+    "command": "cursorUp",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+  },
+  {
+    "key": "down",
+    "command": "cursorDown",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+  },
+  {
+    "key": "e",
+    "command": "cursorUp",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+  },
+  // remap cursor down for soft-wrapped lines
+  // The cursorDown command is preferable over remapping to ["g", "n"] in vim.normalModeKeyBindings, which does not preserve the cursor's horizontal position when moving across a smaller line.
+  {
+    "key": "n",
+    "command": "cursorDown",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+  },
+  {
+    "key": "escape",
+    "command": "runCommands",
+    "args": {
+      // typing in the find widget occurs in visual mode, so we need to trigger an additional vim_escape to enter normal mode
+      "commands": ["closeFindWidget", "extension.vim_escape"]
+    },
+    "when": "editorFocus && findWidgetVisible"
+  },
+  {
+    "key": "alt+cmd+d",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "cmd+r",
+    "command": "editor.action.rename",
+    "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "alt+j",
+    "command": "editor.action.joinLines",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+cmd+backspace",
+    "command": "delete-file-and-keep-open.deleteAndKeepOpen"
+  },
+  {
+    "key": "shift+alt+s",
+    "command": "editor.action.sortLinesAscending"
+  },
+  {
+    "key": "/",
+    "command": "actions.find",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "alt+cmd+r",
+    "command": "references-view.findReferences",
+    "when": "editorHasReferenceProvider"
+  },
+  {
+    "key": "alt+cmd+r",
+    "command": "-toggleFindRegex",
+    "when": "editorFocus"
+  },
+  {
+    "key": "shift+cmd+r",
+    "command": "filebunny.renameActiveFile"
+  },
+  {
+    "key": "ctrl+cmd+g",
+    "command": "editor.action.selectHighlights",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+cmd+/",
+    "command": "editor.action.blockComment",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "shift+alt+a",
+    "command": "-editor.action.blockComment",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  // {
+  //   "key": "alt+cmd+r",
+  //   "command": "revealFileInOS",
+  //   "when": "!editorFocus"
+  // },
+
+  /***************************************************************
+   * Find widget
+   ***************************************************************/
+
+  // limit toggleFindSeachRegex to findWidgetVisible
+  {
+    "key": "alt+cmd+r",
+    "command": "-toggleSearchRegex",
+    "when": "searchViewletFocus"
+  },
+  {
+    "key": "alt+cmd+r",
+    "command": "toggleFindRegex",
+    "when": "findWidgetVisible"
+  },
+  {
+    "key": "alt+cmd+r",
+    "command": "toggleSearchEditorRegex",
+    "when": "inSearchEditor && searchInputBoxFocus"
+  },
+
+  // add when clause so that copyFilePath does not interfere with toggleFindCaseSensitive
+  {
+    "key": "alt+cmd+c",
+    "command": "-copyFilePath",
+    "when": "!editorFocus"
+  },
+  {
+    "key": "alt+cmd+c",
+    "command": "copyFilePath",
+    "when": "!inSearchEditor && !searchInputBoxFocus && !findWidgetVisible"
+  },
+
+  // limit toggleFindWholeWord to findWidgetVisible
+  {
+    "key": "alt+cmd+w",
+    "command": "-toggleFindWholeWord",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+cmd+w",
+    "command": "toggleFindWholeWord",
+    "when": "findWidgetVisible"
+  },
+
+  // allow trigger suggest in normal mode
+  {
+    "key": "ctrl+space",
+    "command": "editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && !editorReadonly && !suggestWidgetVisible && (textInputFocus || vim.mode == 'Normal')"
+  },
+  {
+    "key": "alt+cmd+e",
+    "command": "merge.goToPreviousUnhandledConflict"
+  },
+  {
+    "key": "shift+alt+t",
+    "command": "editor.action.selectToBracket"
+  },
+  {
+    "key": "shift+space",
+    "command": "editor.action.showDefinitionPreviewHover",
+    // only in normal mode, otherwise there are false positives when typing
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  // next file change
+  {
+    "key": "alt+cmd+n",
+    "command": "runCommands",
+    "args": {
+      // I have not found a when context for either of these commands, so run both as a workaround
+      "commands": ["workbench.action.editor.nextChange", "editor.action.marker.next"],
+    },
+    "when": "editorTextFocus && !textCompareEditorActive && !hasConflicts",
+  },
+  // previous file change
+  {
+    "key": "alt+cmd+e",
+    "command": "runCommands",
+    "args": {
+      // I have not found a when context for either of these commands, so run both as a workaround
+      "commands": ["workbench.action.editor.previousChange", "editor.action.marker.prev"],
+    },
+    "when": "editorTextFocus && !textCompareEditorActive && !hasConflicts",
+  },
+  // next merge conflict
+  {
+    "key": "alt+cmd+n",
+    "command": "merge-conflict.next",
+    "when": "editorTextFocus && hasConflicts",
+  },
+  // prev merge conflict
+  {
+    "key": "alt+cmd+e",
+    "command": "merge-conflict.prev",
+    "when": "editorTextFocus && hasConflicts",
+  },
+  // See: next file change and prev file change
+  // // next error
+  // {
+  //   "key": "alt+cmd+n",
+  //   "command": "editor.action.marker.next",
+  //   "when": "editorTextFocus && !textCompareEditorActive",
+  // },
+  // // prev error
+  // {
+  //   "key": "alt+cmd+e",
+  //   "command": "editor.action.marker.prev",
+  //   "when": "editorTextFocus && !textCompareEditorActive",
+  // },
+  {
+    "key": "shift+cmd+l",
+    "command": "editor.action.insertCursorAtEndOfEachLineSelected",
+    "when": "editorTextFocus"
+  },
+  // toggle between terminal and editor focus
+  {
+    "key":     "alt+tab",
+    "command": "workbench.action.terminal.focus"
+  },
+  {
+    "key":     "alt+tab",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when":    "terminalFocus"
+  },
+  // change leaper.leap shortcut since it interferes with GitHub Copilot
+  {
+    "key": "tab",
+    "command": "-leaper.leap",
+    "when": "editorTextFocus && leaper.hasLineOfSight && leaper.inLeaperMode && !editorHasSelection && !editorTabMovesFocus && !suggestWidgetVisible"
+  },
+  {
+    "key": "cmd+l",
+    "command": "-expandLineSelection",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "cmd+l",
+    "command": "leaper.leap",
+    "when": "editorTextFocus && leaper.hasLineOfSight && leaper.inLeaperMode && !editorHasSelection && !editorTabMovesFocus && !suggestWidgetVisible"
+  },
+]
