@@ -2,14 +2,15 @@
   "name": "dotfiles",
   "version": "0.0.0",
   "author": "Raine Revere",
-  "description": "Raine's dotfiles",
+  "description": "Raine's personal dotfiles and editor settings.",
   "repository": {
     "type": "git",
     "url": "https://github.com/raineorshine/dotfiles"
   },
   "keywords": [
     "dotfiles",
-    "bashrc"
+    "bashrc",
+    "zshrc"
   ],
   "engines": {
     "node": "10.15.0"
@@ -19,7 +20,6 @@
     "url": "https://github.com/raineorshine/dotfiles/issues"
   },
   "homepage": "https://github.com/raineorshine/dotfiles",
-  "reporitory": "https://github.com/raineorshine/dotfiles",
   "dependencies": {
     "cint": "^6",
     "glob": "^3",

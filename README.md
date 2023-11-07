@@ -1,23 +1,19 @@
-Store your dotfiles in a repo and symlink them to your home directory.
+Raine's personal dotfiles and editor settings.
 
-This repo also contains my personal dotfiles.
-
-**Note:** The gulp app is a legacy project requiring node `v10.15.0` for gulp `v3`. The dotfiles themselves however are up-to-date and quite usable.
+Files are stored in the repo and then symlinked to their respective system directories.
 
 ## Usage
 
-Setup:
+Add new files to the repo:
 
-```
-gulp setup
-```
+1. `cd ~/projects/dotfiles`
+2. `mv ~/.zprofile .`
+3. `ln -s .zprofile ~/.zprofile`
 
-Add new dotfiles to the repo:
+## Gulp
 
-1. `cp ~/.zprofile .`
-2. `gulp setup`
+This repo also contains a legacy gulp app that handles setup, backup, and restoration of root dotfiles.
 
-## Gulp Tasks
 <table>
 	<tr>
 		<td><code>gulp&nbsp;setup</code></td>
