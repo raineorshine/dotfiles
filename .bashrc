@@ -400,7 +400,6 @@ alias grhhh='git reset --hard head^^'
 alias grhhhh='git reset --hard head^^^'
 alias grhhhhh='git reset --hard head^^^^'
 alias grhhhhhh='git reset --hard head^^^^^'
-alias grm="git remote -v"
 alias gs="git status"
 alias gsc="gc stash@{0}"
 alias gsl="git stash list | head -10"
@@ -624,6 +623,15 @@ gbda() {
       git push origin --delete ${branch}
     fi
   done
+}
+
+# git remote - verbose if no args
+grm() {
+  if [ $# -eq 0 ]; then
+    git remote -v
+  else
+    git remote "$@"
+  fi
 }
 
 # git remote add
