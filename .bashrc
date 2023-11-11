@@ -284,6 +284,7 @@ alias pushu="git push -u origin HEAD"
 alias forcen="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify --force"
 alias ff="git pull --ff-only"
 alias ffd="git pull --ff-only origin dev"
+alias ffu='git pull --ff-only upstream $(git rev-parse --abbrev-ref HEAD)'
 alias gf="git fetch"
 alias gfu="git fetch --unshallow"
 # pull upstream into current branch
