@@ -607,7 +607,13 @@
   "editor.accessibilitySupport": "off",
   "terminal.integrated.tabs.enabled": false,
   "workbench.activityBar.location": "hidden",
-  // set defaultFormatter only in workspace settings, not user settings
-  // otherwise it will override prettier.requireConfig in projects that do not use Prettier
+
+  // Do not set defaultFormatter here.
+  // Only set defaultFormatter only in workspace settings, otherwise it will override prettier.requireConfig in projects that do not use Prettier.
   // "editor.defaultFormatter": null
+
+  // https://github.com/Microsoft/vscode/issues/18401#issuecomment-272400316
+  "launch": {
+    "runtimeVersion": "default",
+	}
 }
