@@ -85,14 +85,14 @@
   {
     "key": "e",
     "command": "cursorUp",
-    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !vim.command && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
   },
   // remap cursor down for soft-wrapped lines
   // The cursorDown command is preferable over remapping to ["g", "n"] in vim.normalModeKeyBindings, which does not preserve the cursor's horizontal position when moving across a smaller line.
   {
     "key": "n",
     "command": "cursorDown",
-    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible"
+    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal' && !vim.command && !suggestWidgetMultipleSuggestions && !wuggestWidgetVisible"
   },
   {
     "key": "escape",
