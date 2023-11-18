@@ -170,12 +170,6 @@
    * Find widget
    ***************************************************************/
 
-  // limit toggleFindSeachRegex to findWidgetVisible
-  {
-    "key": "alt+cmd+r",
-    "command": "-toggleSearchRegex",
-    "when": "searchViewletFocus"
-  },
   {
     "key": "alt+cmd+r",
     "command": "toggleFindRegex",
