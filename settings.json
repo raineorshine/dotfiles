@@ -615,5 +615,14 @@
   // https://github.com/Microsoft/vscode/issues/18401#issuecomment-272400316
   "launch": {
     "runtimeVersion": "default",
-	}
+	},
+  "json.schemas": [
+    {
+      "fileMatch": [
+        ".ncurc",
+        ".ncurc.json",
+      ],
+      "url": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json"
+    }
+  ],
 }
