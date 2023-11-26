@@ -418,16 +418,24 @@ alias grhhhh='git reset --hard head^^^'
 alias grhhhhh='git reset --hard head^^^^'
 alias grhhhhhh='git reset --hard head^^^^^'
 alias gs="git status"
-alias gsc="gc stash@{0}"
+# git stash list 10
 alias gsl="git stash list | head -10"
+# git stash list all
 alias gsll="git stash list"
-alias gsn="git stash show --name-only"
+# git stash pop
 alias gsp="git stash pop"
+# git stash
+alias gst="git stash"
+# git stash show
+alias gss="git stash show"
+# git stash name only
+alias gsn="git stash show --name-only"
+# git stash show diff
+alias gsd="git stash show -p"
+# git stash checkout without popping
+alias gsc="gc stash@{0}"
 # exit detached HEAD state
 alias gsw="git switch -"
-alias gsd="git stash show -p"
-alias gsps="git stash show"
-alias gst="git stash"
 alias gt="git tag"
 alias sub="git submodule init && git submodule update"
 
