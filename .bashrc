@@ -63,11 +63,19 @@ alias h8="head -8"
 alias h9="head -9"
 alias less="less -R" # --raw-control-chars to parse color codes
 alias lr="lessmd README.md"
+# basic ls with colorized output (-G) and file type suffixes (-F)
 alias ls="ls -GF"
+# all files (-A), including hidden dot files
 alias lsa="ls -AGF"
+# long format (-l) with human readable sizes (-h)
 alias lsl="ls -AGFplh"
+# long format (-l) with exact byte sizes
+alias lsll="ls -AGFpl"
+# sort by most recent with forced color
 alias lstc="ls -AGFplht --color=always"
+# sort by most recent with forced color, exclude .DS_Store, and limit to 10
 alias lst="ls -AGFplht --color=always | grep -v .DS_Store | head -10"
+# sort by most recent
 alias lstt="ls -AGFplht"
 alias lst10="ls -AGFplht --color=always | grep -v .DS_Store | head -10"
 alias lst20="ls -AGFplht --color=always | grep -v .DS_Store | head -20"
