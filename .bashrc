@@ -98,9 +98,9 @@ alias v="pbpaste"
 alias va="v > /tmp/a"
 alias vb="v > /tmp/b"
 alias vc="v > /tmp/c"
-alias gdab="git diff /tmp/a /tmp/b"
-alias gdbc="git diff /tmp/b /tmp/c"
-alias gdac="git diff /tmp/a /tmp/c"
+alias dab="git diff /tmp/a /tmp/b"
+alias dbc="git diff /tmp/b /tmp/c"
+alias dac="git diff /tmp/a /tmp/c"
 # xargs using placeholder %
 # increase replstr size (-I)
 alias xa="xargs --verbose -S 100000 -I%"
