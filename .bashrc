@@ -99,8 +99,11 @@ alias va="v > /tmp/a"
 alias vb="v > /tmp/b"
 alias vc="v > /tmp/c"
 alias dab="git diff /tmp/a /tmp/b"
-alias dbc="git diff /tmp/b /tmp/c"
 alias dac="git diff /tmp/a /tmp/c"
+alias dba="git diff /tmp/b /tmp/a"
+alias dbc="git diff /tmp/b /tmp/c"
+alias dca="git diff /tmp/c /tmp/a"
+alias dcb="git diff /tmp/c /tmp/b"
 # xargs using placeholder %
 # increase replstr size (-I)
 alias xa="xargs --verbose -S 100000 -I%"
