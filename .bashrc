@@ -811,7 +811,29 @@ alias bs="bun start"
 alias brg="bun remove --global"
 alias bl="bun link"
 alias bu="bun upgrade"
-alias bw="bun run watch || bun run watch:ts"
+
+# bun watch or watch:ts
+bw() {
+
+  if [ ! -f package.json ]; then
+    echo "No package.json"
+    return 1
+  fi
+
+  jq -e < package.json .scripts.watch >/dev/null 2>&1
+  if [ "$?" -eq 0 ]; then
+    bun run watch
+    return
+  fi
+
+  jq -e < package.json '.scripts["watch:ts"]' >/dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    bun run watch:ts
+  else
+    echo "No watch or watch:ts scripts found"
+    return 1
+  fi
+}
 
 nls() {
   if [ $# -eq 0 ]
