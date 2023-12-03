@@ -723,7 +723,7 @@ gg() {
 }
 
 # start bisecting if we are not already, and then call git bisect good
-bb() {
+gbb() {
   bisect bad
 }
 
@@ -791,6 +791,7 @@ alias pi="pnpm install"
 # yarn
 alias y="yarn"
 alias ya="yarn add"
+alias yb="yarn build"
 alias yad="yarn add --dev"
 alias yr="yarn remove"
 alias yl="yarn link"
@@ -802,6 +803,7 @@ alias ygr="yarn global remove"
 # bun
 alias ba="bun add"
 alias bag="bun add --global"
+alias bb="bun run build"
 alias bi="bun install"
 alias big="bun install -g"
 alias br="bun run"
@@ -809,6 +811,7 @@ alias bs="bun start"
 alias brg="bun remove --global"
 alias bl="bun link"
 alias bu="bun upgrade"
+alias bw="bun run watch || bun run watch:ts"
 
 nls() {
   if [ $# -eq 0 ]
