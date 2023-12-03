@@ -743,6 +743,22 @@ glo() {
   fi
 }
 
+# git log message only
+# default to 10
+glom() {
+  if [ $# -eq 0 ]; then
+    message=$(git log --format=%s -10)
+  else
+    message=$(git log --format=%s "$@")
+  fi
+  echo -n $message
+}
+alias glom1="glom -1"
+alias glom2="glom -2"
+alias glom3="glom -3"
+alias glom4="glom -4"
+alias glom5="glom -5"
+
 # show the changes from a specific commit
 gdd() {
   git diff "$@"^ "$@"
