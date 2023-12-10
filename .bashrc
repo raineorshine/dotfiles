@@ -826,6 +826,8 @@ alias br="bun run"
 alias bs="bun start"
 alias brg="bun remove --global"
 alias bl="bun link"
+alias bt="bun test"
+alias brt="bun run test"
 alias bu="bun upgrade"
 
 # bun watch or watch:ts
