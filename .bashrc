@@ -851,6 +851,17 @@ bw() {
   fi
 }
 
+# bundlephobia-cli
+# packagephobia-cli was wrong
+# package-size doesn't work with bun
+bph() {
+  if [ $# -eq 0 ]; then
+    echo "Please specify a package name"
+    return 1
+  fi
+  bunx @grimmbraten/bundlephobia-cli "$@"
+}
+
 nls() {
   if [ $# -eq 0 ]
   then
