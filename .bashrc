@@ -818,6 +818,7 @@ alias ygr="yarn global remove"
 
 # bun
 alias ba="bun add"
+alias bad="bun add --dev"
 alias bag="bun add --global"
 alias bb="bun run build"
 alias bi="bun install"
