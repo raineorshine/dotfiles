@@ -823,7 +823,6 @@ alias bag="bun add --global"
 alias bb="bun run build"
 alias bi="bun install"
 alias big="bun install -g"
-alias br="bun run"
 alias bs="bun start"
 alias brm="bun remove"
 alias brg="bun remove --global"
@@ -831,6 +830,23 @@ alias bl="bun link"
 alias bt="bun test"
 alias brt="bun run test"
 alias bu="bun upgrade"
+
+# bun run
+# shows available scripts like npm run if no arguments are passed
+br() {
+  if [ $# -eq 0 ]; then
+    # only echo the scripts section
+    from="package.json scripts"
+    to=Examples
+    bunRunOutput="$(FORCE_COLOR=1 bun run)"
+    truncated="$(echo "${bunRunOutput#*"$from"}" | tail -n +2)"
+    scripts=$(echo "\n${truncated%%"$to"*}" | ghead -n -2)
+    echo "$scripts\n" | sed "s/ bun run//g"
+  else
+    bun run "$@"
+  fi
+
+}
 
 # bun watch or watch:ts
 bw() {
