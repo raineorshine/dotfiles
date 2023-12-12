@@ -517,7 +517,6 @@
   "prettier.printWidth": 120,
   "prettier.semi": false,
   "prettier.singleQuote": true,
-  "editor.formatOnSave": true,
   "notebook.formatOnSave.enabled": true,
   "security.workspace.trust.untrustedFiles": "open",
   "autoimport.useSemiColon": false,
@@ -628,4 +627,6 @@
   "remote.SSH.remotePlatform": {
     "sandbox.68c5yh.csb": "linux"
   },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
 }
