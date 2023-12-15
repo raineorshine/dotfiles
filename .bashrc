@@ -332,11 +332,18 @@ alias gd="git diff"
 alias gdn="git diff --name-only"
 alias gd1n="git diff --name-only head^ head"
 alias gds="git diff --staged"
-alias gd1="git diff head^ head"
-alias gd2="git diff head^^ head"
-alias gd3="git diff head^^^ head"
 alias gdp="git diff package.json"
 alias gdsp="git diff --staged package.json"
+# show the changes of the last commit
+alias gd1="git diff head^ head"
+# show the changes of the last two commits
+alias gd2="git diff head^^ head"
+# show the changes of the last three commits
+alias gd3="git diff head^^^ head"
+# show the changes of the penultimate commit
+alias gdd2="git diff head^^ head^"
+# show the changes of the antepenultimate commit
+alias gdd3="git diff head^^^ head^^"
 alias fix="git diff --name-only | uniq | xargs $EDITOR -n"
 
 # log
@@ -761,7 +768,7 @@ alias glom3="glom -3"
 alias glom4="glom -4"
 alias glom5="glom -5"
 
-# show the changes from a specific commit
+# show the changes of a specific commit
 gdd() {
   git diff "$@"^ "$@"
 }
