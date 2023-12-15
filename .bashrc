@@ -128,7 +128,7 @@ confirm() {
   stty raw -echo
   answer=$( while ! head -c 1 ;do true ;done )
   stty $old_stty_cfg
-  if echo "$answer" | grep -iq "^y" ;then
+  if echo "$answer" | grep -iq "^y" ; then
     echo yes
     return 0
   else
@@ -139,8 +139,7 @@ confirm() {
 
 # cd and ls
 cs() {
-  if [ $# -ne 0 ]
-  then
+  if [ $# -ne 0 ]; then
     cd "$@"
   fi
   ls
@@ -161,8 +160,7 @@ lessmd() {
 loop() {
   n=$1
   shift
-  for i in $(seq 1 $n)
-  do
+  for i in $(seq 1 $n); do
     "$@"
   done
 }
@@ -204,8 +202,7 @@ port() {
 
 # echo the last command(s) entered
 prev() {
-  if [ $# -eq 0 ]
-  then
+  if [ $# -eq 0 ]; then
     n=1
   else
     n="$@"
@@ -245,8 +242,7 @@ temp() {
 timen() {
   n=$1
   shift
-  for i in $(seq 1 $n)
-  do
+  for i in $(seq 1 $n); do
     time "$@" &> /dev/null
   done
 }
@@ -463,8 +459,7 @@ spull() {
 
 # git stash list
 gstls() {
-  if [ $# -eq 0 ]
-  then
+  if [ $# -eq 0 ]; then
     git stash list | head -10
   else
     git stash list | head "-$@"
@@ -475,11 +470,9 @@ gstls() {
 # if no message is provided and there are staged changes, amend the commit with the changes
 # otherwise, if no message is provided and there are no staged changes, prompt for a new commit message (and ignore unstaged changes)
 amend() {
-  if [ $# -ne 0 ]
-  then
+  if [ $# -ne 0 ]; then
     git commit --amend -m "$@"
-  elif [ -z "$(git diff --cached --exit-code)" ]
-  then
+  elif [ -z "$(git diff --cached --exit-code)" ]; then
     GIT_EDITOR=vim git commit --amend
   else
     git commit --amend --no-edit
@@ -506,8 +499,7 @@ gat() {
 #   gam [shortmessage] -m [longmessage]
 gam() {
   git add -A
-  if [ $# -ne 0 ]
-  then
+  if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
     git commit
@@ -521,8 +513,7 @@ gam() {
 #   gm [shortmessage]
 #   gm [shortmessage] -m [longmessage]
 gm() {
-  if [ $# -ne 0 ]
-  then
+  if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
     git commit
@@ -551,8 +542,7 @@ gcat() {
 
 # git clone (shallow)
 gcl() {
-  if [ $# -eq 2 ]
-  then
+  if [ $# -eq 2 ]; then
     git clone --depth=1 "$1" "$2" &&
     cs "$2"
   else
@@ -563,8 +553,7 @@ gcl() {
 
 # git clone (unshallow)
 gclu() {
-  if [ $# -eq 2 ]
-  then
+  if [ $# -eq 2 ]; then
     git clone "$1" "$2" &&
     cs "$2"
   else
@@ -636,8 +625,7 @@ grid() {
 # list branches in reverse chronological order (using for-each-ref)
 # if arguments are passed, use git branch
 gb() {
-  if [ $# -eq 0 ]
-  then
+  if [ $# -eq 0 ]; then
     gbra --count 10
   else
     git branch "$@"
@@ -716,8 +704,7 @@ rmc() {
 # start bisecting if we are not already, and then call git bisect [value]
 bisect() {
   LOG=$(git bisect log &>/dev/null)
-  if [ "$?" -eq 1 ]
-  then
+  if [ "$?" -eq 1 ]; then
     echo "starting bisect"
     git bisect start &>/dev/null
   fi
@@ -895,8 +882,7 @@ bph() {
 }
 
 nls() {
-  if [ $# -eq 0 ]
-  then
+  if [ $# -eq 0 ]; then
     npm ls --depth=0
   else
     npm ls "$@"
@@ -923,16 +909,13 @@ nvs() {
   timeModified=$(echo "$pkg" | jq -r '."time.modified"' | date +%D)
   echo
   echo "$yellow$underline$name@$version$reset"
-  if [ $timeModified != "null" ]
-  then
+  if [ $timeModified != "null" ]; then
     echo "$gray$timeModified$reset"
   fi
-  if [ $description != "null" ]
-  then
+  if [ $description != "null" ]; then
     echo $description
   fi
-  if [ $homepage != "null" ]
-  then
+  if [ $homepage != "null" ]; then
     echo "$cyan$homepage$reset"
   fi
   echo
@@ -1043,8 +1026,7 @@ lazy_load_nvm
 # parse a json file and output to less with syntax highlighting
 # select a specific property by passing a jq selector as a second argument (outputs without less)
 lo() {
-  if [ $# -eq 0 ]
-  then
+  if [ $# -eq 0 ]; then
     echo "Please specify a json or markdown file"
     return 1
   fi
@@ -1055,8 +1037,7 @@ lo() {
 
     # json
     json)
-      if [ $# -eq 1 ]
-      then
+      if [ $# -eq 1 ]; then
         jq $2 < $1 -C | less -R
       else
         jq $2 < $1 -C
@@ -1068,13 +1049,11 @@ lo() {
       # check that marked-terminal is installed
       # npx marked-terminal-cli is too slow, so install the global
       MARKED_TERMINAL_TYPE=$(type -af marked-terminal-cli)
-      if [ "$MARKED_TERMINAL_TYPE" = "marked-terminal-cli not found" ]
-      then
+      if [ "$MARKED_TERMINAL_TYPE" = "marked-terminal-cli not found" ]; then
         # printf 'Install marked-terminal-cli (y/n)? '
         # read -n 1 -p "Is this a good question (y/n)? " answer
         confirm "Install marked-terminal-cli (y/n)? "
-        if [ "$?" -eq 1 ]
-        then
+        if [ "$?" -eq 1 ]; then
           return 1
         fi
         npm install -g marked-terminal-cli
@@ -1091,8 +1070,7 @@ lo() {
 # parse the package.json file and output to less with syntax highlighting
 # select a specific property by passing a jq selector as an argument (outputs without less)
 lp() {
-  if [ $# -eq 0 ]
-  then
+  if [ $# -eq 0 ]; then
     jq < package.json -C | less -R
   else
     jq $@ < package.json
@@ -1105,8 +1083,7 @@ lp() {
 
 # convert a video to an animated gif
 togif() {
-  if [ $# -lt 1 ]
-  then
+  if [ $# -lt 1 ]; then
     echo "Converts a video to a compressed, animated gif. Outputs to INPUT.MOV.gif"
     echo ""
     echo "Usage:"
