@@ -790,6 +790,7 @@ alias nre="npm repo"
 alias nw="npm run watch || npx tsc --watch"
 alias nb="npm run build"
 alias nd="npm run dist"
+alias nls="npm ls"
 alias nbw="npm run build -- --watch"
 alias l="npm run lint"
 alias lint="npm run lint"
@@ -879,14 +880,6 @@ bph() {
     return 1
   fi
   bunx @grimmbraten/bundlephobia-cli "$@"
-}
-
-nls() {
-  if [ $# -eq 0 ]; then
-    npm ls --depth=0
-  else
-    npm ls "$@"
-  fi
 }
 
 # show a package's tags
