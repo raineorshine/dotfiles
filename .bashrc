@@ -334,8 +334,6 @@ alias gd1n="git diff --name-only head^ head"
 alias gds="git diff --staged"
 alias gdp="git diff package.json"
 alias gdsp="git diff --staged package.json"
-# show the changes of the last commit
-alias gd1="git diff head^ head"
 # show the changes of the last two commits
 alias gd2="git diff head^^ head"
 # show the changes of the last three commits
@@ -770,7 +768,10 @@ alias glom5="glom -5"
 
 # show the changes of a specific commit
 gdd() {
-  git diff "$@"^ "$@"
+  # shell parameter expansion
+  # https://stackoverflow.com/a/12691027/480608
+  ref=${@:-"head"}
+  git diff $ref^ $commit
 }
 
 #-------------------------#
