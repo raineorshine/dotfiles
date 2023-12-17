@@ -116,7 +116,6 @@ alias xap="xargs --verbose --interactive -S 100000 -I%"
 # https://rtyley.github.io/bfg-repo-cleaner/
 alias bfg="java -jar /usr/local/bin/bfg.jar"
 
-
 so() {
   source $dothome/.bashrc
 }
@@ -126,9 +125,9 @@ confirm() {
   printf "$@"
   old_stty_cfg=$(stty -g)
   stty raw -echo
-  answer=$( while ! head -c 1 ;do true ;done )
+  answer=$(while ! head -c 1; do true; done)
   stty $old_stty_cfg
-  if echo "$answer" | grep -iq "^y" ; then
+  if echo "$answer" | grep -iq "^y"; then
     echo yes
     return 0
   else
@@ -186,7 +185,7 @@ pkg() {
   if [ ! -f ./package.json ]; then
     if [ ! -f $dest ]; then
       echo "Copying"
-      curl $src > $dest
+      curl $src >$dest
     fi
     cp $dest ./package.json
     echo "package.json created"
@@ -233,9 +232,9 @@ rl() {
 
 # empty the temp directory and cd there
 temp() {
-  rm -rf /tmp/temp ;
+  rm -rf /tmp/temp
   mkdir /tmp/temp &&
-  pushd /tmp/temp
+    pushd /tmp/temp
 }
 
 # measure the running time of a command repeated n times
@@ -243,7 +242,7 @@ timen() {
   n=$1
   shift
   for i in $(seq 1 $n); do
-    time "$@" &> /dev/null
+    time "$@" &>/dev/null
   done
 }
 
@@ -251,16 +250,16 @@ timen() {
 # Command-line usage: trim `echo "abc   "`
 # Script usage:  $(trim "abc   ")
 trim() {
-    # Determine if 'extglob' is currently on.
-    local extglobWasOff=1
-    shopt extglob >/dev/null && extglobWasOff=0
-    (( extglobWasOff )) && shopt -s extglob # Turn 'extglob' on, if currently turned off.
-    # Trim leading and trailing whitespace
-    local var=$1
-    var=${var##+([[:space:]])}
-    var=${var%%+([[:space:]])}
-    (( extglobWasOff )) && shopt -u extglob # If 'extglob' was off before, turn it back off.
-    echo -n "$var"  # Output trimmed string.
+  # Determine if 'extglob' is currently on.
+  local extglobWasOff=1
+  shopt extglob >/dev/null && extglobWasOff=0
+  ((extglobWasOff)) && shopt -s extglob # Turn 'extglob' on, if currently turned off.
+  # Trim leading and trailing whitespace
+  local var=$1
+  var=${var##+([[:space:]])}
+  var=${var%%+([[:space:]])}
+  ((extglobWasOff)) && shopt -u extglob # If 'extglob' was off before, turn it back off.
+  echo -n "$var"                        # Output trimmed string.
 }
 
 # display [w]here a sym[l]inked executable is pointing
@@ -269,16 +268,16 @@ wl() {
 }
 
 # man with support for builtins
-h () {
+h() {
   case $(type $1) in
-    *"shell builtin"*)
-      if [[ -n $ZSH_VERSION ]]; then
-        man zshbuiltins | less -p "^       $1 "
-      else
-        man bash | less -p "^       $1 "
-      fi
+  *"shell builtin"*)
+    if [[ -n $ZSH_VERSION ]]; then
+      man zshbuiltins | less -p "^       $1 "
+    else
+      man bash | less -p "^       $1 "
+    fi
     ;;
-    *) man "$1";;
+  *) man "$1" ;;
   esac
 }
 
@@ -482,7 +481,7 @@ amend() {
 # add all and amend with same message
 aamend() {
   git add -A &&
-  amend "$@"
+    amend "$@"
 }
 
 # amend at a specific commit
@@ -527,9 +526,9 @@ gp() {
 
 # checkout next (newer) commit
 gn() {
-  branch=`git show-ref | grep $(git show-ref -s -- HEAD) | sed 's|.*/\(.*\)|\1|' | grep -v HEAD | sort | uniq`
-  hash=`git rev-parse $branch`
-  prev=`git rev-list --topo-order HEAD..$hash | tail -1`
+  branch=$(git show-ref | grep $(git show-ref -s -- HEAD) | sed 's|.*/\(.*\)|\1|' | grep -v HEAD | sort | uniq)
+  hash=$(git rev-parse $branch)
+  prev=$(git rev-list --topo-order HEAD..$hash | tail -1)
   git checkout $prev
 }
 
@@ -544,10 +543,10 @@ gcat() {
 gcl() {
   if [ $# -eq 2 ]; then
     git clone --depth=1 "$1" "$2" &&
-    cs "$2"
+      cs "$2"
   else
     git clone --depth=1 $1 &&
-    cs $(basename $1)
+      cs $(basename $1)
   fi
 }
 
@@ -555,34 +554,34 @@ gcl() {
 gclu() {
   if [ $# -eq 2 ]; then
     git clone "$1" "$2" &&
-    cs "$2"
+      cs "$2"
   else
     git clone $1 &&
-    cs $(basename $1)
+      cs $(basename $1)
   fi
 }
 
 # git create with the description set from your package.json
 # requires jq be installed
 gcreate() {
-  desc=`cat package.json | jq -r .description` &&
-  git create -d "$desc" &&
-  git push -u origin HEAD
+  desc=$(cat package.json | jq -r .description) &&
+    git create -d "$desc" &&
+    git push -u origin HEAD
 }
 
 # git create, bump to first major version, and publish to npm
 createandpub() {
   gcreate &&
-  npub major
+    npub major
 }
 
 # git create, bump to first major version, publish to npm, and trigger travis build
 createandpubt() {
   gcreate &&
-  pushu &&
-  npub major &&
-  yes | travis enable &&
-  git commit --amend --no-edit && git push -f # trigger travis build
+    pushu &&
+    npub major &&
+    yes | travis enable &&
+    git commit --amend --no-edit && git push -f # trigger travis build
 }
 
 # force push
@@ -593,8 +592,8 @@ force() {
 # add, amend, and force push
 aforce() {
   git add -A &&
-  amend &&
-  push --force
+    amend &&
+    push --force
 }
 
 # log commits since origin/dev (inclusive)
@@ -661,13 +660,13 @@ grm() {
 # git remote add
 grma() {
   git remote add "$@" &&
-  git remote -v
+    git remote -v
 }
 
 # git remote remove
 grmr() {
   git remote remove "$@" &&
-  git remote -v
+    git remote -v
 }
 
 # stash console.logs
@@ -675,30 +674,30 @@ rmc() {
   # stage current changes
   git add -A &&
 
-  # remove console.logs
-  rm-diff-consoles &&
+    # remove console.logs
+    rm-diff-consoles &&
 
-  # store the diff
-  reverseDiff=$(git diff -R) &&
-  reverseDiffColor=$(git diff -R --color=always) &&
-  echo -e $reverseDiffColor &&
+    # store the diff
+    reverseDiff=$(git diff -R) &&
+    reverseDiffColor=$(git diff -R --color=always) &&
+    echo -e $reverseDiffColor &&
 
-  # stage the removed console.logs
-  git add -A &&
+    # stage the removed console.logs
+    git add -A &&
 
-  # make a temporary commit
-  # the commit message will show up in the stash
-  git commit --quiet -m "console.logs" &&
+    # make a temporary commit
+    # the commit message will show up in the stash
+    git commit --quiet -m "console.logs" &&
 
-  # restore the console.logs by applying the reverse patch
-  echo $reverseDiff | git apply &&
+    # restore the console.logs by applying the reverse patch
+    echo $reverseDiff | git apply &&
 
-  # stash the console.logs in case we changed our mind
-  git stash --quiet &&
-  echo "${GREEN}✓${NC} console.logs stashed" &&
+    # stash the console.logs in case we changed our mind
+    git stash --quiet &&
+    echo "${GREEN}✓${NC} console.logs stashed" &&
 
-  # reset the TEMP commit so the original changes minus console.logs are restored
-  git reset --quiet head^
+    # reset the TEMP commit so the original changes minus console.logs are restored
+    git reset --quiet head^
 }
 
 # start bisecting if we are not already, and then call git bisect [value]
@@ -725,7 +724,7 @@ gbb() {
 # git tag delete on local and remote
 gtd() {
   git tag --delete $1 &&
-  git push --delete origin $1
+    git push --delete origin $1
 }
 
 # git log --oneline
@@ -856,13 +855,13 @@ bw() {
     return 1
   fi
 
-  jq -e < package.json .scripts.watch >/dev/null 2>&1
+  jq -e .scripts.watch <package.json >/dev/null 2>&1
   if [ "$?" -eq 0 ]; then
     bun run watch
     return
   fi
 
-  jq -e < package.json '.scripts["watch:ts"]' >/dev/null 2>&1
+  jq -e '.scripts["watch:ts"]' <package.json >/dev/null 2>&1
   if [ $? -eq 0 ]; then
     bun run watch:ts
   else
@@ -889,11 +888,11 @@ dt() {
 
 # npm view short
 nvs() {
-  underline=`tput smul`
-  yellow=`tput setaf 3`
-  cyan=`tput setaf 6`
-  gray=`tput setaf 8`
-  reset=`tput sgr0`
+  underline=$(tput smul)
+  yellow=$(tput setaf 3)
+  cyan=$(tput setaf 6)
+  gray=$(tput setaf 8)
+  reset=$(tput sgr0)
   pkg=$(npm view --json "$@" name description homepage version time.modified)
   name=$(echo "$pkg" | jq -r ".name")
   description=$(echo "$pkg" | jq -r ".description")
@@ -927,26 +926,27 @@ nvt() {
 # bump the version, push, and publish to latest
 npub() {
   case $1 in
-    pre*)
-      echo "Prereleases should not be published to latest" >&2
-      return 1
+  pre*)
+    echo "Prereleases should not be published to latest" >&2
+    return 1
     ;;
-    major|minor|patch)
-      npm version "$@" &&
+  major | minor | patch)
+    npm version "$@" &&
       git push &&
       git push --no-verify --tags &&
       npm publish
     ;;
-    *)
+  *)
     echo "You must specify major | minor | patch" >&2
     return 1
+    ;;
   esac
 }
 
 # show files that will be published to npm
 nf() {
-  name=$(jq -r .name < package.json)
-  version=$(jq -r .version < package.json)
+  name=$(jq -r .name <package.json)
+  version=$(jq -r .version <package.json)
   tarfile="$name-$version.tgz"
   npm pack
   tar -tzf $tarfile
@@ -1018,7 +1018,7 @@ lazy_load_nvm() {
   cmds=()
   local bin
   for bin in $global_binaries; do
-    [[ "$(which $bin 2> /dev/null)" = "$bin: aliased to "* ]] || cmds+=($bin)
+    [[ "$(which $bin 2>/dev/null)" = "$bin: aliased to "* ]] || cmds+=($bin)
   done
 
   # Create function for each command
@@ -1051,35 +1051,36 @@ lo() {
 
   case $EXT in
 
-    # json
-    json)
-      if [ $# -eq 1 ]; then
-        jq $2 < $1 -C | less -R
-      else
-        jq $2 < $1 -C
-      fi
-      ;;
+  # json
+  json)
+    if [ $# -eq 1 ]; then
+      jq $2 -C <$1 | less -R
+    else
+      jq $2 -C <$1
+    fi
+    ;;
 
-    # markdown
-    md)
-      # check that marked-terminal is installed
-      # npx marked-terminal-cli is too slow, so install the global
-      MARKED_TERMINAL_TYPE=$(type -af marked-terminal-cli)
-      if [ "$MARKED_TERMINAL_TYPE" = "marked-terminal-cli not found" ]; then
-        # printf 'Install marked-terminal-cli (y/n)? '
-        # read -n 1 -p "Is this a good question (y/n)? " answer
-        confirm "Install marked-terminal-cli (y/n)? "
-        if [ "$?" -eq 1 ]; then
-          return 1
-        fi
-        npm install -g marked-terminal-cli
+  # markdown
+  md)
+    # check that marked-terminal is installed
+    # npx marked-terminal-cli is too slow, so install the global
+    MARKED_TERMINAL_TYPE=$(type -af marked-terminal-cli)
+    if [ "$MARKED_TERMINAL_TYPE" = "marked-terminal-cli not found" ]; then
+      # printf 'Install marked-terminal-cli (y/n)? '
+      # read -n 1 -p "Is this a good question (y/n)? " answer
+      confirm "Install marked-terminal-cli (y/n)? "
+      if [ "$?" -eq 1 ]; then
+        return 1
       fi
-      FORCE_COLOR=1 marked-terminal-cli "$1" | less -r
-      ;;
+      npm install -g marked-terminal-cli
+    fi
+    FORCE_COLOR=1 marked-terminal-cli "$1" | less -r
+    ;;
 
-    # other
-    *)
-      less $1
+  # other
+  *)
+    less $1
+    ;;
   esac
 }
 
@@ -1087,9 +1088,9 @@ lo() {
 # select a specific property by passing a jq selector as an argument (outputs without less)
 lp() {
   if [ $# -eq 0 ]; then
-    jq < package.json -C | less -R
+    jq <package.json -C | less -R
   else
-    jq $@ < package.json
+    jq $@ <package.json
   fi
 }
 
@@ -1105,7 +1106,7 @@ togif() {
     echo "Usage:"
     echo "togif input.mov"
   else
-    ffmpeg -i "$@" -r 25 -f gif - | gifsicle --optimize=3 --lossy=90 --scale 0.5 --colors=32 > "$@.gif"
+    ffmpeg -i "$@" -r 25 -f gif - | gifsicle --optimize=3 --lossy=90 --scale 0.5 --colors=32 >"$@.gif"
   fi
 }
 
