@@ -870,25 +870,11 @@ bw() {
   fi
 }
 
-# bundlephobia-cli
-# size in webpack bundle
-bph() {
-  if [ $# -eq 0 ]; then
-    echo "Please specify a package name"
-    return 1
-  fi
-  bunx @grimmbraten/bundlephobia-cli "$@"
-}
+# webpack bundle size
+alias bph="bunx @grimmbraten/bundlephobia-cli"
 
-# packagephobia-cli
 # install size
-pph() {
-  if [ $# -eq 0 ]; then
-    echo "Please specify a package name"
-    return 1
-  fi
-  bunx packagephobia-cli "$@"
-}
+alias pph="bunx packagephobia-cli"
 
 # show a package's tags
 dt() {
