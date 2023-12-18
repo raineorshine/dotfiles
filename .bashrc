@@ -291,6 +291,7 @@ alias pushn="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify"
 alias pusht="git push && git push --no-verify --tags"
 alias pushh="git push && git push --no-verify heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
 alias pushu="git push -u origin HEAD"
+alias force="git push origin HEAD --force"
 alias forceu="git push -u origin HEAD --force"
 alias forcen="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify --force"
 alias ff="git pull --ff-only"
@@ -583,11 +584,6 @@ createandpubt() {
     npub major &&
     yes | travis enable &&
     git commit --amend --no-edit && git push -f # trigger travis build
-}
-
-# force push
-force() {
-  push --force
 }
 
 # add, amend, and force push
