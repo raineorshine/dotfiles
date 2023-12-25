@@ -731,11 +731,8 @@ gtd() {
 # git log --oneline
 # default to 10
 glo() {
-  if [ $# -eq 0 ]; then
-    git log --oneline -10
-  else
-    git log --oneline "$@"
-  fi
+  n=${@:--10}
+  git log --oneline $n
 }
 
 # git log message only
