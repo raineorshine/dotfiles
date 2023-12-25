@@ -15,6 +15,8 @@
 # Redirect stdout:              1>
 # Redirect stderr:              2>
 # Symlink:                      ln -s source name
+# Shell parameter expansion     a=${VAR:-20}
+#   https://stackoverflow.com/a/12691027/480608
 
 #-------------------------#
 # CONSTANTS
@@ -752,8 +754,6 @@ alias glom5="glom -5"
 
 # show the changes of a specific commit
 gdd() {
-  # shell parameter expansion
-  # https://stackoverflow.com/a/12691027/480608
   ref=${@:-"head"}
   git diff $ref^ $commit
 }
