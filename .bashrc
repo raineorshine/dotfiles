@@ -205,11 +205,7 @@ port() {
 
 # echo the last command(s) entered
 prev() {
-  if [ $# -eq 0 ]; then
-    n=1
-  else
-    n="$@"
-  fi
+  n=${@:-1}
   history "-$n" | head -1 | sed 's/^ *[[:digit:]]* *//'
 }
 
