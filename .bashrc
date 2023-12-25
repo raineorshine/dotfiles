@@ -460,11 +460,8 @@ spull() {
 
 # git stash list
 gstls() {
-  if [ $# -eq 0 ]; then
-    git stash list | head -10
-  else
-    git stash list | head "-$@"
-  fi
+  n=${@:--10}
+  git stash list | head $n
 }
 
 # amend with optional new message
