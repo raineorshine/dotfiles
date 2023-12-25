@@ -730,11 +730,8 @@ glo() {
 # git log message only
 # default to 10
 glom() {
-  if [ $# -eq 0 ]; then
-    message=$(git log --format=%s -10)
-  else
-    message=$(git log --format=%s "$@")
-  fi
+  n=${@:--10}
+  message=$(git log --format=%s $n)
   echo -n $message
 }
 alias glom1="glom -1"
