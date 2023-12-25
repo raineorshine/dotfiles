@@ -140,6 +140,8 @@ confirm() {
 
 # cd and ls
 cs() {
+  # Stay in the same directory if no arg is provided.
+  # Otherwise it will go to the user's home directory.
   if [ $# -ne 0 ]; then
     cd "$@"
   fi
