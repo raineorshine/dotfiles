@@ -644,11 +644,8 @@ gbda() {
 
 # git remote - verbose if no args
 grm() {
-  if [ $# -eq 0 ]; then
-    git remote -v
-  else
-    git remote "$@"
-  fi
+  args=${@:--v}
+  git remote $args
 }
 
 # git remote add
