@@ -721,9 +721,11 @@ gbb() {
 }
 
 # git tag delete on local and remote
+# default to last tag
 gtd() {
-  git tag --delete $1 &&
-    git push --delete origin $1
+  ref=${@:-$(git describe --tags --abbrev=0)}
+  git tag --delete $ref &&
+    git push --delete origin $ref
 }
 
 # git log --oneline
