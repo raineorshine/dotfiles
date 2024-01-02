@@ -743,7 +743,7 @@ alias glom5="glom -5"
 # show the changes of a specific commit
 gdd() {
   ref=${@:-head}
-  git diff $ref^ $commit
+  git diff $ref^ $ref
 }
 
 #-------------------------#
