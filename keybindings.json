@@ -301,4 +301,8 @@
     "command": "leaper.leap",
     "when": "editorTextFocus && leaper.hasLineOfSight && leaper.inLeaperMode && !editorHasSelection && !editorTabMovesFocus && !suggestWidgetVisible"
   },
+  {
+    "key": "shift+alt+w",
+    "command": "workbench.action.closeAllEditors"
+  },
 ]
