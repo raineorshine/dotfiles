@@ -786,6 +786,7 @@ alias stf="standard --fix"
 alias nrd="npm run deploy && pusht"
 alias nrs="npm run deploy:staging"
 alias pi="pnpm install"
+alias pa="pnpm add"
 
 # yarn
 alias y="yarn"
