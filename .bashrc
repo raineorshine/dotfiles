@@ -815,7 +815,10 @@ alias brg="bun remove --global"
 alias bl="bun link"
 alias bt="bun test"
 alias brt="bun run test"
-alias bu="bun upgrade"
+# update all dependencies
+alias bu="bun update"
+# upgrade bun itself
+alias bup="bun upgrade"
 
 # bun run
 # shows available scripts like npm run if no arguments are passed
