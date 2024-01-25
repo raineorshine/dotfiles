@@ -17,6 +17,25 @@
 # Symlink:                      ln -s source name
 # Shell parameter expansion     a=${VAR:-20}
 #   https://stackoverflow.com/a/12691027/480608
+# If statement tests:           man test
+#   ( expression )              true
+#   ! expression                false
+#   exp1 -a exp2                and
+#   exp1 -o exp2                or
+#   str1 = str2                 string equal
+#   str1 != str2                string not equal
+#   -n                          non-zero-length string
+#   -z                          zero-length string
+#   -d                          directory exists
+#   -f                          file exists
+#   -s                          file is not empty
+#   -x                          executable exists
+#   -eq                         integer equal
+#   -ne                         integer not equal
+#   -gt                         integer greater than
+#   -ge                         integer greater than or equal
+#   -lt                         integer less than
+#   -le                         integer less than or equal
 
 #-------------------------#
 # CONSTANTS
