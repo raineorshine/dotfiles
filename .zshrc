@@ -43,9 +43,6 @@ s() {
   pushd ~/Documents/Secure &> /dev/null
 }
 
-# git tab completion
-autoload -Uz compinit && compinit
-
 bindkey "\C-h" backward-char
 # kills tab-completion!
 # bindkey "\C-i" forward-char
@@ -187,3 +184,7 @@ gpgi() {
 
 # bun completions
 [ -s "/Users/raine/.bun/_bun" ] && source "/Users/raine/.bun/_bun"
+
+# completion
+fpath+=~/.zcompletions
+autoload -Uz compinit && compinit

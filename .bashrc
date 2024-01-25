@@ -939,88 +939,6 @@ nf() {
 }
 
 #-------------------------#
-# nvm
-#-------------------------#
-
-nvm_global_binaries() {
-
-  # Look for global binaries
-  local global_binary_paths="$(echo "$NVM_DIR"/v0*/bin/*(N) "$NVM_DIR"/versions/*/*/bin/*(N))"
-
-  # If we have some, format them
-  # This is slow, but still after than load_nvm
-  if [[ -n "$global_binary_paths" ]]; then
-    echo "$NVM_DIR"/v0*/bin/*(N) "$NVM_DIR"/versions/*/*/bin/*(N) |
-      xargs -n 1 basename |
-      sort |
-      uniq
-  fi
-}
-
-# auto switch node version based on .nvmrc
-# https://github.com/nvm-sh/nvm#zsh
-load-nvmrc() {
-  local nvmrc_path
-  nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version
-    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-      nvm use
-    fi
-  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-
-load_nvm() {
-  [[ -z "$NVM_DIR" ]] && export NVM_DIR="$HOME/.nvm"
-  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-
-  load-nvmrc
-}
-
-# lazy load nvm
-# Based on zsh-nvm: https://github.com/lukechilds/zsh-nvm/blob/745291dcf20686ec421935f1c3f8f3a2918dd106/zsh-nvm.plugin.zsh#L80
-# Related issue: https://github.com/nvm-sh/nvm/issues/2724#issuecomment-1336537635
-lazy_load_nvm() {
-
-  [[ -z "$NVM_DIR" ]] && export NVM_DIR="$HOME/.nvm"
-
-  # Get all global node module binaries including node
-  local global_binaries
-  global_binaries=($(nvm_global_binaries))
-  global_binaries+=('nvm')
-
-  # Remove any binaries that conflict with current aliases
-  local cmds
-  cmds=()
-  local bin
-  for bin in $global_binaries; do
-    [[ "$(which $bin 2>/dev/null)" = "$bin: aliased to "* ]] || cmds+=($bin)
-  done
-
-  # Create function for each command
-  local cmd
-  for cmd in $cmds; do
-    # When called, unset all lazy loaders, load nvm then run current command
-    eval "$cmd(){
-      unset -f $cmds > /dev/null 2>&1
-      load_nvm
-      $cmd \"\$@\"
-    }"
-  done
-}
-
-lazy_load_nvm
-
-#-------------------------#
 # JSON
 #-------------------------#
 
@@ -1114,3 +1032,6 @@ PROMPT="%F{yellow}%n%f%F{cyan}[%1~]%# %f"
 
 # added by travis gem
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+
+# fnm
+[ -x $(command -v fnm) ] && eval "$(fnm env --use-on-cd)"

@@ -1,6 +1,6 @@
 # .bash_profile
 # This is loaded whenever a login shell is opened. It can safely be loaded in ssh environments.
-# .profile, .zprofile, and .bash_profile should only contain environment variables. Everything else goes in .bashrc.
+# .profile, .zprofile, and .bash_profile should only contain environment variables. Everything else goes in .bashrc or .zshrc.
 
 export BUN_INSTALL="$HOME/.bun"
 export EDITOR='code'
@@ -20,3 +20,4 @@ export PATH="~/local/bin:$PATH"
 export PATH="/Users/raine/Library/pnpm:$PATH"
 export PATH="/usr/local/opt/postgresql@15/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="/Users/raine/Library/Application Support/fnm:$PATH"
