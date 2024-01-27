@@ -1,5 +1,9 @@
 # This file contains only bash bindings. zsh bindings are in .zshrc.
 
+# Show all commands available in bash for key binding:
+#  bind -p (what bindings are shown depends on the current vi mode)
+# More info about key bindings: https://unix.stackexchange.com/questions/116562/key-bindings-table?rq=1
+
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 set show-all-if-ambiguous on
@@ -8,9 +12,6 @@ set editing-mode vi
 
 # http://stackoverflow.com/questions/23349325/inputrc-override-controlw
 set bind-tty-special-chars Off
-
-# to view key bindings:
-# bind -p (what bindings are shown depends on the current vi mode)
 
 # command mode
 set keymap vi-command
@@ -28,9 +29,9 @@ set keymap vi-insert
 "\C-b": backward-word
 "\C-a": end-of-line
 
-# doesn't work?
-"\C-0": beginning-of-line
-"\C-p": beginning-of-line
+# Control + number does not work for some reason
+# "\C-0": beginning-of-line
+"\C-h": beginning-of-line
 
 # kills tab-completion!
 # "\C-i": forward-char

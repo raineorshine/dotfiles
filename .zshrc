@@ -43,15 +43,23 @@ s() {
   pushd ~/Documents/Secure &> /dev/null
 }
 
+# This file contains only zsh bindings. bash bindings are in .inputrc.
+# Show all commands available in zsh for key binding: zle -al
+# More info about key bindings: https://unix.stackexchange.com/questions/116562/key-bindings-table?rq=1
+
 bindkey "\C-h" backward-char
 # kills tab-completion!
 # bindkey "\C-i" forward-char
 bindkey "\C-b" backward-word
+# ^? is backspace, but it does not work with the Control key for some reason
+# bindkey "\C-^?" backward-kill-word
+bindkey "\C-v" backward-kill-word
+bindkey "\C-w" forward-word
+bindkey "\C-f" kill-word
 bindkey "\C-a" end-of-line
 
-# doesn't work?
-bindkey "\C-0" beginning-of-line
-bindkey "\C-p" beginning-of-line
+# Control + number does not work for some reason
+bindkey "\C-h" beginning-of-line
 
 # display "✓" on right side if error code 0, otherwise display "✗"
 RPROMPT="%(?.%F{green}✓%f.%F{red}✗%f)"
