@@ -1,3 +1,5 @@
+# This file contains only bash bindings. zsh bindings are in .zshrc.
+
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 set show-all-if-ambiguous on
@@ -17,7 +19,7 @@ set keymap vi-command
 "n": next-history
 "e": previous-history
 
-# # insert mode
+# insert mode
 set keymap vi-insert
 "\C-k": vi-movement-mode
 "\C-n": next-history

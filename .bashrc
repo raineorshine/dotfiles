@@ -1040,6 +1040,7 @@ set show-all-if-ambiguous on
 set completion-ignore-case on
 set editing-mode vi
 
+# shell key bindings are defined in ~/.zhrc and ~/.inputrc
 # http://stackoverflow.com/questions/23349325/inputrc-override-controlw
 set bind-tty-special-chars Off
 
