@@ -735,9 +735,32 @@ gbb() {
 # git tag delete on local and remote
 # default to last tag
 gtd() {
-  ref=${@:-$(git describe --tags --abbrev=0)}
-  git tag --delete $ref &&
+  # get last tag
+  ref=${@:-$(git describe --tags --abbrev=0 2>/dev/null)}
+  if [ -z "$ref" ]; then
+    echo "No tags found"
+    return 1
+  fi
+
+  # confirm delete if last tag is inferred
+  if [ $# -eq 0 ]; then
+    confirm "Delete tag $ref? (y/n) "
+    if [ "$?" -ne 0 ]; then
+      return "$?"
+    fi
+  fi
+
+  # delete local tag
+  git tag --delete $ref
+  if [ "$?" -ne 0 ]; then
+    return "$?"
+  fi
+
+  # delete remote tag (if remote origin exists)
+  git remote get-url origin >/dev/null 2>&1
+  if [ "$?" -eq 0 ]; then
     git push --delete origin $ref
+  fi
 }
 
 # git log --oneline
