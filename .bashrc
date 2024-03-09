@@ -387,6 +387,8 @@ alias gl40="git log --oneline -40"
 alias gl50="git log --oneline -50"
 alias gl100="git log --oneline -100"
 alias glf="git log -1 --pretty=fuller"
+# log message only
+alias glm="git log -1 --pretty=format:%s"
 
 # rebase
 alias gr="git rebase"
