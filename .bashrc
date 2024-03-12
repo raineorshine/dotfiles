@@ -323,8 +323,8 @@ alias up='git pull upstream $(git rev-parse --abbrev-ref HEAD)'
 
 # bisect
 alias gbi="git bisect"
-alias gbil="git bisect log"
-alias gbir="git bisect reset"
+alias bil="git bisect log"
+alias bir="git bisect reset"
 
 # merge
 alias gme="git merge"
@@ -725,12 +725,12 @@ bisect() {
 }
 
 # start bisecting if we are not already, and then call git bisect bad
-gg() {
+gig() {
   bisect good
 }
 
 # start bisecting if we are not already, and then call git bisect good
-gbb() {
+bib() {
   bisect bad
 }
 
