@@ -257,11 +257,13 @@ temp() {
 }
 
 # measure the running time of a command repeated n times
+# e.g. timen 3 sleep 1
 timen() {
   n=$1
-  shift
+  command=$2
+  args="${@:3}"
   for i in $(seq 1 $n); do
-    time "$@" &>/dev/null
+    time "$command" "$args" &>/dev/null
   done
 }
 
