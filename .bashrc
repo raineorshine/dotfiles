@@ -545,12 +545,24 @@ gm() {
 
 # checkout prev (older) commit
 gp() {
+  # save branch name (if not detached)
+  branch=$(git rev-parse --abbrev-ref HEAD)
+  if [ "$branch" != "HEAD" ]; then
+    echo "$branch" >.git/_PREV_BRANCH
+  fi
+
   git checkout HEAD~
 }
 
 # checkout next (newer) commit
 gn() {
-  branch=$(git branch --contains HEAD | grep -v HEAD | tail -1 | sed 's/^[ *]*//g')
+  # restore branch name if it was saved
+  if [ -f .git/_PREV_BRANCH ]; then
+    branch=$(cat .git/_PREV_BRANCH)
+  # otherwise best guess
+  else
+    branch=$(git branch --contains HEAD | grep -v HEAD | tail -1 | sed 's/^[ *]*//g')
+  fi
   hash=$(git rev-parse $branch)
   next=$(git rev-list --topo-order HEAD..$hash | tail -1)
   git checkout $next
