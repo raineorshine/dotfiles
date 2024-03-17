@@ -439,7 +439,6 @@ alias gaatt="ga && gat head^"
 # amend-to third-to-last commit
 alias gaattt="ga && gat head^^"
 alias gbro="git browse"
-alias gc="git checkout"
 alias gh="git rev-parse --short HEAD | tr -d '\n'"
 alias gi="git init && git add -A && git commit -m 'init'"
 alias grs='git reset'
@@ -543,29 +542,68 @@ gm() {
   fi
 }
 
-# checkout prev (older) commit
-gp() {
-  # save branch name (if not detached)
+# save branch name (if not detached)
+# this allows gcr to exit detached HEAD state and gn to better determine the next commit
+git_save_branch() {
   branch=$(git rev-parse --abbrev-ref HEAD)
   if [ "$branch" != "HEAD" ]; then
     echo "$branch" >.git/_PREV_BRANCH
   fi
+}
 
+# loads the previously saved branch name, or guesses what branch we are in if detached
+git_load_branch() {
+  if [ -f .git/_PREV_BRANCH ]; then
+    cat .git/_PREV_BRANCH
+  else
+    git branch --contains HEAD | grep -v HEAD | tail -1 | sed 's/^[ *]*//g'
+  fi
+}
+
+# checkout
+gc() {
+  git_save_branch
+  git checkout "$@"
+}
+
+# reset to last saved branch
+gcr() {
+  branch=$(git_load_branch)
+  if [ -n "$branch" ]; then
+    git checkout "$branch"
+  else
+    echo "No saved branch to reset to"
+    return 1
+  fi
+}
+
+# checkout prev (older) commit
+gp() {
+  git_save_branch
   git checkout HEAD~
 }
 
 # checkout next (newer) commit
 gn() {
-  # restore branch name if it was saved
-  if [ -f .git/_PREV_BRANCH ]; then
-    branch=$(cat .git/_PREV_BRANCH)
-  # otherwise best guess
-  else
-    branch=$(git branch --contains HEAD | grep -v HEAD | tail -1 | sed 's/^[ *]*//g')
-  fi
+  branch=$(git_load_branch)
   hash=$(git rev-parse $branch)
+
+  # stop if we are already on the branch, i.e. there are no newer commits
+  head_hash=$(git rev-parse HEAD)
+  if [ $hash = $head_hash ]; then
+    echo "On branch $branch"
+    return 0
+  fi
+
   next=$(git rev-list --topo-order HEAD..$hash | tail -1)
-  git checkout $next
+
+  # if the next commit is the branch commit, checkout the branch to exit detached HEAD state
+  if [ $next = $hash ]; then
+    git checkout $branch
+  # otherwise, checkout the next commit
+  else
+    git checkout $next
+  fi
 }
 
 # git commit and tag
@@ -639,6 +677,7 @@ glt() {
 
 # git checkout last tag
 gcit() {
+  git_save_branch
   git checkout $(git describe --tags --abbrev=0)^
 }
 
