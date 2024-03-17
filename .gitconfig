@@ -56,3 +56,5 @@
 	trustExitCode = true
 [init]
 	defaultBranch = main
+[advice]
+	detachedHead = false

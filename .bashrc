@@ -550,10 +550,10 @@ gp() {
 
 # checkout next (newer) commit
 gn() {
-  branch=$(git show-ref | grep $(git show-ref -s -- HEAD) | sed 's|.*/\(.*\)|\1|' | grep -v HEAD | sort | uniq)
+  branch=$(git branch --contains HEAD | grep -v HEAD | tail -1 | sed 's/^[ *]*//g')
   hash=$(git rev-parse $branch)
-  prev=$(git rev-list --topo-order HEAD..$hash | tail -1)
-  git checkout $prev
+  next=$(git rev-list --topo-order HEAD..$hash | tail -1)
+  git checkout $next
 }
 
 # git commit and tag
