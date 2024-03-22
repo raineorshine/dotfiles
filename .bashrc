@@ -1009,18 +1009,21 @@ nvt() {
 # bump the version, push, and publish to latest
 npub() {
   case $1 in
-  pre*)
-    echo "Prereleases should not be published to latest" >&2
-    return 1
-    ;;
   major | minor | patch)
     npm version "$@" &&
       git push &&
       git push --no-verify --tags &&
       npm publish
     ;;
+  premajor | preminor | prepatch | prerelease)
+    npm version "$@" &&
+      git push &&
+      git push --no-verify --tags &&
+      npm publish --tag next
+    ;;
   *)
-    echo "You must specify major | minor | patch" >&2
+    echo "npub [major|minor|patch] to publish to latest" >&2
+    echo "npub [premajor|preminor|prepatch|prerelease] to publish to next" >&2
     return 1
     ;;
   esac
