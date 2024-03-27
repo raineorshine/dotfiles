@@ -635,4 +635,5 @@
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
   },
+  "explorer.confirmDragAndDrop": false,
 }
