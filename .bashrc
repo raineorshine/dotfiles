@@ -67,6 +67,7 @@ alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 alias fb="firebase"
 alias fd="firebase deploy --only hosting"
 alias fds="firebase hosting:channel:deploy staging"
+alias fnu="fnm use"
 alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 alias grep="grep --color=always"
 alias h10="head -10"
