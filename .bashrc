@@ -566,6 +566,10 @@ git_load_branch() {
 gc() {
   git_save_branch
   git checkout "$@"
+
+  # change node version used by fnm if .nvmrc exists
+  # ignore error if no .nvmrc exists
+  fnm use 2>/dev/null
 }
 
 # reset to last saved branch
