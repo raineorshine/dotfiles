@@ -10,7 +10,6 @@ export HISTIGNORE="ls:pwd:gs:gulp:gd:push:pull:p"
 export TZ='America/New York'
 export PKG_CONFIG_PATH="/usr/local/opt/postgresql@15/lib/pkgconfig"
 
-export PATH="./node_modules/.bin:$PATH"
 export PATH=".cabal-sandbox/bin:$PATH"
 export PATH="/usr/local/opt/python3/libexec/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -21,3 +20,6 @@ export PATH="/Users/raine/Library/pnpm:$PATH"
 export PATH="/usr/local/opt/postgresql@15/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="/Users/raine/Library/Application Support/fnm:$PATH"
+
+# local node_modules should take precedence over global modules
+export PATH="./node_modules/.bin:$PATH"
