@@ -317,8 +317,11 @@ alias pushu="git push --set-upstream origin HEAD"
 alias force="git push origin HEAD --force"
 alias forceu="git push --set-upstream origin HEAD --force"
 alias forcen="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify --force"
-alias ff="git pull --ff-only"
-alias ffd="git pull --ff-only origin dev"
+# fetch current branch from origin
+alias ff='git pull --ff-only origin $(git rev-parse --abbrev-ref HEAD)'
+# fetches all remote branches
+alias ffa="git pull --ff-only"
+# fetch current branch from upstream
 alias ffu='git pull --ff-only upstream $(git rev-parse --abbrev-ref HEAD)'
 alias gf="git fetch"
 alias gfd="git fetch --deepen"
