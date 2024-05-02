@@ -566,15 +566,10 @@ git_load_branch() {
   fi
 }
 
-# checkout
-gc() {
-  git_save_branch
-  git checkout "$@"
-
-  # change node version used by fnm if .nvmrc exists
-  # ignore error if no .nvmrc exists
-  fnm use 2>/dev/null
-}
+# Use an alias to get git autocompletions for gc.
+# Unable to find a way to get git autocompletions for a function.
+# Ideally would call fnm use 2>/dev/null after checkout, but this is not possible with an alias.
+alias gc="git_save_branch ; git checkout"
 
 # reset to last saved branch
 gcr() {
