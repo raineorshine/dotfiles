@@ -680,6 +680,11 @@ glt() {
   git log $(git describe --tags --abbrev=0)^..HEAD --oneline
 }
 
+# diff since last tag (inclusive)
+gdt() {
+  git diff $(git describe --tags --abbrev=0)^..HEAD --oneline
+}
+
 # git checkout last tag
 gcit() {
   git_save_branch
