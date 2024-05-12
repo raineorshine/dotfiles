@@ -70,6 +70,7 @@ alias fds="firebase hosting:channel:deploy staging"
 alias fnu="fnm use"
 alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 alias grep="grep --color=always"
+alias grepi="grep -i"
 alias h10="head -10"
 alias h1="head -1"
 alias h20="head -20"
