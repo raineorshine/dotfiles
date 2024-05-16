@@ -671,9 +671,9 @@ aforce() {
     push --force
 }
 
-# log commits since origin/dev (inclusive)
+# log commits since origin/{branch} (inclusive)
 gld() {
-  git log origin/dev^..HEAD --oneline
+  git log origin/$(git rev-parse --abbrev-ref HEAD)^..HEAD --oneline
 }
 
 # log commits since last tag (inclusive)
