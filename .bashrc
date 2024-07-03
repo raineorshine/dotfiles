@@ -645,7 +645,7 @@ gclu() {
 # requires jq be installed
 gcreate() {
   desc=$(cat package.json | jq -r .description) &&
-    git create -d "$desc" &&
+    hub create -d "$desc" &&
     git push --set-upstream origin HEAD
 }
 
