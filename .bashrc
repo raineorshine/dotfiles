@@ -427,6 +427,7 @@ alias grk="git rebase --skip"
 alias gch="git cherry-pick"
 alias gcha="git cherry-pick --abort"
 alias gchc="git cherry-pick --continue"
+alias garch="git add -A && git -c core.editor=true cherry-pick --continue"
 alias gchs="git cherry-pick --skip"
 
 # revert
