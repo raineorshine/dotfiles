@@ -305,4 +305,8 @@
     "key": "shift+alt+w",
     "command": "workbench.action.closeAllEditors"
   },
+  {
+    "key": "alt+g c",
+    "command": "git.checkout"
+  },
 ]
