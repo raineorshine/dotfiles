@@ -1028,6 +1028,10 @@ npub() {
       git push --no-verify --tags &&
       npm publish
     ;;
+  # premajor:   1.0.0-0 → 2.0.0-0
+  # preminor:   1.0.0-0 → 1.1.0-0
+  # prepatch:   1.0.0-0 → 1.0.1-0
+  # prerelease: 1.0.0-0 → 1.0.0-1
   premajor | preminor | prepatch | prerelease)
     npm version "$@" &&
       git push &&
