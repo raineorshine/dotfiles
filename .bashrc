@@ -433,6 +433,9 @@ alias gchs="git cherry-pick --skip"
 
 # revert
 alias gv="git revert"
+# only stage the revert, don't commit it
+# useful for reverting multiple commits with COMMIT_START..COMMIT_END
+alias gvn="git revert --no-commit"
 alias gva="git revert --abort"
 alias gvc="git revert --continue"
 alias gvs="git revert --skip"
