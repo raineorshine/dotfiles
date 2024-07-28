@@ -419,16 +419,16 @@ alias griiiiiiii="git rebase --interactive head^^^^^^^^"
 alias griiiiiiiii="git rebase --interactive head^^^^^^^^^"
 alias griiiiiiiiii="git rebase --interactive head^^^^^^^^^^"
 alias gra="git rebase --abort"
-alias grc="git rebase --continue"
-alias garc="git add -A && git -c core.editor=true rebase --continue"
+alias grc="GIT_EDITOR=true git rebase --continue"
+alias garc="git add -A && GIT_EDITOR=true git rebase --continue"
 alias grk="git rebase --skip"
 alias gro="git rebase origin"
 
 # cherry-pick
 alias gch="git cherry-pick"
 alias gcha="git cherry-pick --abort"
-alias gchc="git cherry-pick --continue"
-alias garch="git add -A && git -c core.editor=true cherry-pick --continue"
+alias gchc="GIT_EDITOR=true git cherry-pick --continue"
+alias garch="git add -A && GIT_EDITOR=true git cherry-pick --continue"
 alias gchs="git cherry-pick --skip"
 
 # revert
