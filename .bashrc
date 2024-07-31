@@ -462,6 +462,7 @@ alias grhhhh='git reset --hard head^^^'
 alias grhhhhh='git reset --hard head^^^^'
 alias grhhhhhh='git reset --hard head^^^^^'
 alias gs="git status"
+alias gso="git status && git log --oneline -10"
 # git stash list 10
 alias gsl="git stash list | head -10"
 # git stash list all
