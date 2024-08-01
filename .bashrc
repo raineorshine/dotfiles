@@ -692,6 +692,11 @@ gdt() {
   git diff $(git describe --tags --abbrev=0)^..HEAD --oneline
 }
 
+# hard reset to last tag
+grhat() {
+  git reset --hard $(git describe --tags --abbrev=0)
+}
+
 # git checkout last tag
 gcit() {
   git_save_branch
