@@ -577,6 +577,7 @@ git_load_branch() {
 # Unable to find a way to get git autocompletions for a function.
 # Ideally would call fnm use 2>/dev/null after checkout, but this is not possible with an alias.
 alias gc="git_save_branch ; git checkout"
+alias gcm="git_save_branch ; git checkout main"
 
 # reset to last saved branch
 gcr() {
