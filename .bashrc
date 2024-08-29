@@ -311,13 +311,24 @@ h() {
 
 # push/pull/fetch
 alias push="git push origin HEAD"
+# push and skip pre-push hooks
 alias pushn="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify"
+# push and push tags
 alias pusht="git push && git push --no-verify --tags"
+# push and push tags to heroku
 alias pushh="git push && git push --no-verify heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
+# push to the current branch's upstream
+alias pushpr="git push $(git rev-parse --abbrev-ref --symbolic-full-name @{u} | cut -d'/' -f1) HEAD:$(git rev-parse --abbrev-ref --symbolic-full-name @{u} | cut -d'/' -f2-)"
+# push and set upstream to origin branch of the same name
 alias pushu="git push --set-upstream origin HEAD"
+# force push to origin
 alias force="git push origin HEAD --force"
+# force push and set upstream to origin branch of the same name
 alias forceu="git push --set-upstream origin HEAD --force"
+# force push and skip pre-push hooks
 alias forcen="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify --force"
+# force push to the current branch's upstream
+alias forcepr="pushpr --force"
 # fetch current branch from origin
 alias ff='git pull --ff-only origin $(git rev-parse --abbrev-ref HEAD)'
 # fetches all remote branches
