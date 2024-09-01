@@ -317,8 +317,6 @@ alias pushn="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify"
 alias pusht="git push && git push --no-verify --tags"
 # push and push tags to heroku
 alias pushh="git push && git push --no-verify heroku master && heroku info -s | grep web_url | cut -d= -f2 | xargs -I{} curl {} -w '%{http_code}' -so /dev/null"
-# push to the current branch's upstream
-alias pushpr="git push $(git rev-parse --abbrev-ref --symbolic-full-name @{u} | cut -d'/' -f1) HEAD:$(git rev-parse --abbrev-ref --symbolic-full-name @{u} | cut -d'/' -f2-)"
 # push and set upstream to origin branch of the same name
 alias pushu="git push --set-upstream origin HEAD"
 # force push to origin
@@ -877,6 +875,14 @@ alias glom5="glom -5"
 gdd() {
   ref=${@:-head}
   git diff $ref^ $ref
+}
+
+# push to the current branch's upstream
+pushpr() {
+  remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+  remote=$(echo $remote_fullname | cut -d'/' -f1)
+  remote_branch=$(echo $remote_fullname | cut -d'/' -f2-)
+  git push $remote HEAD:$remote_branch "$@"
 }
 
 #-------------------------#
