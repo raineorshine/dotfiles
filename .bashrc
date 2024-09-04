@@ -347,8 +347,6 @@ alias bir="git bisect reset"
 # merge
 alias gme="git merge"
 alias gmff="git merge --ff-only"
-alias gmc="git merge --continue"
-alias gma="git merge --abort"
 
 # branch
 alias gb10="gbra --count 10"
@@ -427,27 +425,16 @@ alias griiiiiii="git rebase --interactive head^^^^^^^"
 alias griiiiiiii="git rebase --interactive head^^^^^^^^"
 alias griiiiiiiii="git rebase --interactive head^^^^^^^^^"
 alias griiiiiiiiii="git rebase --interactive head^^^^^^^^^^"
-alias gra="git rebase --abort"
-alias grc="GIT_EDITOR=true git rebase --continue"
-alias garc="git add -A && GIT_EDITOR=true git rebase --continue"
-alias grk="git rebase --skip"
 alias gro="git rebase origin"
 
 # cherry-pick
 alias gch="git cherry-pick"
-alias gcha="git cherry-pick --abort"
-alias gchc="GIT_EDITOR=true git cherry-pick --continue"
-alias garch="git add -A && GIT_EDITOR=true git cherry-pick --continue"
-alias gchs="git cherry-pick --skip"
 
 # revert
 alias gv="git revert"
 # only stage the revert, don't commit it
 # useful for reverting multiple commits with COMMIT_START..COMMIT_END
 alias gvn="git revert --no-commit"
-alias gva="git revert --abort"
-alias gvc="git revert --continue"
-alias gvs="git revert --skip"
 
 # misc
 alias a="amend"
@@ -893,6 +880,36 @@ ffpr() {
   local_branch=$(git rev-parse --abbrev-ref HEAD)
   git pull --ff-only $remote $remote_branch:$local_branch
 }
+
+# Apply a history-rewriting operation based on an active rebase, cherry-pick, merge, or revert
+git_rewrite_history() {
+  if [ -d ".git/rebase-merge" ] || [ -d ".git/rebase-apply" ]; then
+    type="rebase"
+  elif [ -f ".git/CHERRY_PICK_HEAD" ]; then
+    type="cherry-pick"
+  elif [ -f ".git/MERGE_HEAD" ]; then
+    type="merge"
+  elif [ -f ".git/REVERT_HEAD" ]; then
+    type="revert"
+  else
+    echo "No rebase, cherry-pick, merge, or revert in progress."
+    return 1
+  fi
+
+  GIT_EDITOR=true git $type "$@"
+}
+
+# continue
+alias gcon="git_rewrite_history --continue"
+
+## add all and continue
+alias gac="git add -A && gcon"
+
+# abort
+alias gab="git_rewrite_history --abort"
+
+# skip
+alias gskip="git_rewrite_history --skip"
 
 #-------------------------#
 # npm
