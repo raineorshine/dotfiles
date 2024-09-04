@@ -689,6 +689,11 @@ gdt() {
   git diff $(git describe --tags --abbrev=0)^..HEAD --oneline
 }
 
+# hard reset to dev
+grhad() {
+  git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+}
+
 # hard reset to last tag
 grhat() {
   git reset --hard $(git describe --tags --abbrev=0)
