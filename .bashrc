@@ -885,6 +885,15 @@ pushpr() {
   git push $remote HEAD:$remote_branch "$@"
 }
 
+# pull from current branch's upstream with --ff-only
+ffpr() {
+  remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+  remote=$(echo $remote_fullname | cut -d'/' -f1)
+  remote_branch=$(echo $remote_fullname | cut -d'/' -f2-)
+  local_branch=$(git rev-parse --abbrev-ref HEAD)
+  git pull --ff-only $remote $remote_branch:$local_branch
+}
+
 #-------------------------#
 # npm
 #-------------------------#
