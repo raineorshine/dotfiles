@@ -481,6 +481,8 @@ alias gt="git tag"
 alias sub="git submodule init && git submodule update"
 # local branch name
 alias git_local_branch="git rev-parse --abbrev-ref HEAD"
+# last tag
+alias git_last_tag="git describe --tags --abbrev=0"
 
 # pull all submodules
 pull() {
@@ -683,12 +685,12 @@ glor() {
 
 # log commits since last tag (inclusive)
 glt() {
-  git log $(git describe --tags --abbrev=0)^..HEAD --oneline
+  git log $(git_last_tag)^..HEAD --oneline
 }
 
 # diff since last tag (inclusive)
 gdt() {
-  git diff $(git describe --tags --abbrev=0)^..HEAD --oneline
+  git diff $(git_last_tag)^..HEAD --oneline
 }
 
 # hard reset to origin
@@ -698,18 +700,18 @@ grhao() {
 
 # hard reset to last tag
 grhat() {
-  git reset --hard $(git describe --tags --abbrev=0)
+  git reset --hard $(git_last_tag)
 }
 
 # git checkout last tag
 gcit() {
   git_save_branch
-  git checkout $(git describe --tags --abbrev=0)^
+  git checkout $(git_last_tag)^
 }
 
 # rebase to last tag (inclusive)
 grit() {
-  git rebase --interactive $(git describe --tags --abbrev=0)^
+  git rebase --interactive $(git_last_tag)^
 }
 
 # interactive rebase to origin/CURRENT_BRANCH (exclusive)
@@ -818,7 +820,7 @@ bib() {
 # default to last tag
 gtd() {
   # get last tag
-  ref=${@:-$(git describe --tags --abbrev=0 2>/dev/null)}
+  ref=${@:-$(git_last_tag 2>/dev/null)}
   if [ -z "$ref" ]; then
     echo "No tags found"
     return 1
