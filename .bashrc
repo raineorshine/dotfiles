@@ -328,16 +328,16 @@ alias forcen="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify --force"
 # force push to the current branch's upstream
 alias forcepr="pushpr --force"
 # fetch current branch from origin
-alias ff='git pull --ff-only origin $(git rev-parse --abbrev-ref HEAD)'
+alias ff='git pull --ff-only origin $(git_local_branch)'
 # fetches all remote branches
 alias ffa="git pull --ff-only"
 # fetch current branch from upstream
-alias ffu='git pull --ff-only upstream $(git rev-parse --abbrev-ref HEAD)'
+alias ffu='git pull --ff-only upstream $(git_local_branch)'
 alias gf="git fetch"
 alias gfd="git fetch --deepen"
 alias gfu="git fetch --unshallow"
 # pull upstream into current branch
-alias up='git pull upstream $(git rev-parse --abbrev-ref HEAD)'
+alias up='git pull upstream $(git_local_branch)'
 
 # bisect
 alias gbi="git bisect"
@@ -358,7 +358,7 @@ alias gbr="git branch -vr"
 # verbose + date + committer
 # used by gb as default
 alias gbra="git for-each-ref --color=always --sort=-committerdate refs/heads/ --format='%(color:yellow)%(committerdate:short)%(color:reset) %(align:width=18)%(refname:short)%(end) %(objectname:short) %(subject) %(color:blue)(%(authorname))%(color:reset)'"
-alias pwb="git rev-parse --abbrev-ref HEAD" # print working branch
+alias pwb="git_local_branch" # print working branch
 
 # diff
 alias gd="git diff"
@@ -479,6 +479,8 @@ alias gsc="gc stash@{0}"
 alias gsw="git switch -"
 alias gt="git tag"
 alias sub="git submodule init && git submodule update"
+# local branch name
+alias git_local_branch="git rev-parse --abbrev-ref HEAD"
 
 # pull all submodules
 pull() {
@@ -554,7 +556,7 @@ gm() {
 # save branch name (if not detached)
 # this allows gcr to exit detached HEAD state and gn to better determine the next commit
 git_save_branch() {
-  branch=$(git rev-parse --abbrev-ref HEAD)
+  branch=$(git_local_branch)
   if [ "$branch" != "HEAD" ]; then
     echo "$branch" >.git/_PREV_BRANCH
   fi
@@ -676,7 +678,7 @@ aforce() {
 
 # log commits since origin/{branch} (inclusive)
 glor() {
-  git log origin/$(git rev-parse --abbrev-ref HEAD)^..HEAD --oneline
+  git log origin/$(git_local_branch)^..HEAD --oneline
 }
 
 # log commits since last tag (inclusive)
@@ -691,7 +693,7 @@ gdt() {
 
 # hard reset to origin
 grhao() {
-  git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+  git reset --hard origin/$(git_local_branch)
 }
 
 # hard reset to last tag
@@ -712,7 +714,7 @@ grit() {
 
 # interactive rebase to origin/CURRENT_BRANCH (exclusive)
 grio() {
-  git rebase --interactive origin/$(git rev-parse --abbrev-ref HEAD)
+  git rebase --interactive origin/$(git_local_branch)
 }
 
 # list branches in reverse chronological order (using for-each-ref)
@@ -882,7 +884,7 @@ ffpr() {
   remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
   remote=$(echo $remote_fullname | cut -d'/' -f1)
   remote_branch=$(echo $remote_fullname | cut -d'/' -f2-)
-  local_branch=$(git rev-parse --abbrev-ref HEAD)
+  local_branch=$(git_local_branch)
   git pull --ff-only $remote $remote_branch:$local_branch
 }
 
