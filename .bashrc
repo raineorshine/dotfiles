@@ -675,7 +675,7 @@ aforce() {
 }
 
 # log commits since origin/{branch} (inclusive)
-gld() {
+glor() {
   git log origin/$(git rev-parse --abbrev-ref HEAD)^..HEAD --oneline
 }
 
@@ -689,8 +689,8 @@ gdt() {
   git diff $(git describe --tags --abbrev=0)^..HEAD --oneline
 }
 
-# hard reset to dev
-grhad() {
+# hard reset to origin
+grhao() {
   git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 }
 
@@ -710,8 +710,8 @@ grit() {
   git rebase --interactive $(git describe --tags --abbrev=0)^
 }
 
-# rebase to origin/CURRENT_BRANCH (exclusive)
-grid() {
+# interactive rebase to origin/CURRENT_BRANCH (exclusive)
+grio() {
   git rebase --interactive origin/$(git rev-parse --abbrev-ref HEAD)
 }
 
