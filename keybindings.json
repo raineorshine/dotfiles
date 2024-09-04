@@ -309,4 +309,20 @@
     "key": "alt+g c",
     "command": "git.checkout"
   },
+  {
+    "key": "alt+g i",
+    "command": "merge-conflict.accept.incoming"
+  },
+  {
+    "key": "alt+g shift+i",
+    "command": "merge-conflict.accept.all-incoming"
+  },
+  {
+    "key": "alt+g a",
+    "command": "merge-conflict.accept.current"
+  },
+  {
+    "key": "alt+g shift+a",
+    "command": "merge-conflict.accept.all-current"
+  },
 ]
