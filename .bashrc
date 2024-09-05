@@ -830,7 +830,7 @@ gtd() {
   if [ $# -eq 0 ]; then
     confirm "Delete tag $ref? (y/n) "
     if [ "$?" -ne 0 ]; then
-      return "$?"
+      return 1
     fi
   fi
 
