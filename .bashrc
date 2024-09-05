@@ -309,10 +309,11 @@ h() {
 # git
 #-------------------------#
 
-# push/pull/fetch
-alias push="git push origin HEAD"
+# Default push
+# To automatically push to the upstream branch, set 'git config push.default upstream'
+alias push="git push"
 # push and skip pre-push hooks
-alias pushn="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify"
+alias pushn="HUSKY_SKIP_HOOKS=1 git push --no-verify"
 # push and push tags
 alias pusht="git push && git push --no-verify --tags"
 # push and push tags to heroku
@@ -320,11 +321,11 @@ alias pushh="git push && git push --no-verify heroku master && heroku info -s | 
 # push and set upstream to origin branch of the same name
 alias pushu="git push --set-upstream origin HEAD"
 # force push to origin
-alias force="git push origin HEAD --force"
+alias force="git push --force"
 # force push and set upstream to origin branch of the same name
-alias forceu="git push --set-upstream origin HEAD --force"
+alias forceu="git push --set-upstream --force"
 # force push and skip pre-push hooks
-alias forcen="HUSKY_SKIP_HOOKS=1 git push origin HEAD --no-verify --force"
+alias forcen="HUSKY_SKIP_HOOKS=1 git push --no-verify --force"
 # force push to the current branch's upstream
 alias forcepr="pushpr --force"
 # fetch current branch from origin
