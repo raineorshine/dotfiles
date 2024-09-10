@@ -580,13 +580,13 @@ git_load_branch() {
 alias gc="git_save_branch ; git checkout"
 alias gcm="git_save_branch ; git checkout main"
 
-# reset to last saved branch
+# checkout last saved branch
 gcr() {
   branch=$(git_load_branch)
   if [ -n "$branch" ]; then
     git checkout "$branch"
   else
-    echo "No saved branch to reset to"
+    echo "No saved branch to checkout"
     return 1
   fi
 }
