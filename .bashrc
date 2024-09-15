@@ -233,13 +233,13 @@ prev() {
 
 # edit .bashrc file
 rc() {
-  dd
+  dd &
   $EDITOR "$dothome/.bashrc"
 }
 
 # edit .zhrc file
 zrc() {
-  dd
+  dd &
   $EDITOR "$dothome/.zshrc"
 }
 
