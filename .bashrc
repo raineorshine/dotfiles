@@ -921,6 +921,11 @@ alias gab="git_rewrite_history --abort"
 # skip
 alias gskip="git_rewrite_history --skip"
 
+# git diff --name-only from origin
+gdno() {
+  git diff --name-only origin/$(git_local_branch) head
+}
+
 #-------------------------#
 # npm
 #-------------------------#
