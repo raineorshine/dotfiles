@@ -710,6 +710,11 @@ gcit() {
   git checkout $(git_last_tag)^
 }
 
+# interactive rebase to main (exclusive)
+grim() {
+  git rebase --interactive main
+}
+
 # rebase to last tag (inclusive)
 grit() {
   git rebase --interactive $(git_last_tag)^
