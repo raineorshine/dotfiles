@@ -737,6 +737,12 @@ gb() {
 
 # delete branch from local and remote
 gbd() {
+  git branch -d "$@"
+  git push origin --delete "$@"
+}
+
+# delete branch from local and remote (force)
+gbD() {
   git branch -D "$@"
   git push origin --delete "$@"
 }
