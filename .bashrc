@@ -710,6 +710,11 @@ grhao() {
   git reset --hard origin/$(git_local_branch)
 }
 
+# hard reset to remote branch
+grhar() {
+  git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+}
+
 # hard reset to last tag
 grhat() {
   git reset --hard $(git_last_tag)
