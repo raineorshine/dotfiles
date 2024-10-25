@@ -325,4 +325,8 @@
     "key": "alt+g shift+a",
     "command": "merge-conflict.accept.all-current"
   },
+  {
+    "key": "alt+g b",
+    "command": "merge-conflict.accept.both"
+  },
 ]
