@@ -113,6 +113,7 @@ alias nov="node -v"
 alias pro="$EDITOR $dothome/.bash_profile"
 alias zpro="$EDITOR $dothome/.zprofile"
 alias rmrf="rm -rf"
+alias rmv="rm -rf node_modules/.vite"
 # strip colors
 alias strip='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g"'
 alias t="type -af"
