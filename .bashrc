@@ -836,12 +836,12 @@ bisect() {
 }
 
 # start bisecting if we are not already, and then call git bisect bad
-gig() {
+gg() {
   bisect good
 }
 
 # start bisecting if we are not already, and then call git bisect good
-bib() {
+bb() {
   bisect bad
 }
 
@@ -1017,7 +1017,7 @@ alias ygr="yarn global remove"
 alias ba="bun add"
 alias bad="bun add --dev"
 alias bag="bun add --global"
-alias bb="bun run build"
+alias bub="bun run build"
 alias bd="bun run dist"
 alias bi="bun install"
 alias big="bun install -g"
