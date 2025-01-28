@@ -640,5 +640,6 @@
     "editor.defaultFormatter": "ms-azuretools.vscode-docker"
   },
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "github.copilot.editor.enableAutoCompletions": true
+  "github.copilot.editor.enableAutoCompletions": true,
+  "chat.editing.alwaysSaveWithGeneratedChanges": true
 }
