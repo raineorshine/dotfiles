@@ -183,6 +183,7 @@ lessmd() {
 }
 
 # repeat a command n times
+# e.g. loop 10 echo hello
 loop() {
   n=$1
   shift
