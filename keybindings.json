@@ -329,4 +329,17 @@
     "key": "alt+g b",
     "command": "merge-conflict.accept.both"
   },
+  {
+    // The default ctrl+cmd+i does an inline chat which seems to fail for some reason.
+    // cmd+option+b opens the sidebar, but does not focus the search bar.
+    "key": "alt+cmd+m",
+    "command": "workbench.panel.chat",
+    "when": "workbench.panel.chat.view.copilot.active"
+  },
+  {
+    // The default ctrl+l does not work because it is mapped to ¬ for some reason (?)
+    "key": "cmd+n",
+    "command": "workbench.action.chat.newChat",
+    "when": "chatIsEnabled && inChat && chatLocation != 'editing-session'"
+  },
 ]
