@@ -641,5 +641,6 @@
   },
   "typescript.updateImportsOnFileMove.enabled": "always",
   "github.copilot.editor.enableAutoCompletions": true,
-  "chat.editing.alwaysSaveWithGeneratedChanges": true
+  "chat.editing.alwaysSaveWithGeneratedChanges": true,
+  "redhat.telemetry.enabled": false
 }
