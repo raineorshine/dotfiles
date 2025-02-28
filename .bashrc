@@ -385,6 +385,8 @@ alias fix="git diff --name-only | uniq | xargs $EDITOR -n"
 alias gl="git log"
 alias gloo="git log --oneline"
 alias gll="git log -1"
+# show the commit message of the penulatimate commit
+alias gll2="git log head^^..head^"
 alias gl1="git log -1"
 alias gl2="git log -2"
 alias gl3="git log -3"
