@@ -69,6 +69,8 @@ alias fd="firebase deploy --only hosting"
 alias fds="firebase hosting:channel:deploy staging"
 alias fnu="fnm use"
 alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
+# map GitHub CLI to `github`` since gh is used to get the commit hash of the last commit
+alias github="/usr/local/bin/gh"
 alias grep="grep --color=always"
 alias grepi="grep -i"
 alias h10="head -10"
