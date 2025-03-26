@@ -915,8 +915,12 @@ pushpr() {
   git push $remote HEAD:$remote_branch "$@"
 }
 
-# pull from current branch's upstream with --ff-only
+# pull from current branch's tracked remote with --ff-only.
+# if a PR number is provided, checkout the PR branch first.
 ffpr() {
+  if [ $# -ne 0 ]; then
+    github pr checkout "$@" --branch "pr/$@"
+  fi
   remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
   remote=$(echo $remote_fullname | cut -d'/' -f1)
   remote_branch=$(echo $remote_fullname | cut -d'/' -f2-)
