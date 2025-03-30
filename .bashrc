@@ -915,17 +915,16 @@ pushpr() {
   git push $remote HEAD:$remote_branch "$@"
 }
 
-# pull from current branch's tracked remote with --ff-only.
-# if a PR number is provided, checkout the PR branch first.
-ffpr() {
+# fetch and hard reset to tracked remote branch of given PR number, or current branch if no PR number is specified
+pr() {
   if [ $# -ne 0 ]; then
     github pr checkout "$@" --branch "pr/$@"
   fi
   remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
   remote=$(echo $remote_fullname | cut -d'/' -f1)
   remote_branch=$(echo $remote_fullname | cut -d'/' -f2-)
-  local_branch=$(git_local_branch)
-  git pull --ff-only $remote $remote_branch:$local_branch
+  git fetch $remote $remote_branch
+  git reset --hard $remote/$remote_branch
 }
 
 # Apply a history-rewriting operation based on an active rebase, cherry-pick, merge, or revert
