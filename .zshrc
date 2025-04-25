@@ -170,10 +170,32 @@ karpull() {
 alias gpg="gpg2 -o -"
 alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
 
-# encrypt and pipe to stdout
+# encrypt a file and save it as ".asc" (text) or ".gpg" (binary)
 gpge() {
-  # requires "brew install gnupg"
-  gpg -er raine
+if [ -z "$1" ]; then
+    echo "Encrypt a file and save it as .asc (text) or .gpg (binary)"
+    echo "\nUsage: gpge <filename>"
+    echo "\nExamples:"
+    echo "  gpge test.txt -> test.txt.asc"
+    echo "  gpge test.jpg -> test.jpg.gpg"
+    return 1
+  fi
+
+  local input_file="$1"
+  local output_file
+  local ext
+
+  # Detect if file is a text file
+  if file "$input_file" | grep -q 'text'; then
+    ext=".asc"
+  else
+    ext=".gpg"
+  fi
+
+  output_file="${input_file}${ext}"
+
+  # Encrypt for recipient 'raine'
+  gpg -er raine --output "$output_file" "$input_file"
 }
 
 # encrypt ascii armored and pipe to stdout
