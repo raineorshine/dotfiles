@@ -915,16 +915,49 @@ pushpr() {
   git push $remote HEAD:$remote_branch "$@"
 }
 
-# fetch and hard reset to tracked remote branch of given PR number, or current branch if no PR number is specified
+# fetch and hard reset to tracked remote branch of given PR number
 pr() {
-  if [ $# -ne 0 ]; then
-    github pr checkout "$@" --branch "pr/$@"
+  local_branch=pr/"$1"
+  github pr checkout "$1" --branch "$local_branch"
+
+  # Add the remote and set remote tracking branch if it doesn't exist
+  remote_name=$(git config branch."$local_branch".remote)
+  # remote_username=$(basename "$(dirname "$remote_url")")
+  # remote_name="github-desktop-$remote_username"
+  if ! git remote | grep -q "$remote_name"; then
+    remote_url=$(git remote get-url "$remote_name")
+    git remote add "$remote_name" "$remote_url"
+
+    # Get the remote branch name using the github cli since git rev-parse --symbolic-full-name does not work before the remote tracking branch is set.
+    remote_branch=$(github pr view "$1" --json headRefName -q .headRefName)
+    git branch --set-upstream-to="$remote_name/$remote_branch"
   fi
+
+  # Rename the branch and remote to match GitHub Desktop.
+  # git branch -m "$local_branch"
+  # TODO: Rename remote
+  # remote_name="github-desktop-$remote_username"
+
+  # Extract the remote URL from the PR branch
+  # remote_url=$(git config branch."$branch".remote)
+  # if [ -z "$remote_url" ]; then
+  #   echo "Error: Unable to determine remote URL for branch '$branch'."
+  #   return 1
+  # fi
+
+  # Extract the remote username from the url
+  # remote_username=$(basename "$(dirname "$remote_url")")
+  # remote_name="github-desktop-$remote_username"
+
+  # Get the remote branch name using the github cli since git rev-parse --symbolic-full-name does not work before the remote tracking branch is set.
+
+  # git fetch "$remote_name" "$local_branch"
+
   remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
-  remote=$(echo $remote_fullname | cut -d'/' -f1)
   remote_branch=$(echo $remote_fullname | cut -d'/' -f2-)
-  git fetch $remote $remote_branch
-  git reset --hard $remote/$remote_branch
+
+  # Fetch and hard reset to the remote branch
+  git reset --hard "$remote_name/$remote_branch"
 }
 
 # Apply a history-rewriting operation based on an active rebase, cherry-pick, merge, or revert
