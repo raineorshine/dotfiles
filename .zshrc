@@ -171,6 +171,7 @@ alias gpg="gpg2 -o -"
 alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
 
 # encrypt a file and save it as ".asc" (text) or ".gpg" (binary)
+# requires "brew install gnupg"
 gpge() {
 if [ -z "$1" ]; then
     echo "Encrypt a file and save it as .asc (text) or .gpg (binary)"
@@ -187,29 +188,33 @@ if [ -z "$1" ]; then
 
   # Detect if file is a text file
   if file "$input_file" | grep -q 'text'; then
-    ext=".asc"
+    gpg -ear raine --output "${input_file}.asc" "$input_file"
+    echo "Encrypted: ${input_file}.asc"
   else
-    ext=".gpg"
+    gpg -er raine --output "${input_file}.gpg" "$input_file"
+    echo "Encrypted: ${input_file}.gpg"
   fi
+}
 
-  output_file="${input_file}${ext}"
-
-  # Encrypt for recipient 'raine'
-  gpg -er raine --output "$output_file" "$input_file"
+# decrypt a file and preview with either less or Preview.app
+gpgp() {
+  local file="$1"
+  if [[ "$file" == *.asc ]]; then
+    gpg "$file" | less
+  elif [[ "$file" == *.gpg ]]; then
+    # http://apple.stackexchange.com/questions/175977/preview-image-from-pipe/175981#175981
+    # man open | grep -C 3 "\-f"
+    gpg -o - "$file" | open -a Preview.app -f
+  else
+    echo "Unsupported file type. Please provide a .asc or .gpg file."
+    return 1
+  fi
 }
 
 # encrypt ascii armored and pipe to stdout
 # e.g. gpga < file.txt > file.txt.asc
 gpga() {
-  # requires "brew install gnupg"
   gpg -ear raine
-}
-
-# decrypt an image and pipe to Preview.app
-gpgi() {
-  # http://apple.stackexchange.com/questions/175977/preview-image-from-pipe/175981#175981
-  # man open | grep -C 3 "\-f"
-  gpg -o - "$@" | open -a Preview.app -f
 }
 
 # bun completions
