@@ -170,7 +170,7 @@ karpull() {
 alias gpg="gpg2 -o -"
 alias pri="gpg -d ~/Google\ Drive/Finance/Accounts/private.json.asc | less"
 
-# encrypt a file and save it as ".asc" (text) or ".gpg" (binary)
+# encrypt a file and save it as .asc (text) or .gpg (binary)
 # requires "brew install gnupg"
 gpge() {
 if [ -z "$1" ]; then
@@ -194,6 +194,32 @@ if [ -z "$1" ]; then
     gpg -er raine --output "${input_file}.gpg" "$input_file"
     echo "Encrypted: ${input_file}.gpg"
   fi
+}
+
+# decrypt a file and save it without the .asc or .gpg extension
+gpgd() {
+if [ -z "$1" ]; then
+    echo "Decrypt a file and save it without the .asc or .gpg extension"
+    echo "\nUsage: gpgd <filename>"
+    echo "\nExamples:"
+    echo "  gpgd test.txt.asc -> test.txt"
+    echo "  gpgd test.jpg.gpg -> test.jpg"
+    return 1
+  fi
+
+  local input_file="$1"
+  local output_file
+  local ext
+
+  # Detect if file is a text file
+  if file "$input_file" | grep -q 'text'; then
+    output_file="${input_file%.asc}"
+  else
+    output_file="${input_file%.gpg}"
+  fi
+
+  gpg -d --output "$output_file" "$input_file"
+  echo "Decrypted: $output_file"
 }
 
 # decrypt a file and preview with either less or Preview.app
