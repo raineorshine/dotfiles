@@ -958,6 +958,9 @@ pr() {
 
   # Fetch and hard reset to the remote branch
   git reset --hard "$remote_name/$remote_branch"
+
+  # Print commit date of the PR branch, e.g. Sun Jun 1 10:42:53 2025 -0700
+  git log -1 --format=%cd
 }
 
 # Apply a history-rewriting operation based on an active rebase, cherry-pick, merge, or revert
