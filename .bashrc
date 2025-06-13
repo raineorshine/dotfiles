@@ -732,6 +732,21 @@ gcit() {
   git checkout $(git_last_tag)^
 }
 
+# git checkout last commit from the given time ellapsed
+gct() {
+  if [ -z "$1" ]; then
+    echo "git checkout last commit from the given time ellapsed"
+    echo "Usage: gct <time>"
+    echo "e.g. gct '2 weeks ago'"
+    return 1
+  fi
+  git checkout $(git log --until="$1" -n 1 --format="%H")
+
+  # Print commit date
+  # e.g. Sun Jun 1 10:42:53 2025 -0700
+  git log -1 --format=%cd
+}
+
 # interactive rebase to main (exclusive)
 grim() {
   git rebase --interactive main
