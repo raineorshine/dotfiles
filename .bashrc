@@ -795,10 +795,13 @@ gbda() {
   done
 }
 
-# git remote - verbose if no args
+# Alias for git remote. Add --verbose if no arguments.
 grm() {
-  args=${@:--v}
-  git remote $args
+  if [ $# -eq 0 ]; then
+    git remote -v
+  else
+    git remote "$@"
+  fi
 }
 
 # git remote add
