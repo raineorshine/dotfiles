@@ -1003,6 +1003,45 @@ gdno() {
   git diff --name-only origin/$(git_local_branch) head
 }
 
+# Triggers a GitHub Actions workflow multiple times.
+ghworkflow() {
+  # get repo url
+  repo_default=$(git remote get-url origin)
+  workflow_default="puppeteer.yml"
+  branch_default=$(git rev-parse --abbrev-ref HEAD)
+
+  # prompt user for the repo
+  read -p "Repository: ($repo_default) " input_repo
+  repo=${input_repo:-$repo_default}
+
+  # prompt the user for the workflow
+  read -p "Workflow: ($workflow_default) " input_workflow
+  workflow=${input_workflow:-$workflow_default}
+
+  # prompt the user for the branch
+  read -p "Branch: ($branch_default) " input_branch
+  branch=${input_branch:-$branch_default}
+
+  # prompt the user for the number of runs
+  read -p "Number of runs: (10) " input_runs
+  runs=${input_runs:-10}
+
+  # To trigger the workflow on a PR from a fork, we need to push it to a repo we control.
+  git push origin "$branch"
+
+  for i in $(seq 1 $runs); do
+    echo "Triggering workflow run #$i..."
+
+    gh workflow run "$workflow" \
+      --repo "$repo" \
+      --ref "$branch" \
+      --field rerun_id="run_$i"
+
+    # avoid flooding GitHub API
+    sleep 1
+  done
+}
+
 #-------------------------#
 # npm
 #-------------------------#
