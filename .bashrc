@@ -933,49 +933,36 @@ pushpr() {
 # fetch and hard reset to tracked remote branch of given PR number
 pr() {
   local_branch=pr/"$1"
-  github pr checkout "$1" --branch "$local_branch"
+  github pr checkout "$1" --branch "$local_branch" --force
+
+  # Determine the remote name based on the local branch.
+  # If the remote is not yet defined, remote_name will be set to the git url (e.g. https://github.com/ethan-james/em.git).
+  # Check if remote_name starts with http, and if so, change it to the expected github-desktop remote name.
+  remote_name=$(git config branch."$local_branch".remote)
+  if [[ $remote_name == http* ]]; then
+    remote_url="$remote_name"
+    remote_username=$(basename "$(dirname "$remote_name")")
+    remote_name="github-desktop-$remote_username"
+  else
+    remote_url=$(git remote get-url "$remote_name")
+  fi
 
   # Add the remote and set remote tracking branch if it doesn't exist
-  remote_name=$(git config branch."$local_branch".remote)
-  # remote_username=$(basename "$(dirname "$remote_url")")
-  # remote_name="github-desktop-$remote_username"
   if ! git remote | grep -q "$remote_name"; then
-    remote_url=$(git remote get-url "$remote_name")
     git remote add "$remote_name" "$remote_url"
 
-    # Get the remote branch name using the github cli since git rev-parse --symbolic-full-name does not work before the remote tracking branch is set.
+    # Get the remote branch name using the github cli since `git rev-parse --symbolic-full-name` does not work before the remote tracking branch is set.
     remote_branch=$(github pr view "$1" --json headRefName -q .headRefName)
+
+    # Fetch the remote branch, otherwise we can't set the upstream:
+    #   fatal: refusing to fetch into branch 'refs/heads/pr/3047' checked out at '/Users/raine/projects/em'
+    # TODO: Why doesn't `github pr checkout` do this already?
+    git fetch "$remote_name" "$remote_branch"
+
     git branch --set-upstream-to="$remote_name/$remote_branch"
   fi
 
-  # Rename the branch and remote to match GitHub Desktop.
-  # git branch -m "$local_branch"
-  # TODO: Rename remote
-  # remote_name="github-desktop-$remote_username"
-
-  # Extract the remote URL from the PR branch
-  # remote_url=$(git config branch."$branch".remote)
-  # if [ -z "$remote_url" ]; then
-  #   echo "Error: Unable to determine remote URL for branch '$branch'."
-  #   return 1
-  # fi
-
-  # Extract the remote username from the url
-  # remote_username=$(basename "$(dirname "$remote_url")")
-  # remote_name="github-desktop-$remote_username"
-
-  # Get the remote branch name using the github cli since git rev-parse --symbolic-full-name does not work before the remote tracking branch is set.
-
-  # git fetch "$remote_name" "$local_branch"
-
-  remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
-  remote_branch=$(echo $remote_fullname | cut -d'/' -f2-)
-
-  # Fetch and hard reset to the remote branch
-  git reset --hard "$remote_name/$remote_branch"
-
-  # Print commit date of the PR branch, e.g. Sun Jun 1 10:42:53 2025 -0700
-  git log -1 --format=%cd
+  git log -1
 }
 
 # Apply a history-rewriting operation based on an active rebase, cherry-pick, merge, or revert
