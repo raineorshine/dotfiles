@@ -1010,32 +1010,36 @@ ghworkflow() {
   workflow_default="puppeteer.yml"
   branch_default=$(git rev-parse --abbrev-ref HEAD)
 
-  # prompt user for the repo
-  read -p "Repository: ($repo_default) " input_repo
+  echo -n "Repository ($repo_default): "
+  read input_repo
   repo=${input_repo:-$repo_default}
 
-  # prompt the user for the workflow
-  read -p "Workflow: ($workflow_default) " input_workflow
+  echo -n "Workflow ($workflow_default): "
+  read input_workflow
   workflow=${input_workflow:-$workflow_default}
 
-  # prompt the user for the branch
-  read -p "Branch: ($branch_default) " input_branch
+  echo -n "Branch ($branch_default): "
+  read input_branch
   branch=${input_branch:-$branch_default}
 
-  # prompt the user for the number of runs
-  read -p "Number of runs: (10) " input_runs
+  echo -n "Number of runs (10): "
+  read input_runs
   runs=${input_runs:-10}
 
   # To trigger the workflow on a PR from a fork, we need to push it to a repo we control.
-  git push origin "$branch"
+  # If it's already up-to-date, the user can opt out to save time.
+  confirm "Push local branch to origin (y/n)? "
+  if [ "$?" -eq 0 ]; then
+    git push origin "HEAD:$branch" || return 1
+  fi
 
   for i in $(seq 1 $runs); do
     echo "Triggering workflow run #$i..."
 
-    gh workflow run "$workflow" \
+    github workflow run "$workflow" \
       --repo "$repo" \
       --ref "$branch" \
-      --field rerun_id="run_$i"
+      --field rerun_id="run_$i" || return 1
 
     # avoid flooding GitHub API
     sleep 1
