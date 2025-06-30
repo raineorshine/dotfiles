@@ -936,7 +936,7 @@ pushpr() {
 # fetch and hard reset to tracked remote branch of given PR number
 pr() {
   local_branch=pr/"$1"
-  github pr checkout "$1" --branch "$local_branch" --force
+  github pr checkout "$1" --branch "$local_branch" --force || return 1
 
   # Determine the remote name based on the local branch.
   # If the remote is not yet defined, remote_name will be set to the git url (e.g. https://github.com/ethan-james/em.git).
@@ -960,7 +960,7 @@ pr() {
     # Fetch the remote branch, otherwise we can't set the upstream:
     #   fatal: refusing to fetch into branch 'refs/heads/pr/3047' checked out at '/Users/raine/projects/em'
     # TODO: Why doesn't `github pr checkout` do this already?
-    git fetch "$remote_name" "$remote_branch"
+    git fetch "$remote_name" "$remote_branch" || return 1
 
     git branch --set-upstream-to="$remote_name/$remote_branch"
   fi
