@@ -9,6 +9,7 @@ export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:pwd:gs:gulp:gd:push:pull:p"
 export TZ='America/New York'
 export PKG_CONFIG_PATH="/usr/local/opt/postgresql@15/lib/pkgconfig"
+export FNM_DIR="$HOME/.fnm"
 
 export PATH=".cabal-sandbox/bin:$PATH"
 export PATH="/usr/local/opt/python3/libexec/bin:$PATH"
@@ -21,6 +22,7 @@ export PATH="/usr/local/opt/postgresql@15/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="/Users/raine/Library/Application Support/fnm:$PATH"
 export PATH="$HOME/.docker/bin:$PATH"
+export PATH="$HOME/.fnm:$PATH"
 
 # local node_modules should take precedence over global modules
 export PATH="./node_modules/.bin:$PATH"

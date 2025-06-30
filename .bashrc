@@ -147,6 +147,10 @@ so() {
   source $dothome/.bashrc
 }
 
+sob() {
+  source $dothome/.bash_profile
+}
+
 # prompt the user with a y/n question
 confirm() {
   printf "$@"
