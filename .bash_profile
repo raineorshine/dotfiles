@@ -20,9 +20,10 @@ export PATH="~/local/bin:$PATH"
 export PATH="/Users/raine/Library/pnpm:$PATH"
 export PATH="/usr/local/opt/postgresql@15/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
-export PATH="/Users/raine/Library/Application Support/fnm:$PATH"
-export PATH="$HOME/.docker/bin:$PATH"
+# old fnm path did not work with vercel because of space in "Application Support"
+# export PATH="/Users/raine/Library/Application Support/fnm:$PATH"
 export PATH="$HOME/.fnm:$PATH"
+export PATH="$HOME/.docker/bin:$PATH"
 
 # local node_modules should take precedence over global modules
 export PATH="./node_modules/.bin:$PATH"
