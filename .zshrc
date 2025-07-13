@@ -38,11 +38,6 @@ p() {
   echo ...
 }
 
-# Secure directory
-s() {
-  pushd ~/Documents/Secure &> /dev/null
-}
-
 # This file contains only zsh bindings. bash bindings are in .inputrc.
 # Show all commands available in zsh for key binding: zle -al
 # More info about key bindings: https://unix.stackexchange.com/questions/116562/key-bindings-table?rq=1
