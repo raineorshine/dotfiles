@@ -641,5 +641,6 @@
   },
   "typescript.updateImportsOnFileMove.enabled": "always",
   "chat.editing.alwaysSaveWithGeneratedChanges": true,
-  "redhat.telemetry.enabled": false
+  "redhat.telemetry.enabled": false,
+  "github.copilot.nextEditSuggestions.enabled": true
 }
