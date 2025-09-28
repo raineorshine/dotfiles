@@ -1306,11 +1306,12 @@ lo() {
 
 # parse the package.json file and output to less with syntax highlighting
 # select a specific property by passing a jq selector as an argument (outputs without less)
+# omit the leading '.' for the root object
 lp() {
   if [ $# -eq 0 ]; then
     jq <package.json -C | less -R
   else
-    jq $@ <package.json
+    jq .$@ <package.json
   fi
 }
 
