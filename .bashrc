@@ -1315,6 +1315,11 @@ lp() {
   fi
 }
 
+# get the package version from package.json
+lpv() {
+  jq -r .version <package.json
+}
+
 #-------------------------#
 # Video Processing
 #-------------------------#
