@@ -13,6 +13,7 @@ so() {
 alias git=hub
 alias brave="open -a Brave\ Browser"
 alias chrome="open -a Google\ Chrome"
+alias preview="open -a Preview"
 alias brew="arch -x86_64 brew"
 
 # browse the home page of an npm module
