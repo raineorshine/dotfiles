@@ -1311,7 +1311,7 @@ lp() {
   if [ $# -eq 0 ]; then
     jq <package.json -C | less -R
   else
-    jq .$@ <package.json
+    jq ".$@" <package.json
   fi
 }
 
