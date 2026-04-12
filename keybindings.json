@@ -342,4 +342,26 @@
     "command": "workbench.action.chat.newChat",
     "when": "chatIsEnabled && inChat && chatLocation != 'editing-session'"
   },
+  {
+    "key": "ctrl+shift+space",
+    "command": "editor.action.inlineSuggest.trigger"
+  },
+  {
+    "key": "shift+cmd+c a",
+    "command": "workbench.action.chat.openask"
+  },
+  {
+    "key": "shift+cmd+c n",
+    "command": "workbench.action.chat.openagent",
+    "when": "config.chat.agent.enabled && !chatSetupDisabled && !chatSetupHidden"
+  },
+  {
+    "key": "shift+cmd+i",
+    "command": "-workbench.action.chat.openagent",
+    "when": "config.chat.agent.enabled && !chatSetupDisabled && !chatSetupHidden"
+  },
+  {
+    "key": "shift+cmd+c e",
+    "command": "workbench.action.chat.openedit"
+  }
 ]

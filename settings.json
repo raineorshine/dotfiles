@@ -642,5 +642,29 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "chat.editing.alwaysSaveWithGeneratedChanges": true,
   "redhat.telemetry.enabled": false,
-  "github.copilot.nextEditSuggestions.enabled": true
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "chat.tools.terminal.autoApprove": {
+    "/^cd \"/Users/raine/Documents/Backups/Art Collection/Notion Export\" && npx tsx notion-to-instagram\\.ts$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "npm start": true,
+    "npm test": true,
+    "npx tsc": true,
+    "npm install": true,
+    "tsx": true,
+    "npx tsx": true
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "chat.editing.confirmEditRequestRemoval": false,
+  "chat.tools.urls.autoApprove": {
+    "https://code.visualstudio.com": true,
+    "https://github.com/microsoft/vscode/wiki/*": true,
+    "https://help.kalshi.com": true,
+    "https://kalshi.com": {
+      "approveRequest": true,
+      "approveResponse": false
+    },
+    "https://docs.kalshi.com": true
+  }
 }
