@@ -22,7 +22,9 @@ nbro() {
 }
 
 notify() {
-  /usr/bin/osascript -e "display notification \"$*\" with title \"Notification\""
+  local title="${2:+$1}"
+  local message="${2:-$*}"
+  /usr/bin/osascript -e "display notification \"$message\" with title \"${title:-Notification}\""
 }
 
 # icloud directory

@@ -670,5 +670,6 @@
     },
     "https://docs.kalshi.com": true
   },
-  "java.help.showReleaseNotes": false
+  "java.help.showReleaseNotes": false,
+  "chat.viewSessions.orientation": "stacked"
 }

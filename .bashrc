@@ -151,6 +151,16 @@ sob() {
   source $dothome/.bash_profile
 }
 
+# Notify with ✓ or ✗ based on the exit code of the previous command.
+# Defaults to the last typed command as the title.
+# Usage: some_command; notifyresult 'title'
+notifyresult() {
+  local code=$?
+  local title="${1:-$(fc -ln -1 2>/dev/null | sed 's/^[[:space:]]*//')}"
+  [ "$code" -eq 0 ] && notify "$title" ✓ || notify "$title" ✗
+  return "$code"
+}
+
 # prompt the user with a y/n question
 confirm() {
   printf "$@"
@@ -1054,9 +1064,9 @@ ghworkflow() {
 # npm
 #-------------------------#
 
-alias ni="npm install"
+alias ni="npm install; notifyresult 'npm install'"
 # if the dependency is already in devDependencies, --save is needed to add it to dependencies
-alias nis="npm install --save"
+alias nis="npm install --save "
 alias niu="npm install && npm update"
 alias nig="npm install --global"
 alias nug="npm uninstall -g"
@@ -1095,11 +1105,11 @@ alias pi="pnpm install"
 alias pa="pnpm add"
 
 # yarn
-alias y="yarn"
+alias y="yarn; notifyresult yarn"
 alias ya="yarn add"
 alias yad="yarn add --dev"
-alias yb="yarn build"
-alias ybs="yarn build:styles"
+alias yb="yarn build; notifyresult"
+alias ybs="yarn build:styles; notifyresult"
 alias yc="yarn clean"
 alias yr="yarn remove"
 alias yt="yarn test"
