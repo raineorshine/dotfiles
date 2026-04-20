@@ -363,5 +363,9 @@
   {
     "key": "shift+cmd+c e",
     "command": "workbench.action.chat.openedit"
+  },
+  {
+    "key": "shift+alt+cmd+m",
+    "command": "workbench.action.toggleMaximizedAuxiliaryBar"
   }
 ]

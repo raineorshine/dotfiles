@@ -7,7 +7,6 @@ export EDITOR='code'
 export GIT_EDITOR='vim'
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:pwd:gs:gulp:gd:push:pull:p"
-export TZ='America/New York'
 export PKG_CONFIG_PATH="/usr/local/opt/postgresql@15/lib/pkgconfig"
 export FNM_DIR="$HOME/.fnm"
 

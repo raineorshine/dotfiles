@@ -653,7 +653,10 @@
     "npx tsc": true,
     "npm install": true,
     "tsx": true,
-    "npx tsx": true
+    "npx tsx": true,
+    "npx vitest": true,
+    "npx prettier": true,
+    "mkdir": true
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "chat.editing.confirmEditRequestRemoval": false,
@@ -666,5 +669,6 @@
       "approveResponse": false
     },
     "https://docs.kalshi.com": true
-  }
+  },
+  "java.help.showReleaseNotes": false
 }
