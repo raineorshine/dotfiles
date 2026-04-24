@@ -60,7 +60,11 @@ bindkey "\C-a" end-of-line
 bindkey "\C-h" beginning-of-line
 
 # display "✓" on right side if error code 0, otherwise display "✗"
-RPROMPT="%(?.%F{green}✓%f.%F{red}✗%f)"
+# Only enable right prompt in iTerm, not VS Code/Copilot terminals.
+# Otherwise it causes run_in_terminal sync mode output to be blank.
+if [[ -o interactive && "$TERM_PROGRAM" == "iTerm.app" ]]; then
+  RPROMPT="%(?.%F{green}✓%f.%F{red}✗%f)"
+fi
 
 # strip rprompt checkmark
 # useful for copying the shell output to a github issue
