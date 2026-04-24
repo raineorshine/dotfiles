@@ -668,7 +668,10 @@
       "approveRequest": true,
       "approveResponse": false
     },
-    "https://docs.kalshi.com": true
+    "https://docs.kalshi.com": true,
+    "https://*.tastytrade.com": true,
+    "https://*.openai.com": true,
+    "https://*.mailgun.com": true
   },
   "java.help.showReleaseNotes": false,
   "chat.viewSessions.orientation": "stacked"
