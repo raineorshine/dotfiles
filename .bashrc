@@ -243,6 +243,16 @@ port() {
   lsof -i ":$@"
 }
 
+kport() {
+  # get the process using a port and kill it with -9 (force)
+  # error and print a friendly message if the port is not in use
+  if ! lsof -i ":$@" >/dev/null; then
+    echo "$@ is not in use"
+    return 1
+  fi
+  kill -9 $(lsof -ti ":$@")
+}
+
 # echo the last command(s) entered
 prev() {
   n=${@:-1}
