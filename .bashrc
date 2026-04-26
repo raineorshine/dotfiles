@@ -610,6 +610,8 @@ git_load_branch() {
 # Ideally would call fnm use 2>/dev/null after checkout, but this is not possible with an alias.
 alias gc="git_save_branch ; git checkout"
 alias gcm="git_save_branch ; git checkout main"
+alias gw="git_save_branch ; git switch"
+alias gwm="git_save_branch ; git switch main"
 
 # checkout last saved branch
 gcr() {
