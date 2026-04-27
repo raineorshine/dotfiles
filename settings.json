@@ -656,7 +656,9 @@
     "npx tsx": true,
     "npx vitest": true,
     "npx prettier": true,
-    "mkdir": true
+    "mkdir": true,
+    "git add": true,
+    "git commit": true
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "chat.editing.confirmEditRequestRemoval": false,
