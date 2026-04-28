@@ -959,10 +959,14 @@ pushpr() {
   git push $remote HEAD:$remote_branch "$@"
 }
 
-# fetch and hard reset to tracked remote branch of given PR number
+# fetch and hard reset to tracked remote branch of given PR number or URL
 pr() {
-  local_branch=pr/"$1"
-  github pr checkout "$1" --branch "$local_branch" --force || return 1
+  # Strip full GitHub PR URL down to just the PR number if a URL is passed
+  # e.g. https://github.com/cybersemics/em/pull/4188 → 4188
+  local pr_num="${1##*/pull/}"
+  pr_num="${pr_num%%[^0-9]*}"
+  local_branch=pr/"$pr_num"
+  github pr checkout "$pr_num" --branch "$local_branch" --force || return 1
 
   # Determine the remote name based on the local branch.
   # If the remote is not yet defined, remote_name will be set to the git url (e.g. https://github.com/ethan-james/em.git).
@@ -981,7 +985,7 @@ pr() {
     git remote add "$remote_name" "$remote_url"
 
     # Get the remote branch name using the github cli since `git rev-parse --symbolic-full-name` does not work before the remote tracking branch is set.
-    remote_branch=$(github pr view "$1" --json headRefName -q .headRefName)
+    remote_branch=$(github pr view "$pr_num" --json headRefName -q .headRefName)
 
     # Fetch the remote branch, otherwise we can't set the upstream:
     #   fatal: refusing to fetch into branch 'refs/heads/pr/3047' checked out at '/Users/raine/projects/em'
