@@ -90,7 +90,7 @@ dm() {
   if [ -n "$*" ]; then
     msg="$*"
   else
-    printf '[copilot] git diff and write a short commit message...\n'
+    printf '\e[38;2;175;149;227m[copilot]\e[0m git diff and write a short commit message...\n'
     msg=$(copilot -p "Run git diff and write a short commit message. Output only the commit message itself — no explanation, no markdown, no extra text." \
       --model gpt-4.1 \
       --allow-tool='shell(git diff)' | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
