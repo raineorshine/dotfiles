@@ -478,7 +478,8 @@ alias gaatt="ga && gat head^"
 # amend-to third-to-last commit
 alias gaattt="ga && gat head^^"
 alias gbro="git browse"
-alias gh="git rev-parse --short HEAD | tr -d '\n'"
+# show the commit hash of the last commit
+alias ha="git rev-parse --short HEAD | tr -d '\n'"
 alias gi="git init && git add -A && git commit -m 'init'"
 alias grs='git reset'
 alias grh='git reset head^'
