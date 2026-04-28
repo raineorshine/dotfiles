@@ -351,7 +351,7 @@
     "command": "workbench.action.chat.openask"
   },
   {
-    "key": "shift+cmd+c n",
+    "key": "shift+alt+cmd+m",
     "command": "workbench.action.chat.openagent",
     "when": "config.chat.agent.enabled && !chatSetupDisabled && !chatSetupHidden"
   },
@@ -366,6 +366,7 @@
   },
   {
     "key": "shift+alt+cmd+m",
-    "command": "workbench.action.toggleMaximizedAuxiliaryBar"
+    "command": "workbench.action.toggleMaximizedAuxiliaryBar",
+    "when": "chatInputHasFocus"
   }
 ]
