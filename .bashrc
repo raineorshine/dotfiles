@@ -582,11 +582,18 @@ gm() {
     local reset='\e[0m'
     printf "${lavender}[copilot]${reset} generating commit message...\n"
     local diff=$(git diff --staged)
-    msg=$(copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
+    local copilot_output
+    copilot_output=$(copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
 
 ${diff}" \
-      --model gpt-4.1 | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
+      --model gpt-4.1)
+    if [ $? -ne 0 ]; then
+      notify commit ✗
+      return 1
+    fi
+    msg=$(echo "$copilot_output" | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
     git commit -m "$msg"
+    notifyresult commit
   fi
 }
 
