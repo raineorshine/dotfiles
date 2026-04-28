@@ -697,9 +697,8 @@ gclu() {
 # git create with the description set from your package.json
 # requires jq be installed
 gcreate() {
-  desc=$(cat package.json | jq -r .description) &&
-    hub create -d "$desc" &&
-    git push --set-upstream origin HEAD
+  desc=$(jq -r .description package.json) &&
+    gh repo create --source=. --push --description "$desc"
 }
 
 # git create, bump to first major version, and publish to npm
