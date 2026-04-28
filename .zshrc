@@ -92,10 +92,12 @@ dm() {
   else
     local lavender='\e[38;2;175;149;227m'
     local reset='\e[0m'
-    printf "${lavender}[copilot]${reset} git diff and write a short commit message...\n"
-    msg=$(copilot -p "Run git diff and write a short commit message. Output only the commit message itself — no explanation, no markdown, no extra text." \
-      --model gpt-4.1 \
-      --allow-tool='shell(git diff)' | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
+    printf "${lavender}[copilot]${reset} generating commit message...\n"
+    local diff=$(git diff)
+    msg=$(copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
+
+${diff}" \
+      --model gpt-4.1 | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
   fi
 
   so &&
