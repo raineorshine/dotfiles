@@ -82,8 +82,9 @@ precmd() { echo -ne "\e]1;${PWD##*/}\a" }
 
 # add, commit, and push to dotfiles repo
 dm() {
-  dir=$(pwd)
+  local dir=$(pwd)
   cd "$dothome"
+  trap "cd \"$dir\"" EXIT
 
   # supply commit message as argument
   # or default to copilot-generated message
@@ -104,8 +105,6 @@ ${diff}" \
   git add -A &&
   git commit -m "$msg"
   git push
-
-  cd "$dir"
 }
 
 # add, amend, and force push to dotfiles repo
