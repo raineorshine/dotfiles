@@ -70,8 +70,6 @@ alias fd="firebase deploy --only hosting"
 alias fds="firebase hosting:channel:deploy staging"
 alias fnu="fnm use"
 alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
-# map GitHub CLI to `github`` since gh is used to get the commit hash of the last commit
-alias github="/usr/local/bin/gh"
 alias grep="grep --color=always"
 alias grepi="grep -i"
 alias h10="head -10"
@@ -967,7 +965,7 @@ pr() {
   local pr_num="${1##*/pull/}"
   pr_num="${pr_num%%[^0-9]*}"
   local_branch=pr/"$pr_num"
-  github pr checkout "$pr_num" --branch "$local_branch" --force || return 1
+  gh pr checkout "$pr_num" --branch "$local_branch" --force || return 1
 
   # Determine the remote name based on the local branch.
   # If the remote is not yet defined, remote_name will be set to the git url (e.g. https://github.com/ethan-james/em.git).
@@ -986,11 +984,11 @@ pr() {
     git remote add "$remote_name" "$remote_url"
 
     # Get the remote branch name using the github cli since `git rev-parse --symbolic-full-name` does not work before the remote tracking branch is set.
-    remote_branch=$(github pr view "$pr_num" --json headRefName -q .headRefName)
+    remote_branch=$(gh pr view "$pr_num" --json headRefName -q .headRefName)
 
     # Fetch the remote branch, otherwise we can't set the upstream:
     #   fatal: refusing to fetch into branch 'refs/heads/pr/3047' checked out at '/Users/raine/projects/em'
-    # TODO: Why doesn't `github pr checkout` do this already?
+    # TODO: Why doesn't `gh pr checkout` do this already?
     git fetch "$remote_name" "$remote_branch" || return 1
 
     git branch --set-upstream-to="$remote_name/$remote_branch"
@@ -1067,7 +1065,7 @@ ghworkflow() {
   for i in $(seq 1 $runs); do
     echo "Triggering workflow run #$i..."
 
-    github workflow run "$workflow" \
+    gh workflow run "$workflow" \
       --repo "$repo" \
       --ref "$branch" \
       --field rerun_id="run_$i" || return 1
