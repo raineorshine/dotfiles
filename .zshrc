@@ -86,9 +86,15 @@ dm() {
   cd "$dothome"
 
   # supply commit message as argument
-  # or default to timestamp
-  args="$@"
-  msg=${args:="backup `date +%F-%T`"}
+  # or default to copilot-generated message
+  if [ -n "$*" ]; then
+    msg="$*"
+  else
+    printf '[copilot] git diff and write a short commit message...\n'
+    msg=$(copilot -p "Run git diff and write a short commit message. Output only the commit message itself — no explanation, no markdown, no extra text." \
+      --model gpt-4.1 \
+      --allow-tool='shell(git diff)' | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
+  fi
 
   so &&
   git add -A &&
