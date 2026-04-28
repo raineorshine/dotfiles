@@ -569,7 +569,7 @@ gat() {
 }
 
 # add all and commit
-# When no arguments are provided, opens $EDITOR to write the commit message
+# When no arguments are provided, generates a commit message using Copilot based on the current git diff.
 # Usage:
 #   gam
 #   gam [shortmessage]
@@ -579,12 +579,20 @@ gam() {
   if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
-    git commit
+    local lavender='\e[38;2;175;149;227m'
+    local reset='\e[0m'
+    printf "${lavender}[copilot]${reset} generating commit message...\n"
+    local diff=$(git diff --staged)
+    msg=$(copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
+
+${diff}" \
+      --model gpt-4.1 | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
+    git commit -m "$msg"
   fi
 }
 
 # git commit
-# When no arguments are provided, opens $EDITOR to write the commit message
+# When no arguments are provided, generates a commit message using Copilot based on the current git diff.
 # Usage:
 #   gm
 #   gm [shortmessage]
@@ -593,7 +601,15 @@ gm() {
   if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
-    git commit
+    local lavender='\e[38;2;175;149;227m'
+    local reset='\e[0m'
+    printf "${lavender}[copilot]${reset} generating commit message...\n"
+    local diff=$(git diff --staged)
+    msg=$(copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
+
+${diff}" \
+      --model gpt-4.1 | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
+    git commit -m "$msg"
   fi
 }
 

@@ -281,9 +281,9 @@
     "command": "workbench.action.terminal.focus"
   },
   {
-    "key":     "alt+tab",
+    "key":     "shift+cmd+c",
     "command": "workbench.action.focusActiveEditorGroup",
-    "when":    "terminalFocus"
+    "when":    "chatInputHasFocus"
   },
   // change leaper.leap shortcut since it interferes with GitHub Copilot
   {
@@ -347,10 +347,6 @@
     "command": "editor.action.inlineSuggest.trigger"
   },
   {
-    "key": "shift+cmd+c a",
-    "command": "workbench.action.chat.openask"
-  },
-  {
     "key": "shift+alt+cmd+m",
     "command": "workbench.action.chat.openagent",
     "when": "config.chat.agent.enabled && !chatSetupDisabled && !chatSetupHidden"
@@ -361,12 +357,23 @@
     "when": "config.chat.agent.enabled && !chatSetupDisabled && !chatSetupHidden"
   },
   {
-    "key": "shift+cmd+c e",
-    "command": "workbench.action.chat.openedit"
-  },
-  {
     "key": "shift+alt+cmd+m",
     "command": "workbench.action.toggleMaximizedAuxiliaryBar",
     "when": "chatInputHasFocus"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "workbench.action.chat.openagent",
+    "when": "!chatInputHasFocus && config.chat.agent.enabled && !chatSetupDisabledInWorkspace && !chatSetupHidden"
+  },
+  {
+    "key": "shift+cmd+i",
+    "command": "-workbench.action.chat.openagent",
+    "when": "config.chat.agent.enabled && !chatSetupDisabledInWorkspace && !chatSetupHidden"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalFocus"
   }
 ]

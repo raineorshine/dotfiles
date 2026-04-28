@@ -644,6 +644,7 @@
   "redhat.telemetry.enabled": false,
   "github.copilot.nextEditSuggestions.enabled": true,
   "chat.tools.terminal.autoApprove": {
+
     "/^cd \"/Users/raine/Documents/Backups/Art Collection/Notion Export\" && npx tsx notion-to-instagram\\.ts$/": {
       "approve": true,
       "matchCommandLine": true
@@ -656,9 +657,7 @@
     "npx tsx": true,
     "npx vitest": true,
     "npx prettier": true,
-    "mkdir": true,
-    "git add": true,
-    "git commit": true
+    "mkdir": true
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "chat.editing.confirmEditRequestRemoval": false,
