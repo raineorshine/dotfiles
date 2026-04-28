@@ -696,7 +696,9 @@ gclu() {
 # requires jq be installed
 gcreate() {
   desc=$(jq -r .description package.json) &&
-    gh repo create --source=. --push --public --description "$desc"
+    private=$(jq -r '.private // false' package.json) &&
+    visibility=$([ "$private" = "true" ] && echo "--private" || echo "--public") &&
+    gh repo create --source=. --push $visibility --description "$desc"
 }
 
 # git create, bump to first major version, and publish to npm
