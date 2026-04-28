@@ -568,29 +568,6 @@ gat() {
   git amend-to "$@"
 }
 
-# add all and commit
-# When no arguments are provided, generates a commit message using Copilot based on the current git diff.
-# Usage:
-#   gam
-#   gam [shortmessage]
-#   gam [shortmessage] -m [longmessage]
-gam() {
-  git add -A
-  if [ $# -ne 0 ]; then
-    git commit -m "$@"
-  else
-    local lavender='\e[38;2;175;149;227m'
-    local reset='\e[0m'
-    printf "${lavender}[copilot]${reset} generating commit message...\n"
-    local diff=$(git diff --staged)
-    msg=$(copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
-
-${diff}" \
-      --model gpt-4.1 | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
-    git commit -m "$msg"
-  fi
-}
-
 # git commit
 # When no arguments are provided, generates a commit message using Copilot based on the current git diff.
 # Usage:
@@ -611,6 +588,17 @@ ${diff}" \
       --model gpt-4.1 | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
     git commit -m "$msg"
   fi
+}
+
+# add all and commit
+# When no arguments are provided, generates a commit message using Copilot based on the current git diff.
+# Usage:
+#   gam
+#   gam [shortmessage]
+#   gam [shortmessage] -m [longmessage]
+gam() {
+  git add -A
+  gm "$@"
 }
 
 # save branch name (if not detached)
