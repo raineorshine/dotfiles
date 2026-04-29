@@ -1008,6 +1008,8 @@ pr() {
   fi
 
   git log -1
+
+  notifyresult "Checked out PR #$pr_num"
 }
 
 # Apply a history-rewriting operation based on an active rebase, cherry-pick, merge, or revert
