@@ -477,9 +477,6 @@ alias gaatt="ga && gat head^"
 # amend-to third-to-last commit
 alias gaattt="ga && gat head^^"
 alias gbro="git browse"
-# show the commit hash of the last commit
-alias ha="git rev-parse --short HEAD | tr -d '\n'"
-alias hac="git rev-parse --short HEAD | tr -d '\n' | c"
 alias gi="git init && git add -A && git commit -m 'init'"
 alias grs='git reset'
 alias grh='git reset head^'
@@ -526,6 +523,15 @@ alias sub="git submodule init && git submodule update"
 alias git_local_branch="git rev-parse --abbrev-ref HEAD"
 # last tag
 alias git_last_tag="git describe --tags --abbrev=0"
+
+# show the commit hash of the last commit
+alias ha="git rev-parse --short HEAD | tr -d '\n'"
+hac() {
+  local hash
+  hash=$(git rev-parse --short HEAD | tr -d '\n')
+  echo -n "$hash" | c
+  echo "Copied $hash to clipboard"
+}
 
 # pull all submodules
 pull() {
