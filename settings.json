@@ -657,7 +657,8 @@
     "npx tsx": true,
     "npx vitest": true,
     "npx prettier": true,
-    "mkdir": true
+    "mkdir": true,
+    "diff": true
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "chat.editing.confirmEditRequestRemoval": false,
@@ -675,5 +676,8 @@
     "https://*.mailgun.com": true
   },
   "java.help.showReleaseNotes": false,
-  "chat.viewSessions.orientation": "stacked"
+  "chat.viewSessions.orientation": "stacked",
+  "chat.mcp.gallery.enabled": true,
+  "chat.agent.maxRequests": 500,
+  "workbench.sideBar.location": "right"
 }
