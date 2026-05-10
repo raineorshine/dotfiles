@@ -676,8 +676,10 @@
     "https://*.mailgun.com": true
   },
   "java.help.showReleaseNotes": false,
-  "chat.viewSessions.orientation": "stacked",
   "chat.mcp.gallery.enabled": true,
   "chat.agent.maxRequests": 500,
-  "workbench.sideBar.location": "right"
+  "accessibility.signals.chatUserActionRequired": {
+    "sound": "on"
+  },
+  "chat.viewSessions.orientation": "stacked"
 }
