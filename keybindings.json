@@ -342,23 +342,13 @@
   },
   {
     "key": "shift+alt+cmd+m",
-    "command": "workbench.action.chat.openagent",
-    "when": "config.chat.agent.enabled && !chatSetupDisabled && !chatSetupHidden"
-  },
-  {
-    "key": "shift+cmd+i",
-    "command": "-workbench.action.chat.openagent",
+    "command": "workbench.action.chat.open",
     "when": "config.chat.agent.enabled && !chatSetupDisabled && !chatSetupHidden"
   },
   {
     "key": "shift+alt+cmd+m",
     "command": "workbench.action.toggleMaximizedAuxiliaryBar",
     "when": "chatInputHasFocus"
-  },
-  {
-    "key": "shift+cmd+i",
-    "command": "-workbench.action.chat.openagent",
-    "when": "config.chat.agent.enabled && !chatSetupDisabledInWorkspace && !chatSetupHidden"
   },
   {
     "key": "shift+cmd+c",
@@ -369,10 +359,5 @@
     "key": "shift+cmd+c",
     "command": "workbench.action.chat.open",
     "when": "!chatSetupDisabledInWorkspace && !chatSetupHidden && !chatInputHasFocus"
-  },
-  {
-    "key": "ctrl+cmd+i",
-    "command": "-workbench.action.chat.open",
-    "when": "!chatSetupDisabledInWorkspace && !chatSetupHidden"
   }
 ]

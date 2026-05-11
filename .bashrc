@@ -1108,15 +1108,7 @@ ghworkflow() {
 # npm
 #-------------------------#
 
-alias ni="npm install; notifyresult 'npm install'"
-# if the dependency is already in devDependencies, --save is needed to add it to dependencies
-alias nis="npm install --save; notifyresult 'npm install --save'"
-alias niu="npm install && npm update; notifyresult 'npm install && npm update'"
-alias nig="npm install --global; notifyresult 'npm install --global'"
-alias nug="npm uninstall -g; notifyresult 'npm uninstall -g'"
-alias nu="npm update; notifyresult 'npm update'"
 alias nv="npm view"
-alias nisd="npm install --save-dev; notifyresult 'npm install --save-dev'"
 alias nun="npm uninstall"
 alias nus="npm uninstall --save"
 alias nusd="npm uninstall --save-dev"
@@ -1147,6 +1139,15 @@ alias yds="yarn deploy:staging2; notifyresult deploy:staging2"
 alias ydd="yarn deploy:dev; notirfyresult deploy:dev"
 alias pi="pnpm install; notifyresult 'pnpm install'"
 alias pa="pnpm add"
+
+ni() { npm install "$@"; notifyresult 'npm install'; }
+# if the dependency is already in devDependencies, --save is needed to add it to dependencies
+nis() { npm install --save "$@"; notifyresult 'npm install --save'; }
+niu() { npm install "$@" && npm update; notifyresult 'npm install && npm update'; }
+nig() { npm install --global "$@"; notifyresult 'npm install --global'; }
+nug() { npm uninstall -g "$@"; notifyresult 'npm uninstall -g'; }
+nu() { npm update "$@"; notifyresult 'npm update'; }
+nisd() { npm install --save-dev "$@"; notifyresult 'npm install --save-dev'; }
 
 # yarn
 alias y="yarn; notifyresult yarn"

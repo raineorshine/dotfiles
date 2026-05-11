@@ -644,7 +644,6 @@
   "redhat.telemetry.enabled": false,
   "github.copilot.nextEditSuggestions.enabled": true,
   "chat.tools.terminal.autoApprove": {
-
     "/^cd \"/Users/raine/Documents/Backups/Art Collection/Notion Export\" && npx tsx notion-to-instagram\\.ts$/": {
       "approve": true,
       "matchCommandLine": true
@@ -658,7 +657,19 @@
     "npx vitest": true,
     "npx prettier": true,
     "mkdir": true,
-    "diff": true
+    "diff": true,
+    "/^railway logs --tail 60 2>&1$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^psql -U readonly_user -P pager=off -c \"\\\\l\" 2>&1 \\| grep -v \"\\^\\$\"$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^psql -P pager=off -c \"\\\\l\" 2>&1 \\| grep -v \"\\^\\$\"$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "chat.editing.confirmEditRequestRemoval": false,
@@ -673,7 +684,9 @@
     "https://docs.kalshi.com": true,
     "https://*.tastytrade.com": true,
     "https://*.openai.com": true,
-    "https://*.mailgun.com": true
+    "https://*.mailgun.com": true,
+    "https://docs.railway.com": true,
+    "https://railpack.com": true
   },
   "java.help.showReleaseNotes": false,
   "chat.mcp.gallery.enabled": true,
