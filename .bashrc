@@ -42,12 +42,12 @@
 #-------------------------#
 
 # use echo -e to print colors
-# e.g. echo -e "${RED}hello${NC}"
+# e.g. echo -e "${RED}hello${RESET}"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 LAVENDER='\e[38;2;175;149;227m'
-NC='\033[0m' # No Color
+RESET='\033[0m' # No Color
 
 dothome="$HOME/projects/dotfiles"
 
@@ -586,10 +586,7 @@ gm() {
   if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
-    printf "${LAVENDER}[copilot]${NC} generating commit message...
-    local gitstatus=$(git status --porcelain)
-    local diff=$(git diff --staged | head -c 100000)
-    local copilot_output\n"
+    printf "${LAVENDER}[copilot]${RESET} generating commit message...\n"
     local gitstatus=$(git status --porcelain)
     local diff=$(git diff --staged | head -c 100000)
     local copilot_output
@@ -608,7 +605,7 @@ ${diff}" \
       notify commit ✗
       return 1
     fi
-    git commit -m "$msg" && echo -e "${GREEN}$msg${NC}"
+    git commit -m "$msg" && echo -e "${GREEN}$msg${RESET}"
     notifyresult commit
   fi
 }
@@ -895,7 +892,7 @@ rmc() {
 
     # stash the console.logs in case we changed our mind
     git stash --quiet &&
-    echo "${GREEN}✓${NC} console.logs stashed" &&
+    echo "${GREEN}✓${RESET} console.logs stashed" &&
 
     # reset the TEMP commit so the original changes minus console.logs are restored
     git reset --quiet head^
