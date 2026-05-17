@@ -606,7 +606,7 @@ ${diff}" \
       notify commit ✗
       return 1
     fi
-    git commit -m "$msg"
+    git commit -m "$msg" && echo -e "${GREEN}$msg${NC}"
     notifyresult commit
   fi
 }
