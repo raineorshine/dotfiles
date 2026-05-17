@@ -46,6 +46,7 @@
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
+LAVENDER='\e[38;2;175;149;227m'
 NC='\033[0m' # No Color
 
 dothome="$HOME/projects/dotfiles"
@@ -585,9 +586,10 @@ gm() {
   if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
-    local lavender='\e[38;2;175;149;227m'
-    local reset='\e[0m'
-    printf "${lavender}[copilot]${reset} generating commit message...\n"
+    printf "${LAVENDER}[copilot]${NC} generating commit message...
+    local gitstatus=$(git status --porcelain)
+    local diff=$(git diff --staged | head -c 100000)
+    local copilot_output\n"
     local gitstatus=$(git status --porcelain)
     local diff=$(git diff --staged | head -c 100000)
     local copilot_output
