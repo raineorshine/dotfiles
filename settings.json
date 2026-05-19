@@ -694,5 +694,11 @@
   "accessibility.signals.chatUserActionRequired": {
     "sound": "on"
   },
-  "chat.viewSessions.orientation": "stacked"
+  "chat.viewSessions.orientation": "stacked",
+  "accessibility.signals.taskCompleted": {
+    "sound": "on"
+  },
+  "accessibility.signals.taskFailed": {
+    "sound": "on"
+  }
 }

@@ -605,7 +605,7 @@ ${diff}" \
       notify commit ✗
       return 1
     fi
-    git commit -m "$msg" && echo -e "${GREEN}$msg${RESET}"
+    git commit -m "$msg" && git log --oneline -1
     notifyresult commit
   fi
 }
