@@ -700,5 +700,8 @@
   },
   "accessibility.signals.taskFailed": {
     "sound": "on"
+  },
+  "accessibility.signals.chatResponseReceived": {
+    "sound": "on"
   }
 }

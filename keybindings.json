@@ -225,6 +225,15 @@
     // only in normal mode, otherwise there are false positives when typing
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
+
+  /***************************************************************
+
+    Navigate up/down file changes and merge conflicts. 
+    
+    The next/previous change commands do not have a when context to differentiate between errors and git changes, so we run both commands as a workaround and rely on the hasConflicts context to ensure the merge conflict navigation takes priority when conflicts are present.
+   
+   ***************************************************************/
+  
   // next file change
   {
     "key": "alt+cmd+n",
@@ -257,6 +266,18 @@
     "command": "merge-conflict.prev",
     "when": "editorTextFocus && hasConflicts",
   },
+  {
+    "key": "alt+cmd+n",
+    "command": "chatEditor.action.navigateNext",
+    // specify !hasConflicts so merge conflict navigation takes priority
+    "when": "chatEdits.hasEditorModifications && chatIsEnabled && editorFocus || chatEdits.hasEditorModifications && chatIsEnabled && notebookCellListFocused && !hasConflicts"
+  },
+  {
+    "key": "alt+cmd+e",
+    "command": "chatEditor.action.navigatePrevious",
+    // specify !hasConflicts so merge conflict navigation takes priority
+    "when": "chatEdits.hasEditorModifications && chatIsEnabled && editorFocus || chatEdits.hasEditorModifications && chatIsEnabled && notebookCellListFocused && !hasConflicts"
+  },
   // See: next file change and prev file change
   // // next error
   // {
@@ -270,6 +291,7 @@
   //   "command": "editor.action.marker.prev",
   //   "when": "editorTextFocus && !textCompareEditorActive",
   // },
+
   {
     "key": "shift+cmd+l",
     "command": "editor.action.insertCursorAtEndOfEachLineSelected",
@@ -303,6 +325,12 @@
     "key": "alt+g c",
     "command": "git.checkout"
   },
+
+
+  /***************************************************************
+   * Merge conflict resolution
+   ***************************************************************/
+
   {
     "key": "alt+g i",
     "command": "merge-conflict.accept.incoming"
@@ -323,6 +351,11 @@
     "key": "alt+g b",
     "command": "merge-conflict.accept.both"
   },
+
+  /***************************************************************
+   * Chat
+   ***************************************************************/
+
   {
     // The default ctrl+cmd+i does an inline chat which seems to fail for some reason.
     // cmd+option+b opens the sidebar, but does not focus the search bar.
@@ -359,5 +392,5 @@
     "key": "shift+cmd+c",
     "command": "workbench.action.chat.open",
     "when": "!chatSetupDisabledInWorkspace && !chatSetupHidden && !chatInputHasFocus"
-  }
+  },
 ]
