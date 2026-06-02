@@ -594,7 +594,7 @@ gm() {
 
 ${gitstatus}
 ${diff}" \
-      --model gpt-4.1)
+      --model claude-haiku-4.5)
     if [ $? -ne 0 ]; then
       notify commit ✗
       return 1
