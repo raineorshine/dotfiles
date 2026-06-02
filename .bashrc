@@ -51,6 +51,9 @@ RESET='\033[0m' # No Color
 
 dothome="$HOME/projects/dotfiles"
 
+# small/cheap copilot model used for quick tasks like commit message generation
+COPILOT_MODEL_SMALL="claude-haiku-4.5"
+
 #-------------------------#
 # UTIL
 #-------------------------#
@@ -594,7 +597,7 @@ gm() {
 
 ${gitstatus}
 ${diff}" \
-      --model claude-haiku-4.5)
+      --model "$COPILOT_MODEL_SMALL")
     if [ $? -ne 0 ]; then
       notify commit ✗
       return 1
