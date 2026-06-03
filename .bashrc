@@ -102,15 +102,9 @@ alias lsl="ls -AGFplh"
 alias lsll="ls -AGFpl"
 # sort by most recent with forced color
 alias lstc="ls -AGFplht --color=always"
-# sort by most recent with forced color, exclude .DS_Store, and limit to 10
-alias lst="ls -AGFplht --color=always | grep -v .DS_Store | head -10"
-# sort by most recent
+# sort by most recent (all)
+# use lst, lst10, lst20, etc for limiting the number of results
 alias lstt="ls -AGFplht"
-alias lst10="ls -AGFplht --color=always | grep -v .DS_Store | head -10"
-alias lst20="ls -AGFplht --color=always | grep -v .DS_Store | head -20"
-alias lst30="ls -AGFplht --color=always | grep -v .DS_Store | head -30"
-alias lst40="ls -AGFplht --color=always | grep -v .DS_Store | head -40"
-alias lst50="ls -AGFplht --color=always | grep -v .DS_Store | head -50"
 alias m="mocha"
 alias mb="mocha --bail"
 alias n="notify"
@@ -149,6 +143,19 @@ alias bfg="java -jar /usr/local/bin/bfg.jar"
 so() {
   source $dothome/.bashrc
 }
+
+# sort by most recent with forced color, exclude .DS_Store, limit to the first arg, and pass remaining args to ls
+_lst() {
+  local n=$1
+  shift
+  ls -AGFplht --color=always "$@" | grep -v .DS_Store | head -"$n"
+}
+lst() { _lst 10 "$@"; }
+lst10() { _lst 10 "$@"; }
+lst20() { _lst 20 "$@"; }
+lst30() { _lst 30 "$@"; }
+lst40() { _lst 40 "$@"; }
+lst50() { _lst 50 "$@"; }
 
 sob() {
   source $dothome/.bash_profile
