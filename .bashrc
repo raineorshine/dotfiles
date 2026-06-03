@@ -1344,9 +1344,20 @@ nf() {
 # JSON
 #-------------------------#
 
-# parse a json file and output to less with syntax highlighting
-# select a specific property by passing a jq selector as a second argument (outputs without less)
-lo() {
+# shared implementation for lo/loc
+# $1 = pager command used to display output (e.g. "less -R" or "cat")
+# remaining args = json/markdown file and optional jq selector
+_lo() {
+  # split the pager string into an array so multi-word commands (e.g. "less -R")
+  # work in both bash and zsh (zsh does not word-split unquoted variables)
+  local -a pager
+  if [ -n "$ZSH_VERSION" ]; then
+    pager=(${=1})
+  else
+    pager=($1)
+  fi
+  shift
+
   if [ $# -eq 0 ]; then
     echo "Please specify a json or markdown file"
     return 1
@@ -1359,7 +1370,7 @@ lo() {
   # json
   json)
     if [ $# -eq 1 ]; then
-      jq $2 -C <$1 | less -R
+      jq $2 -C <$1 | "${pager[@]}"
     else
       jq $2 -C <$1
     fi
@@ -1379,14 +1390,25 @@ lo() {
       fi
       npm install -g marked-terminal-cli
     fi
-    FORCE_COLOR=1 marked-terminal-cli "$1" | less -r
+    FORCE_COLOR=1 marked-terminal-cli "$1" | "${pager[@]}"
     ;;
 
   # other
   *)
-    less $1
+    "${pager[@]}" $1
     ;;
   esac
+}
+
+# parse a json file and output to less with syntax highlighting
+# select a specific property by passing a jq selector as a second argument (outputs without less)
+lo() {
+  _lo "less -R" "$@"
+}
+
+# same as lo but outputs with cat instead of less
+loc() {
+  _lo "cat" "$@"
 }
 
 # parse the package.json file and output to less with syntax highlighting
