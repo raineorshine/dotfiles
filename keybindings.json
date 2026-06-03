@@ -393,4 +393,9 @@
     "command": "workbench.action.chat.open",
     "when": "!chatSetupDisabledInWorkspace && !chatSetupHidden && !chatInputHasFocus"
   },
+  {
+    "key": "shift+cmd+i",
+    "command": "-workbench.action.chat.openagent",
+    "when": "config.chat.agent.enabled && !chatSetupDisabledInWorkspace && !chatSetupHidden"
+  },
 ]
