@@ -586,6 +586,32 @@ gat() {
   git amend-to "$@"
 }
 
+# Archive a Copilot CLI session so it doesn't clutter the VS Code Chat Sessions view.
+# Sets "archived": true in Copilot's VS Code metadata cache, the same flag the archive button writes.
+copilot_archive_session() {
+  local id="$1"
+  [ -z "$id" ] && return 0
+  local cache="$HOME/.copilot/vscode.session.metadata.cache.json"
+  node -e '
+    const fs = require("fs");
+    const [cache, sid] = process.argv.slice(1);
+    let data = {};
+    try { data = JSON.parse(fs.readFileSync(cache, "utf8")); } catch {}
+    const now = Date.now();
+    const entry = data[sid] || {};
+    if (entry.origin === undefined) entry.origin = "other";
+    if (entry.created === undefined) entry.created = now;
+    entry.modified = now;
+    entry.archived = true;
+    entry.writtenToDisc = true;
+    data[sid] = entry;
+    const tmp = cache + ".tmp";
+    fs.mkdirSync(require("path").dirname(cache), { recursive: true });
+    fs.writeFileSync(tmp, JSON.stringify(data));
+    fs.renameSync(tmp, cache);
+  ' "$cache" "$id" 2>/dev/null
+}
+
 # git commit
 # When no arguments are provided, generates a commit message using Copilot based on the current git diff.
 # Usage:
@@ -599,13 +625,18 @@ gm() {
     printf "${LAVENDER}[copilot]${RESET} generating commit message...\n"
     local gitstatus=$(git status --porcelain)
     local diff=$(git diff --staged | head -c 100000)
+    # Use a known session id so we can archive the throwaway session afterward.
+    local session_id=$(uuidgen | tr 'A-F' 'a-f')
     local copilot_output
     copilot_output=$(copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
 
 ${gitstatus}
 ${diff}" \
+      --session-id "$session_id" \
       --model "$COPILOT_MODEL_SMALL")
-    if [ $? -ne 0 ]; then
+    local copilot_exit=$?
+    copilot_archive_session "$session_id"
+    if [ $copilot_exit -ne 0 ]; then
       notify commit ✗
       return 1
     fi
