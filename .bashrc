@@ -602,7 +602,7 @@ gm() {
     # Run in a throwaway COPILOT_HOME so the session isn't written to ~/.copilot,
     # which is what VS Code scans for the Chat Sessions view. This keeps these
     # one-off commit-message sessions from cluttering the UI. Auth lives outside
-    # COPILOT_HOME (gh CLI), so a fresh temp dir still authenticates.
+    # COPILOT_HOME (in the gh CLI), so a fresh temp dir still authenticates.
     local copilot_home=$(mktemp -d "${TMPDIR:-/tmp}/copilot-commit.XXXXXX")
     local copilot_output
     copilot_output=$(COPILOT_HOME="$copilot_home" copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
