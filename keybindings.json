@@ -398,4 +398,8 @@
     "command": "-workbench.action.chat.openagent",
     "when": "config.chat.agent.enabled && !chatSetupDisabledInWorkspace && !chatSetupHidden"
   },
+  {
+    "key": "ctrl+c",
+    "command": "workbench.action.chat.history"
+  },
 ]

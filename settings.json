@@ -578,6 +578,9 @@
     },
 
   ],
+  "vim.handleKeys": {
+    "<C-w>": false
+  },
 
   "git.openRepositoryInParentFolders": "never",
   "workbench.startupEditor": "none",
@@ -703,5 +706,5 @@
   },
   "accessibility.signals.chatResponseReceived": {
     "sound": "on"
-  }
+  },
 }
