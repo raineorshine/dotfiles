@@ -487,7 +487,6 @@ alias gaat="ga && gat"
 alias gaatt="ga && gat head^"
 # amend-to third-to-last commit
 alias gaattt="ga && gat head^^"
-alias gbro="git browse"
 alias gi="git init && git add -A && git commit -m 'init'"
 alias grs='git reset'
 alias grh='git reset head^'
@@ -542,6 +541,52 @@ hac() {
   hash=$(git rev-parse --short HEAD | tr -d '\n')
   echo -n "$hash" | c
   echo "Copied $hash to clipboard"
+}
+
+
+# open the repo in the browser.
+# if there are no git remotes, check whether github.com/raineorshine/PACKAGE_NAME
+# exists and, if so, add it to package.json's repository url before opening it.
+gbro() {
+  local output
+  output=$(gh repo view --web 2>&1)
+  if [ $? -eq 0 ]; then
+    return 0
+  fi
+
+  # only handle the "no git remotes found" case; pass through any other error
+  if ! echo "$output" | grep -qi "no git remote"; then
+    echo "$output" >&2
+    return 1
+  fi
+
+  if [ ! -f package.json ]; then
+    echo "$output" >&2
+    return 1
+  fi
+
+  # derive the repo name from package.json, stripping any scope (e.g. @user/pkg -> pkg)
+  local name=$(jq -r .name package.json)
+  if [ -z "$name" ] || [ "$name" = "null" ]; then
+    echo "No name found in package.json" >&2
+    return 1
+  fi
+  local repo="${name##*/}"
+  local url="https://github.com/raineorshine/$repo"
+
+  # check if the repo exists on github
+  if ! gh repo view "raineorshine/$repo" >/dev/null 2>&1; then
+    echo "$url does not exist" >&2
+    return 1
+  fi
+
+  # add the repository url to package.json
+  echo "Adding repository $url to package.json"
+  local tmp=$(mktemp)
+  jq --arg url "git+$url.git" '.repository = {type: "git", url: $url}' package.json >"$tmp" && mv "$tmp" package.json
+
+  # open the repo in the browser
+  open "$url"
 }
 
 # pull all submodules
