@@ -672,6 +672,10 @@
     "/^psql -P pager=off -c \"\\\\l\" 2>&1 \\| grep -v \"\\^\\$\"$/": {
       "approve": true,
       "matchCommandLine": true
+    },
+    "/^cd /Users/raine/projects/github-more-shortcuts && npm run compile$/": {
+      "approve": true,
+      "matchCommandLine": true
     }
   },
   "javascript.updateImportsOnFileMove.enabled": "always",

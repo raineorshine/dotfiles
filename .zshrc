@@ -86,24 +86,8 @@ dm() {
   cd "$dothome"
   trap "cd \"$dir\"" EXIT
 
-  # supply commit message as argument
-  # or default to copilot-generated message
-  if [ -n "$*" ]; then
-    msg="$*"
-  else
-    local lavender='\e[38;2;175;149;227m'
-    local reset='\e[0m'
-    printf "${lavender}[copilot]${reset} generating commit message...\n"
-    local diff=$(git diff)
-    msg=$(copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
-
-${diff}" \
-      --model gpt-4.1 | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
-  fi
-
   so &&
-  git add -A &&
-  git commit -m "$msg"
+  gam "$@" &&
   git push
 }
 
