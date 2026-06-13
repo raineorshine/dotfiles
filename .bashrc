@@ -204,6 +204,17 @@ cps() {
 
 # read markdown file with marked-terminal-cli and pass to less
 lessmd() {
+
+  # check if marked-terminal-cli is installed globally, and if not, prompt to install it
+  if ! command -v marked-terminal-cli >/dev/null 2>&1; then
+    confirm "marked-terminal-cli is not installed. Install it globally (y/n)? "
+    if [ "$?" -eq 1 ]; then
+      return 1
+    fi
+    npm install -g marked-terminal-cli || return 1
+  fi
+  
+  # use global install because npx adds a small delay, and we already have a slightly delay from marked-terminal-cli parsing the markdown
   FORCE_COLOR=1 marked-terminal-cli "$@" | less -r
 }
 
