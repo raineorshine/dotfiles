@@ -711,4 +711,5 @@
   "accessibility.signals.chatResponseReceived": {
     "sound": "on"
   },
+  "git.confirmSync": false,
 }
