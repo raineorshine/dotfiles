@@ -1405,13 +1405,15 @@ nf() {
 }
 
 #-------------------------#
-# JSON
+# less syntax highlighting
 #-------------------------#
 
-# shared implementation for lo/loc
+# Pretty-print a json or markdown file with color, piped through a pager.
+# JSON is syntax-highlighted with jq; markdown is rendered with marked-terminal-cli;
+# anything else is passed through as-is. Shared implementation for lo/loc.
 # $1 = pager command used to display output (e.g. "less -R" or "cat")
 # remaining args = json/markdown file and optional jq selector
-_lo() {
+lesscolor() {
   # split the pager string into an array so multi-word commands (e.g. "less -R")
   # work in both bash and zsh (zsh does not word-split unquoted variables)
   local -a pager
@@ -1467,12 +1469,12 @@ _lo() {
 # parse a json file and output to less with syntax highlighting
 # select a specific property by passing a jq selector as a second argument (outputs without less)
 lo() {
-  _lo "less -R" "$@"
+  lesscolor "less -R" "$@"
 }
 
 # same as lo but outputs with cat instead of less
 loc() {
-  _lo "cat" "$@"
+  lesscolor "cat" "$@"
 }
 
 # parse the package.json file and output to less with syntax highlighting
