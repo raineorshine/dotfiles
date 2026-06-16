@@ -1408,11 +1408,12 @@ nf() {
 # less syntax highlighting
 #-------------------------#
 
-# Pretty-print a json or markdown file with color, piped through a pager.
+# Pretty-print a json, markdown, or js file with color, piped through a pager.
 # JSON is syntax-highlighted with jq; markdown is rendered with marked-terminal-cli;
-# anything else is passed through as-is. Shared implementation for lo/loc.
+# js is syntax-highlighted with bat; anything else is passed through as-is.
+# Shared implementation for lo/loc.
 # $1 = pager command used to display output (e.g. "less -R" or "cat")
-# remaining args = json/markdown file and optional jq selector
+# remaining args = json/markdown/js file and optional jq selector
 lesscolor() {
   # split the pager string into an array so multi-word commands (e.g. "less -R")
   # work in both bash and zsh (zsh does not word-split unquoted variables)
@@ -1425,7 +1426,7 @@ lesscolor() {
   shift
 
   if [ $# -eq 0 ]; then
-    echo "Please specify a json or markdown file"
+    echo "Please specify a json, markdown, or js file"
     return 1
   fi
 
@@ -1457,6 +1458,19 @@ lesscolor() {
       npm install -g marked-terminal-cli
     fi
     FORCE_COLOR=1 marked-terminal-cli "$1" | "${pager[@]}"
+    ;;
+
+  # js
+  js)
+    # check that bat is installed, and if not, prompt to install it via homebrew
+    if ! command -v bat >/dev/null 2>&1; then
+      confirm "bat is not installed. Install it with brew (y/n)? "
+      if [ "$?" -eq 1 ]; then
+        return 1
+      fi
+      brew install bat || return 1
+    fi
+    bat --color=always --language=js --style=plain "$1" | "${pager[@]}"
     ;;
 
   # other
