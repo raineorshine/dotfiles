@@ -1460,8 +1460,8 @@ lesscolor() {
     FORCE_COLOR=1 marked-terminal-cli "$1" | "${pager[@]}"
     ;;
 
-  # js
-  js)
+  # js and typescript
+  js | ts)
     # check that bat is installed, and if not, prompt to install it via homebrew
     if ! command -v bat >/dev/null 2>&1; then
       confirm "bat is not installed. Install it with brew (y/n)? "
@@ -1470,7 +1470,7 @@ lesscolor() {
       fi
       brew install bat || return 1
     fi
-    bat --color=always --language=js --style=plain "$1" | "${pager[@]}"
+    bat --color=always --style=plain "$1" | "${pager[@]}"
     ;;
 
   # other
