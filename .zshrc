@@ -21,6 +21,225 @@ nbro() {
   npm view "$@" homepage | xargs open
 }
 
+#-------------------------#
+# fnm
+#-------------------------#
+
+# Wrap fnm to add a `migrate` subcommand that reinstalls global npm packages
+# from one Node version onto another after upgrading Node:
+#   fnm migrate [from-node] [to-node]
+#     fnm migrate          migrate previous installed version -> current version
+#     fnm migrate 24       migrate newest installed version below 24 -> 24
+#     fnm migrate 22 24    migrate 22 -> 24
+# Interactively choose which packages to install. Everything is selected by
+# default, so pressing Enter installs all of them. Packages that are already
+# installed on the target version are listed but not offered.
+# Registry packages are installed with `npm install -g`; linked packages
+# (npm link) are re-linked from ~/projects/<name>. Set FNM_MIGRATE_DRYRUN=1 to
+# print what would happen without making changes. All other fnm subcommands are
+# passed through to the real fnm binary.
+fnm() {
+  if [[ "$1" == migrate ]]; then
+    shift
+    _fnm_migrate_globals "$@"
+  else
+    command fnm "$@"
+  fi
+}
+
+_fnm_migrate_globals() {
+  emulate -L zsh
+  setopt local_options local_traps
+
+  local from to
+  case $# in
+    0) to="$(command fnm current 2>/dev/null)" ;;
+    1) to="$1" ;;
+    *) from="$1"; to="$2" ;;
+  esac
+  if [[ -z "$to" || "$to" == none || "$to" == system ]]; then
+    print -u2 "Usage: fnm migrate [from-node] [to-node]"
+    return 1
+  fi
+
+  # resolve the target to a full version so we can find the version just below it
+  local to_full
+  to_full="$(command fnm exec --using "$to" node -v 2>/dev/null)" || {
+    print -u2 "Unknown target Node version: $to"
+    return 1
+  }
+
+  # default `from` to the newest installed version below the target
+  if [[ -z "$from" ]]; then
+    from="$(command fnm ls 2>/dev/null | command grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' \
+      | { cat; print -r -- "$to_full"; } | sort -V -u \
+      | awk -v t="$to_full" '$0==t{print prev; exit} {prev=$0}')"
+    if [[ -z "$from" ]]; then
+      print -u2 "No installed Node version found below $to_full to migrate from."
+      return 1
+    fi
+  fi
+
+  from="${from#v}"; to="${to#v}"
+
+  print "Reading globals from Node $from..."
+  local from_json to_json
+  from_json="$(command fnm exec --using "$from" npm ls -g --depth=0 --json 2>/dev/null)" || {
+    print -u2 "Failed to read globals from Node $from"
+    return 1
+  }
+  to_json="$(command fnm exec --using "$to" npm ls -g --depth=0 --json 2>/dev/null)"
+
+  # names (and versions) already installed on the target version
+  local -A on_target
+  local line
+  for line in ${(f)"$(print -r -- "$to_json" | jq -r '
+      .dependencies // {} | to_entries[] | "\(.key)\t\(.value.version // "?")"')"}; do
+    [[ -z "$line" ]] && continue
+    on_target[${line%%$'\t'*}]="${line#*$'\t'}"
+  done
+
+  # parse source globals into parallel arrays, splitting out already-installed ones
+  local -a sel_key sel_type sel_link sel_ver sel_on
+  local -a done_key done_ver
+  for line in ${(f)"$(print -r -- "$from_json" | jq -r '
+      .dependencies // {}
+      | to_entries[]
+      | [ (if ((.value.resolved // "") | startswith("file:")) then "link" else "registry" end),
+          .key,
+          (if ((.value.resolved // "") | startswith("file:")) then (.value.resolved | sub("^file:"; "") | split("/") | last) else .key end),
+          (.value.version // "?")
+        ] | join(" ")')"}; do
+    [[ -z "$line" ]] && continue
+    local -a f=(${=line})
+    local t="$f[1]" k="$f[2]" lk="$f[3]" v="$f[4]"
+    if [[ -n "${on_target[$k]+x}" ]]; then
+      done_key+=("$k"); done_ver+=("${on_target[$k]}")
+    else
+      sel_key+=("$k"); sel_type+=("$t"); sel_link+=("$lk"); sel_ver+=("$v"); sel_on+=(1)
+    fi
+  done
+
+  local nsel=${#sel_key}
+  if (( nsel == 0 )); then
+    if (( ${#done_key} )); then
+      local g=$'\e[32m' d=$'\e[2m' r=$'\e[0m' j
+      print "\n${d}Installed:${r}"
+      for (( j=1; j<=${#done_key}; j++ )); do
+        print -r -- "  ${g}✓${r} ${d}$done_key[j]${r}"
+      done
+      print "\nAll ${#done_key} global package(s) are already installed on Node $to."
+    else
+      print "No global packages found."
+    fi
+    return 0
+  fi
+
+  # interactive multi-select (skipped when not attached to a terminal)
+  local cancelled=0
+  if [[ -t 0 && -t 1 ]]; then
+    local bold=$'\e[1m' dim=$'\e[2m' green=$'\e[32m' cyan=$'\e[36m' reset=$'\e[0m'
+    local cur=1 painted=0 nlines=0 i
+    local -a out
+    local marker pointer name disp nsp e spc l key rest anyoff x
+    print -n $'\e[?25l'
+    trap 'print -n $'\''\e[?25h'\''; return 130' INT
+    while true; do
+      out=( "${bold}Migrate globals: Node $from → Node $to${reset}"
+            "${dim}↑/↓ move · space toggle · a all · enter install · q cancel${reset}" )
+      if (( ${#done_key} )); then
+        out+=( "" "${dim}Installed:${reset}" )
+        for (( i=1; i<=${#done_key}; i++ )); do
+          out+=( "  ${green}✓${reset} ${dim}$done_key[i]${reset}" )
+        done
+      fi
+      out+=( "" "${cyan}Migrate:${reset}" )
+      for (( i=1; i<=nsel; i++ )); do
+        if (( sel_on[i] )); then marker="${green}◉${reset}"; else marker="${dim}◯${reset}"; fi
+        if (( i == cur )); then pointer="${green}❯${reset}"; else pointer=" "; fi
+        name="$sel_key[i]"; disp="$sel_key[i]"
+        if [[ "$sel_type[i]" == link ]]; then name="$name ${dim}(link)${reset}"; disp="$disp (link)"; fi
+        nsp=$(( 34 - ${#disp} )); (( nsp < 1 )) && nsp=1
+        e=""; spc="${(l:$nsp:)e}"
+        out+=( "  $pointer $marker $name$spc${dim}$sel_ver[i]${reset}" )
+      done
+      (( painted )) && print -n "\e[${nlines}A"
+      print -n $'\e[J'
+      for l in "$out[@]"; do print -r -- "$l"; done
+      nlines=${#out}; painted=1
+
+      IFS= read -rsk1 key
+      case "$key" in
+        $'\e')
+          IFS= read -rsk2 rest
+          case "$rest" in
+            '[A'|'OA') if (( cur > 1 )); then (( cur-- )); else cur=$nsel; fi ;;
+            '[B'|'OB') if (( cur < nsel )); then (( cur++ )); else cur=1; fi ;;
+          esac ;;
+        k) if (( cur > 1 )); then (( cur-- )); else cur=$nsel; fi ;;
+        j) if (( cur < nsel )); then (( cur++ )); else cur=1; fi ;;
+        ' ') sel_on[cur]=$(( ! sel_on[cur] )) ;;
+        a)
+          anyoff=0
+          for (( x=1; x<=nsel; x++ )); do (( sel_on[x] )) || anyoff=1; done
+          for (( x=1; x<=nsel; x++ )); do sel_on[x]=$anyoff; done ;;
+        q) cancelled=1; break ;;
+        $'\n'|$'\r'|'') break ;;
+      esac
+    done
+    print -n $'\e[?25h'
+  fi
+
+  if (( cancelled )); then
+    print "Cancelled."
+    return 0
+  fi
+
+  # collect the chosen packages
+  local -a inst link_names i
+  for (( i=1; i<=nsel; i++ )); do
+    (( sel_on[i] )) || continue
+    if [[ "$sel_type[i]" == link ]]; then
+      link_names+=("$sel_link[i]")
+    else
+      inst+=("$sel_key[i]")
+    fi
+  done
+
+  if (( ${#inst} == 0 && ${#link_names} == 0 )); then
+    print "Nothing selected."
+    return 0
+  fi
+
+  local dry="${FNM_MIGRATE_DRYRUN:-}"
+  if (( ${#inst} )); then
+    print "\nInstalling on Node $to: ${inst[*]}"
+    if [[ -n "$dry" ]]; then
+      print "DRYRUN: fnm exec --using $to npm install -g ${inst[*]}"
+    else
+      command fnm exec --using "$to" npm install -g "$inst[@]"
+    fi
+  fi
+
+  if (( ${#link_names} )); then
+    print "\nRe-linking on Node $to:"
+    local proj dir
+    for proj in "$link_names[@]"; do
+      dir="$HOME/projects/$proj"
+      if [[ ! -d "$dir" ]]; then
+        print -u2 "Skipping $proj: $dir not found"
+        continue
+      fi
+      print "==> npm link in $dir"
+      if [[ -n "$dry" ]]; then
+        print "DRYRUN: (cd $dir && fnm exec --using $to npm link)"
+      else
+        ( cd "$dir" && command fnm exec --using "$to" npm link )
+      fi
+    done
+  fi
+}
+
 notify() {
   local title="${2:+$1}"
   local message="${2:-$*}"
