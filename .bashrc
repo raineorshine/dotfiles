@@ -143,6 +143,68 @@ so() {
   source $dothome/.bashrc
 }
 
+# print the header comment and full definition of an alias or function from .bashrc or .zshrc
+_aliasdef() {
+  local name=$1
+  local file out
+  for file in "$dothome/.bashrc" "$dothome/.zshrc"; do
+    [ -f "$file" ] || continue
+    out=$(awk -v name="$name" '
+      # collect a contiguous run of comment lines that may precede a definition
+      /^[ \t]*#/ { comments[++cn] = $0; next }
+      {
+        defname = ""
+        isfunc = 0
+        if ($0 ~ /^[ \t]*(function[ \t]+)?[^ \t(]+[ \t]*\(\)[ \t]*\{/) {
+          isfunc = 1
+          defname = $0
+          sub(/^[ \t]*(function[ \t]+)?/, "", defname)
+          sub(/[ \t]*\(\).*/, "", defname)
+        } else if ($0 ~ /^[ \t]*alias[ \t]+[^=]+=/) {
+          defname = $0
+          sub(/^[ \t]*alias[ \t]+/, "", defname)
+          sub(/=.*/, "", defname)
+        }
+        if (defname == name) {
+          for (i = 1; i <= cn; i++) print comments[i]
+          print $0
+          # multi-line functions end with a lone closing brace; one-liners do not
+          if (isfunc && $0 ~ /\{[ \t]*$/) {
+            while ((getline line) > 0) {
+              print line
+              if (line ~ /^[ \t]*}[ \t]*$/) break
+            }
+          }
+          exit
+        }
+        cn = 0
+      }
+    ' "$file")
+    if [ -n "$out" ]; then
+      printf '%s\n' "$out"
+      return 0
+    fi
+  done
+  return 1
+}
+
+# show the definition of a dotfiles alias or function via bat, falling back to native man
+man() {
+  if [ "$#" -eq 1 ]; then
+    local def
+    def=$(_aliasdef "$1")
+    if [ -n "$def" ]; then
+      if command -v bat >/dev/null 2>&1; then
+        printf '%s\n' "$def" | bat --color=always --language=bash --style=plain
+      else
+        printf '%s\n' "$def"
+      fi
+      return 0
+    fi
+  fi
+  command man "$@"
+}
+
 # sort by most recent with forced color, exclude .DS_Store, limit to the first arg, and pass remaining args to ls
 _lst() {
   local n=$1
