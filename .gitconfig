@@ -58,3 +58,9 @@
 	defaultBranch = main
 [advice]
 	detachedHead = false
+[credential "https://github.com"]
+	helper = 
+	helper = !/Users/raine/Library/Caches/copilot-desktop-gh-2.95.0/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/Users/raine/Library/Caches/copilot-desktop-gh-2.95.0/gh auth git-credential
