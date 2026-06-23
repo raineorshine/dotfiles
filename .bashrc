@@ -403,9 +403,9 @@ wl() {
 
 # audit recent corespotlightd activity by showing which home directories
 # the Spotlight indexer has been touching the most (requires sudo).
-# Samples up to 500 fs_usage lines, drawing a progress bar to stderr as they arrive.
+# Samples up to N fs_usage lines (default 500), drawing a progress bar to stderr as they arrive.
 spotlightaudit() {
-  local samples=500
+  local samples="${1:-500}"
   sudo fs_usage -w -f filesystem corespotlightd 2>/dev/null \
     | awk -v total="$samples" '
         {
