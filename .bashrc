@@ -402,10 +402,23 @@ wl() {
 }
 
 # audit recent corespotlightd activity by showing which home directories
-# the Spotlight indexer has been touching the most (requires sudo)
+# the Spotlight indexer has been touching the most (requires sudo).
+# Samples up to 500 fs_usage lines, drawing a progress bar to stderr as they arrive.
 spotlightaudit() {
+  local samples=500
   sudo fs_usage -w -f filesystem corespotlightd 2>/dev/null \
-    | head -500 \
+    | awk -v total="$samples" '
+        {
+          print; fflush()
+          c++
+          filled = int(c * 40 / total)
+          bar = ""
+          for (i = 0; i < filled; i++) bar = bar "#"
+          printf "\r\033[2K[%-40s] %d%% (%d/%d)", bar, int(c * 100 / total), c, total > "/dev/stderr"
+          if (c >= total) exit
+        }
+        END { printf "\r\033[2K" > "/dev/stderr" }
+      ' \
     | perl -ne 'print "$1\n" if m{(\Q$ENV{HOME}\E/.*?)(?:\s+\d+\.\d+|\s+[RW]\s+corespotlightd)}' \
     | xargs -I{} dirname "{}" 2>/dev/null \
     | sort \
