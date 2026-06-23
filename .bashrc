@@ -325,6 +325,12 @@ port() {
   lsof -i ":$@"
 }
 
+# print the LAN URL for a local dev server (default port 3000)
+devurl() {
+  local port=${1:-3000}
+  echo "http://$(ipconfig getifaddr en0):$port/"
+}
+
 kport() {
   # get the process using a port and kill it with -9 (force)
   # error and print a friendly message if the port is not in use
