@@ -404,8 +404,17 @@ wl() {
 # audit recent corespotlightd activity by showing which home directories
 # the Spotlight indexer has been touching the most (requires sudo).
 # Samples up to N fs_usage lines (default 500), drawing a progress bar to stderr as they arrive.
+# Terminating early with Ctrl+C (or an early EOF) still reports the samples collected so far.
 spotlightaudit() {
   local samples="${1:-500}"
+  local tmp
+  tmp=$(mktemp -t spotlightaudit) || return 1
+
+  # Catch Ctrl+C so we fall through to the report instead of aborting the function.
+  # fs_usage still dies on the signal; an early EOF ends the collection the same way.
+  trap 'true' INT
+
+  # Collect raw fs_usage lines into $tmp, drawing a progress bar to stderr.
   sudo fs_usage -w -f filesystem corespotlightd 2>/dev/null \
     | awk -v total="$samples" '
         {
@@ -417,14 +426,20 @@ spotlightaudit() {
           printf "\r\033[2K[%-40s] %d%% (%d/%d)", bar, int(c * 100 / total), c, total > "/dev/stderr"
           if (c >= total) exit
         }
-        END { printf "\r\033[2K" > "/dev/stderr" }
-      ' \
-    | perl -ne 'print "$1\n" if m{(\Q$ENV{HOME}\E/.*?)(?:\s+\d+\.\d+|\s+[RW]\s+corespotlightd)}' \
+      ' > "$tmp"
+
+  trap - INT
+  printf '\r\033[2K' >&2 # clear the progress bar line
+
+  # Aggregate whatever was collected and report the top directories.
+  perl -ne 'print "$1\n" if m{(\Q$ENV{HOME}\E/.*?)(?:\s+\d+\.\d+|\s+[RW]\s+corespotlightd)}' "$tmp" \
     | xargs -I{} dirname "{}" 2>/dev/null \
     | sort \
     | uniq -c \
     | sort -nr \
     | head -20
+
+  rm -f "$tmp"
 }
 
 # man with support for builtins
