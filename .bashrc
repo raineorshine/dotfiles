@@ -1351,11 +1351,8 @@ nisd() {
 }
 
 # yarn
-alias y="yarn; notifyresult yarn"
 alias ya="yarn add"
 alias yad="yarn add --dev"
-alias yb="yarn build; notifyresult build"
-alias ybs="yarn build:styles; notifyresult build:styles"
 alias yc="yarn clean"
 alias yr="yarn remove"
 alias yt="yarn test"
@@ -1366,6 +1363,19 @@ alias yu="yarn upgrade"
 alias yul="yarn unlink"
 alias yga="yarn global add"
 alias ygr="yarn global remove"
+
+y() {
+  yarn "$@"
+  notifyresult yarn
+}
+yb() {
+  yarn build "$@"
+  notifyresult build
+}
+ybs() {
+  yarn build:styles "$@"
+  notifyresult build:styles
+}
 
 # bun
 alias b="bun install"
