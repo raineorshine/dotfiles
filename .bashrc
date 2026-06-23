@@ -110,6 +110,7 @@ alias n="notify"
 alias nov="node -v"
 alias pro="$EDITOR $dothome/.bash_profile"
 alias zpro="$EDITOR $dothome/.zprofile"
+alias qr="qrencode -t ANSIUTF8"
 alias rmrf="rm -rf"
 alias rmv="rm -rf node_modules/.vite"
 # strip colors
