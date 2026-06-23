@@ -401,6 +401,19 @@ wl() {
   which "$@" | xargs ls -lG
 }
 
+# audit recent corespotlightd activity by showing which home directories
+# the Spotlight indexer has been touching the most (requires sudo)
+spotlightaudit() {
+  sudo fs_usage -w -f filesystem corespotlightd 2>/dev/null \
+    | head -500 \
+    | perl -ne 'print "$1\n" if m{(\Q$ENV{HOME}\E/.*?)(?:\s+\d+\.\d+|\s+[RW]\s+corespotlightd)}' \
+    | xargs -I{} dirname "{}" 2>/dev/null \
+    | sort \
+    | uniq -c \
+    | sort -nr \
+    | head -20
+}
+
 # man with support for builtins
 h() {
   case $(type $1) in
