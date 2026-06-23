@@ -1570,7 +1570,7 @@ lesscolor() {
     ;;
 
   # source code
-  bash | c | clj | cljs | cljc | config | conf | cpp | cs | css | dart | Dockerfile | env | erl | ex | exs | go | gradle | groovy | html | hs | ini | java | js | jsx | jsonc | kt | kts | lua | Makefile | mdx | php | pl | properties | py | r | rb | rs | scala | sc | sh | sql | svg | svelte | swift | toml | ts | tsx | vue | xml | yaml | yml | zsh)
+  bash | c | clj | cljs | cljc | config | conf | cpp | cs | css | dart | Dockerfile | env | erl | ex | exs | go | gradle | groovy | html | hs | ini | java | js | jsx | jsonc | kt | kts | lua | Makefile | mdx | mjs | php | pl | properties | py | r | rb | rs | scala | sc | sh | sql | svg | svelte | swift | toml | ts | tsx | vue | xml | yaml | yml | zsh)
     # check that bat is installed, and if not, prompt to install it via homebrew
     if ! command -v bat >/dev/null 2>&1; then
       confirm "bat is not installed. Install it with brew (y/n)? "
