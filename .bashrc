@@ -219,6 +219,14 @@ lst30() { _lst 30 "$@"; }
 lst40() { _lst 40 "$@"; }
 lst50() { _lst 50 "$@"; }
 
+# cut the first n characters from each line, e.g. c2 = `cut -c3-`
+_c() { cut -c"$(($1 + 1))"- "${@:2}"; }
+c1() { _c 1 "$@"; }
+c2() { _c 2 "$@"; }
+c3() { _c 3 "$@"; }
+c4() { _c 4 "$@"; }
+c5() { _c 5 "$@"; }
+
 sob() {
   source $dothome/.bash_profile
 }
