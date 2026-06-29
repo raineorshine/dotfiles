@@ -19,7 +19,7 @@
 #   https://stackoverflow.com/a/12691027/480608
 # If statement tests:           man test
 #   ( expression )              true
-#   ! expression                false
+#   not expression              false
 #   exp1 -a exp2                and
 #   exp1 -o exp2                or
 #   str1 = str2                 string equal
@@ -65,8 +65,8 @@ alias ....="cd ..;cd ..;cs .."
 alias .....="cd ..;cd ..;cd ..;cs .."
 alias backupsublime="~/Library/Application\ Support/Sublime\ Text/backup.sh"
 alias c="pbcopy"
-alias cdot="cd $dothome && git status"
-alias dcode="code $dothome"
+alias cdot="cd \$dothome && git status"
+alias dcode="code \$dothome"
 alias f="pushd -1 >& /dev/null && pushd +1 >& /dev/null"
 alias fb="firebase"
 alias fd="firebase deploy --only hosting"
@@ -92,6 +92,7 @@ alias h9="head -9"
 alias less="less -R" # --raw-control-chars to parse color codes
 alias lr="lessmd README.md"
 # basic ls with colorized output (-G) and file type suffixes (-F)
+# shellcheck disable=SC2032
 alias ls="ls -GF"
 # all files (-A), including hidden dot files
 alias lsa="ls -AGF"
@@ -108,8 +109,8 @@ alias m="mocha"
 alias mb="mocha --bail"
 alias n="notify"
 alias nov="node -v"
-alias pro="$EDITOR $dothome/.bash_profile"
-alias zpro="$EDITOR $dothome/.zprofile"
+alias pro="\$EDITOR \$dothome/.bash_profile"
+alias zpro="\$EDITOR \$dothome/.zprofile"
 alias qr="qrencode -t ANSIUTF8"
 alias rmrf="rm -rf"
 alias rmv="rm -rf node_modules/.vite"
@@ -141,7 +142,7 @@ alias xap="xargs --verbose --interactive -S 100000 -I%"
 alias bfg="java -jar /usr/local/bin/bfg.jar"
 
 so() {
-  source $dothome/.bashrc
+  source "$dothome"/.bashrc
 }
 
 # print the header comment and full definition of an alias or function from .bashrc or .zshrc
@@ -210,6 +211,7 @@ man() {
 _lst() {
   local n=$1
   shift
+  # shellcheck disable=SC2010
   ls -AGFplht --color=always "$@" | grep -v .DS_Store | head -"$n"
 }
 lst() { _lst 10 "$@"; }
@@ -228,7 +230,7 @@ c4() { _c 4 "$@"; }
 c5() { _c 5 "$@"; }
 
 sob() {
-  source $dothome/.bash_profile
+  source "$dothome"/.bash_profile
 }
 
 # Notify with ✓ or ✗ based on the exit code of the previous command.
@@ -237,17 +239,18 @@ sob() {
 notifyresult() {
   local code=$?
   local title="${1:-$(fc -ln -1 2>/dev/null | sed 's/^[[:space:]]*//')}"
+  # shellcheck disable=SC2015
   [ "$code" -eq 0 ] && notify "$title" ✓ || notify "$title" ✗
   return "$code"
 }
 
 # prompt the user with a y/n question
 confirm() {
-  printf "$@"
+  printf '%s' "$@"
   old_stty_cfg=$(stty -g)
   stty raw -echo
   answer=$(while ! head -c 1; do true; done)
-  stty $old_stty_cfg
+  stty "$old_stty_cfg"
   if echo "$answer" | grep -iq "^y"; then
     echo yes
     return 0
@@ -262,7 +265,7 @@ cs() {
   # Stay in the same directory if no arg is provided.
   # Otherwise it will go to the user's home directory.
   if [ $# -ne 0 ]; then
-    cd "$@"
+    cd "$@" || return
   fi
   ls
 }
@@ -294,7 +297,7 @@ lessmd() {
 loop() {
   n=$1
   shift
-  for i in $(seq 1 $n); do
+  for i in $(seq 1 "$n"); do
     "$@"
   done
 }
@@ -307,7 +310,7 @@ mang() {
 # make a directory and cd to it
 md() {
   mkdir -p "$@"
-  cd "$@"
+  cd "$@" || return
 }
 
 # create a blank package.json in the current folder if it does not exist
@@ -318,11 +321,11 @@ pkg() {
   dest="$HOME/package.new.json"
 
   if [ ! -f ./package.json ]; then
-    if [ ! -f $dest ]; then
+    if [ ! -f "$dest" ]; then
       echo "Copying"
-      curl $src >$dest
+      curl "$src" >"$dest"
     fi
-    cp $dest ./package.json
+    cp "$dest" ./package.json
     echo "package.json created"
   else
     echo "package.json already exists"
@@ -331,7 +334,7 @@ pkg() {
 
 # get the process using a port
 port() {
-  lsof -i ":$@"
+  lsof -i ":$1"
 }
 
 # print the LAN URL for a local dev server (default port 3000)
@@ -343,16 +346,16 @@ devurl() {
 kport() {
   # get the process using a port and kill it with -9 (force)
   # error and print a friendly message if the port is not in use
-  if ! lsof -i ":$@" >/dev/null; then
-    echo "$@ is not in use"
+  if ! lsof -i ":$1" >/dev/null; then
+    echo "$1 is not in use"
     return 1
   fi
-  kill -9 $(lsof -ti ":$@")
+  kill -9 "$(lsof -ti ":$1")"
 }
 
 # echo the last command(s) entered
 prev() {
-  n=${@:-1}
+  n=${1:-1}
   history "-$n" | head -1 | sed 's/^ *[[:digit:]]* *//'
 }
 
@@ -381,7 +384,7 @@ rl() {
 temp() {
   rm -rf /tmp/temp
   mkdir /tmp/temp &&
-    pushd /tmp/temp
+    pushd /tmp/temp || return
 }
 
 # measure the running time of a command repeated n times
@@ -389,9 +392,9 @@ temp() {
 timen() {
   n=$1
   command=$2
-  args="${@:3}"
-  for i in $(seq 1 $n); do
-    time "$command" "$args" &>/dev/null
+  args=("${@:3}")
+  for i in $(seq 1 "$n"); do
+    time "$command" "${args[@]}" &>/dev/null
   done
 }
 
@@ -413,6 +416,7 @@ trim() {
 
 # display [w]here a sym[l]inked executable is pointing
 wl() {
+  # shellcheck disable=SC2033
   which "$@" | xargs ls -lG
 }
 
@@ -459,7 +463,7 @@ spotlightaudit() {
 
 # man with support for builtins
 h() {
-  case $(type $1) in
+  case $(type "$1") in
   *"shell builtin"*)
     if [[ -n $ZSH_VERSION ]]; then
       man zshbuiltins | less -p "^       $1 "
@@ -543,7 +547,7 @@ alias gd3="git diff head^^^ head"
 alias gdd2="git diff head^^ head^"
 # show the changes of the antepenultimate commit
 alias gdd3="git diff head^^^ head^^"
-alias fix="git diff --name-only | uniq | xargs $EDITOR -n"
+alias fix="git diff --name-only | uniq | xargs \$EDITOR -n"
 
 # log
 alias gl="git log"
@@ -677,8 +681,7 @@ hac() {
 # exists and, if so, add it to package.json's repository url before opening it.
 gbro() {
   local output
-  output=$(gh repo view --web 2>&1)
-  if [ $? -eq 0 ]; then
+  if output=$(gh repo view --web 2>&1); then
     return 0
   fi
 
@@ -694,7 +697,8 @@ gbro() {
   fi
 
   # derive the repo name from package.json, stripping any scope (e.g. @user/pkg -> pkg)
-  local name=$(jq -r .name package.json)
+  local name
+  name=$(jq -r .name package.json)
   if [ -z "$name" ] || [ "$name" = "null" ]; then
     echo "No name found in package.json" >&2
     return 1
@@ -710,7 +714,8 @@ gbro() {
 
   # add the repository url to package.json
   echo "Adding repository $url to package.json"
-  local tmp=$(mktemp)
+  local tmp
+  tmp=$(mktemp)
   jq --arg url "git+$url.git" '.repository = {type: "git", url: $url}' package.json >"$tmp" && mv "$tmp" package.json
 
   # open the repo in the browser
@@ -718,20 +723,22 @@ gbro() {
 }
 
 # pull all submodules
+# shellcheck disable=SC2120
 pull() {
   git pull "$@" && git submodule update --init --recursive
 }
 
 spull() {
   git stash
+  # shellcheck disable=SC2119
   pull
   git stash pop
 }
 
 # git stash list
 gstls() {
-  n=${@:--10}
-  git stash list | head $n
+  n=${*:--10}
+  git stash list | head "$n"
 }
 
 # amend with optional new message
@@ -769,14 +776,16 @@ gm() {
   if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
-    printf "${LAVENDER}[copilot]${RESET} generating commit message...\n"
-    local gitstatus=$(git status --porcelain)
-    local diff=$(git diff --staged | head -c 100000)
+    printf '%s[copilot]%s generating commit message...\n' "$LAVENDER" "$RESET"
+    local gitstatus diff
+    gitstatus=$(git status --porcelain)
+    diff=$(git diff --staged | head -c 100000)
     # Run in a throwaway COPILOT_HOME so the session isn't written to ~/.copilot,
     # which is what VS Code scans for the Chat Sessions view. This keeps these
     # one-off commit-message sessions from cluttering the UI. Auth lives outside
     # COPILOT_HOME (in the gh CLI), so a fresh temp dir still authenticates.
-    local copilot_home=$(mktemp -d "${TMPDIR:-/tmp}/copilot-commit.XXXXXX")
+    local copilot_home
+    copilot_home=$(mktemp -d "${TMPDIR:-/tmp}/copilot-commit.XXXXXX")
     local copilot_output
     copilot_output=$(COPILOT_HOME="$copilot_home" copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
 
@@ -857,29 +866,29 @@ gp() {
 # checkout next (newer) commit
 gn() {
   branch=$(git_load_branch)
-  hash=$(git rev-parse $branch)
+  hash=$(git rev-parse "$branch")
 
   # stop if we are already on the branch, i.e. there are no newer commits
   head_hash=$(git rev-parse HEAD)
-  if [ $hash = $head_hash ]; then
+  if [ "$hash" = "$head_hash" ]; then
     echo "On branch $branch"
     return 0
   fi
 
-  next=$(git rev-list --topo-order HEAD..$hash | tail -1)
+  next=$(git rev-list --topo-order HEAD.."$hash" | tail -1)
 
   # if the next commit is the branch commit, checkout the branch to exit detached HEAD state
-  if [ $next = $hash ]; then
-    git checkout $branch
+  if [ "$next" = "$hash" ]; then
+    git checkout "$branch"
   # otherwise, checkout the next commit
   else
-    git checkout $next
+    git checkout "$next"
   fi
 }
 
 # git commit and tag
 gcat() {
-  printf -v v "v%s" $(cat package.json | jsonpath version)
+  printf -v v "v%s" "$(cat package.json | jsonpath version)"
   git commit -m "$v"
   git tag "$v"
 }
@@ -890,8 +899,8 @@ gcl() {
     git clone --depth=1 "$1" "$2" &&
       cs "$2"
   else
-    git clone --depth=1 $1 &&
-      cs $(basename $1)
+    git clone --depth=1 "$1" &&
+      cs "$(basename "$1")"
   fi
 }
 
@@ -901,8 +910,8 @@ gclu() {
     git clone "$1" "$2" &&
       cs "$2"
   else
-    git clone $1 &&
-      cs $(basename $1)
+    git clone "$1" &&
+      cs "$(basename "$1")"
   fi
 }
 
@@ -912,7 +921,7 @@ gcreate() {
   desc=$(jq -r .description package.json) &&
     private=$(jq -r '.private // false' package.json) &&
     visibility=$([ "$private" = "true" ] && echo "--private" || echo "--public") &&
-    gh repo create --source=. --push $visibility --description "$desc"
+    gh repo create --source=. --push "$visibility" --description "$desc"
 }
 
 # git create, bump to first major version, and publish to npm
@@ -939,38 +948,38 @@ aforce() {
 
 # log commits since origin/{branch} (inclusive)
 glor() {
-  git log origin/$(git_local_branch)^..HEAD --oneline
+  git log "origin/$(git_local_branch)^..HEAD" --oneline
 }
 
 # log commits since last tag (inclusive)
 glt() {
-  git log $(git_last_tag)^..HEAD --oneline
+  git log "$(git_last_tag)^..HEAD" --oneline
 }
 
 # diff since last tag (inclusive)
 gdt() {
-  git diff $(git_last_tag)^..HEAD --oneline
+  git diff "$(git_last_tag)^..HEAD" --oneline
 }
 
 # hard reset to origin
 grhao() {
-  git reset --hard origin/$(git_local_branch)
+  git reset --hard "origin/$(git_local_branch)"
 }
 
 # hard reset to remote branch
 grhar() {
-  git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+  git reset --hard "$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}')"
 }
 
 # hard reset to last tag
 grhat() {
-  git reset --hard $(git_last_tag)
+  git reset --hard "$(git_last_tag)"
 }
 
 # git checkout last tag
 gcit() {
   git_save_branch
-  git checkout $(git_last_tag)^
+  git checkout "$(git_last_tag)^"
 }
 
 # git checkout last commit from the given time ellapsed
@@ -981,7 +990,7 @@ gct() {
     echo "e.g. gct '2 weeks ago'"
     return 1
   fi
-  git checkout $(git log --until="$1" -n 1 --format="%H")
+  git checkout "$(git log --until="$1" -n 1 --format="%H")"
 
   # Print commit date
   # e.g. Sun Jun 1 10:42:53 2025 -0700
@@ -995,12 +1004,12 @@ grim() {
 
 # rebase to last tag (inclusive)
 grit() {
-  git rebase --interactive $(git_last_tag)^
+  git rebase --interactive "$(git_last_tag)^"
 }
 
 # interactive rebase to origin/CURRENT_BRANCH (exclusive)
 grio() {
-  git rebase --interactive origin/$(git_local_branch)
+  git rebase --interactive "origin/$(git_local_branch)"
 }
 
 # list branches in reverse chronological order (using for-each-ref)
@@ -1029,9 +1038,9 @@ gbD() {
 gbda() {
   git fetch --prune
   for branch in $(git for-each-ref --format='%(refname:lstrip=3)' refs/remotes/origin); do
-    if ! git show-ref --quiet refs/heads/${branch}; then
+    if ! git show-ref --quiet refs/heads/"${branch}"; then
       echo "Delete remote branch '${branch}'"
-      git push origin --delete ${branch}
+      git push origin --delete "${branch}"
     fi
   done
 }
@@ -1068,7 +1077,7 @@ rmc() {
     # store the diff
     reverseDiff=$(git diff -R) &&
     reverseDiffColor=$(git diff -R --color=always) &&
-    echo -e $reverseDiffColor &&
+    echo -e "$reverseDiffColor" &&
 
     # stage the removed console.logs
     git add -A &&
@@ -1078,7 +1087,7 @@ rmc() {
     git commit --quiet -m "console.logs" &&
 
     # restore the console.logs by applying the reverse patch
-    echo $reverseDiff | git apply &&
+    echo "$reverseDiff" | git apply &&
 
     # stash the console.logs in case we changed our mind
     git stash --quiet &&
@@ -1090,13 +1099,12 @@ rmc() {
 
 # start bisecting if we are not already, and then call git bisect [value]
 bisect() {
-  LOG=$(git bisect log &>/dev/null)
-  if [ "$?" -eq 1 ]; then
+  if ! git bisect log &>/dev/null; then
     echo "starting bisect"
     git bisect start &>/dev/null
   fi
 
-  git bisect $1
+  git bisect "$1"
 }
 
 # start bisecting if we are not already, and then call git bisect bad
@@ -1113,7 +1121,7 @@ bb() {
 # default to last tag
 gtd() {
   # get last tag
-  ref=${@:-$(git_last_tag 2>/dev/null)}
+  ref=${*:-$(git_last_tag 2>/dev/null)}
   if [ -z "$ref" ]; then
     echo "No tags found"
     return 1
@@ -1121,38 +1129,35 @@ gtd() {
 
   # confirm delete if last tag is inferred
   if [ $# -eq 0 ]; then
-    confirm "Delete tag $ref? (y/n) "
-    if [ "$?" -ne 0 ]; then
+    if ! confirm "Delete tag $ref? (y/n) "; then
       return 1
     fi
   fi
 
   # delete local tag
-  git tag --delete $ref
-  if [ "$?" -ne 0 ]; then
-    return "$?"
+  if ! git tag --delete "$ref"; then
+    return 1
   fi
 
   # delete remote tag (if remote origin exists)
-  git remote get-url origin >/dev/null 2>&1
-  if [ "$?" -eq 0 ]; then
-    git push --delete origin $ref
+  if git remote get-url origin >/dev/null 2>&1; then
+    git push --delete origin "$ref"
   fi
 }
 
 # git log --oneline
 # default to 10
 glo() {
-  n=${@:--10}
-  git log --oneline $n
+  n=${*:--10}
+  git log --oneline "$n"
 }
 
 # git log message only
 # default to 10
 glom() {
-  n=${@:--10}
-  message=$(git log --format=%s $n)
-  echo -n $message
+  n=${*:--10}
+  message=$(git log --format=%s "$n")
+  echo -n "$message"
 }
 alias glom1="glom -1"
 alias glom2="glom -2"
@@ -1162,16 +1167,16 @@ alias glom5="glom -5"
 
 # show the changes of a specific commit
 gdd() {
-  ref=${@:-head}
-  git diff $ref^ $ref
+  ref=${*:-head}
+  git diff "$ref"^ "$ref"
 }
 
 # push to the current branch's upstream
 pushpr() {
-  remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
-  remote=$(echo $remote_fullname | cut -d'/' -f1)
-  remote_branch=$(echo $remote_fullname | cut -d'/' -f2-)
-  git push $remote HEAD:$remote_branch "$@"
+  remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}')
+  remote=$(echo "$remote_fullname" | cut -d'/' -f1)
+  remote_branch=$(echo "$remote_fullname" | cut -d'/' -f2-)
+  git push "$remote" HEAD:"$remote_branch" "$@"
 }
 
 # fetch and hard reset to tracked remote branch of given PR number or URL
@@ -1247,7 +1252,7 @@ alias gskip="git_rewrite_history --skip"
 
 # git diff --name-only from origin
 gdno() {
-  git diff --name-only origin/$(git_local_branch) head
+  git diff --name-only "origin/$(git_local_branch)" head
 }
 
 # Triggers a GitHub Actions workflow multiple times.
@@ -1258,29 +1263,28 @@ ghworkflow() {
   branch_default=$(git rev-parse --abbrev-ref HEAD)
 
   echo -n "Repository ($repo_default): "
-  read input_repo
+  read -r input_repo
   repo=${input_repo:-$repo_default}
 
   echo -n "Workflow ($workflow_default): "
-  read input_workflow
+  read -r input_workflow
   workflow=${input_workflow:-$workflow_default}
 
   echo -n "Branch ($branch_default): "
-  read input_branch
+  read -r input_branch
   branch=${input_branch:-$branch_default}
 
   echo -n "Number of runs (10): "
-  read input_runs
+  read -r input_runs
   runs=${input_runs:-10}
 
   # To trigger the workflow on a PR from a fork, we need to push it to a repo we control.
   # If it's already up-to-date, the user can opt out to save time.
-  confirm "Push local branch to origin (y/n)? "
-  if [ "$?" -eq 0 ]; then
+  if confirm "Push local branch to origin (y/n)? "; then
     git push origin "HEAD:$branch" || return 1
   fi
 
-  for i in $(seq 1 $runs); do
+  for i in $(seq 1 "$runs"); do
     echo "Triggering workflow run #$i..."
 
     gh workflow run "$workflow" \
@@ -1415,8 +1419,8 @@ br() {
     to=Examples
     bunRunOutput="$(FORCE_COLOR=1 bun run)"
     truncated="$(echo "${bunRunOutput#*"$from"}" | tail -n +2)"
-    scripts=$(echo "\n${truncated%%"$to"*}" | ghead -n -2)
-    echo "$scripts\n" | sed "s/ bun run//g"
+    scripts=$(printf '\n%s' "${truncated%%"$to"*}" | ghead -n -2)
+    printf '%s\n' "$scripts" | sed "s/ bun run//g"
   else
     bun run "$@"
   fi
@@ -1431,14 +1435,12 @@ bw() {
     return 1
   fi
 
-  jq -e .scripts.watch <package.json >/dev/null 2>&1
-  if [ "$?" -eq 0 ]; then
+  if jq -e .scripts.watch <package.json >/dev/null 2>&1; then
     bun run watch
     return
   fi
 
-  jq -e '.scripts["watch:ts"]' <package.json >/dev/null 2>&1
-  if [ $? -eq 0 ]; then
+  if jq -e '.scripts["watch:ts"]' <package.json >/dev/null 2>&1; then
     bun run watch:ts
   else
     echo "No watch or watch:ts scripts found"
@@ -1472,13 +1474,13 @@ nvs() {
   timeModified=$(echo "$pkg" | jq -r '."time.modified"' | date +%D)
   echo
   echo "$yellow$underline$name@$version$reset"
-  if [ $timeModified != "null" ]; then
+  if [ "$timeModified" != "null" ]; then
     echo "$gray$timeModified$reset"
   fi
-  if [ $description != "null" ]; then
-    echo $description
+  if [ "$description" != "null" ]; then
+    echo "$description"
   fi
-  if [ $homepage != "null" ]; then
+  if [ "$homepage" != "null" ]; then
     echo "$cyan$homepage$reset"
   fi
   echo
@@ -1527,8 +1529,8 @@ nf() {
   version=$(jq -r .version <package.json)
   tarfile="$name-$version.tgz"
   npm pack
-  tar -tzf $tarfile
-  rm -rf $tarfile
+  tar -tzf "$tarfile"
+  rm -rf "$tarfile"
 }
 
 #-------------------------#
@@ -1546,8 +1548,10 @@ lesscolor() {
   # work in both bash and zsh (zsh does not word-split unquoted variables)
   local -a pager
   if [ -n "$ZSH_VERSION" ]; then
+    # shellcheck disable=SC2206
     pager=(${=1})
   else
+    # shellcheck disable=SC2206
     pager=($1)
   fi
   shift
@@ -1557,16 +1561,16 @@ lesscolor() {
     return 1
   fi
 
-  EXT=$(echo $1 | sed 's/^.*\.//')
+  EXT="${1##*.}"
 
   case $EXT in
 
   # json
   json)
     if [ $# -eq 1 ]; then
-      jq $2 -C <$1 | "${pager[@]}"
+      jq -C <"$1" | "${pager[@]}"
     else
-      jq $2 -C <$1
+      jq "$2" -C <"$1"
     fi
     ;;
 
@@ -1578,8 +1582,7 @@ lesscolor() {
     if [ "$MARKED_TERMINAL_TYPE" = "marked-terminal-cli not found" ]; then
       # printf 'Install marked-terminal-cli (y/n)? '
       # read -n 1 -p "Is this a good question (y/n)? " answer
-      confirm "Install marked-terminal-cli (y/n)? "
-      if [ "$?" -eq 1 ]; then
+      if ! confirm "Install marked-terminal-cli (y/n)? "; then
         return 1
       fi
       npm install -g marked-terminal-cli
@@ -1591,8 +1594,7 @@ lesscolor() {
   bash | c | clj | cljs | cljc | config | conf | cpp | cs | css | dart | Dockerfile | env | erl | ex | exs | go | gradle | groovy | html | hs | ini | java | js | jsx | jsonc | kt | kts | lua | Makefile | mdx | mjs | php | pl | properties | py | r | rb | rs | scala | sc | sh | sql | svg | svelte | swift | toml | ts | tsx | vue | xml | yaml | yml | zsh)
     # check that bat is installed, and if not, prompt to install it via homebrew
     if ! command -v bat >/dev/null 2>&1; then
-      confirm "bat is not installed. Install it with brew (y/n)? "
-      if [ "$?" -eq 1 ]; then
+      if ! confirm "bat is not installed. Install it with brew (y/n)? "; then
         return 1
       fi
       brew install bat || return 1
@@ -1602,7 +1604,7 @@ lesscolor() {
 
   # other
   *)
-    "${pager[@]}" $1
+    "${pager[@]}" "$1"
     ;;
   esac
 }
@@ -1625,7 +1627,7 @@ lp() {
   if [ $# -eq 0 ]; then
     jq <package.json -C | less -R
   else
-    jq ".$@" <package.json
+    jq ".$*" <package.json
   fi
 }
 
@@ -1646,7 +1648,7 @@ togif() {
     echo "Usage:"
     echo "togif input.mov"
   else
-    ffmpeg -i "$@" -r 25 -f gif - | gifsicle --optimize=3 --lossy=90 --scale 0.5 --colors=32 >"$@.gif"
+    ffmpeg -i "$1" -r 25 -f gif - | gifsicle --optimize=3 --lossy=90 --scale 0.5 --colors=32 >"$1.gif"
   fi
 }
 
@@ -1666,9 +1668,11 @@ set bind-tty-special-chars Off
 # Miscellaneous
 #-------------------------#
 
+# shellcheck disable=SC2034  # used by zsh as the prompt
 PROMPT="%F{yellow}%n%f%F{cyan}[%1~]%# %f"
 
 # added by travis gem
+# shellcheck source=/dev/null
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
 # fnm
@@ -1676,4 +1680,4 @@ PROMPT="%F{yellow}%n%f%F{cyan}[%1~]%# %f"
 # Note, you may need to explicitly specify the architecture for ARM-based Mac M1:
 #   fnm install --arch=arm64 VERSION
 # Run `node -p process.platform` to verify.
-[ -x $(command -v fnm) ] && eval "$(fnm env --use-on-cd)"
+[ -x "$(command -v fnm)" ] && eval "$(fnm env --use-on-cd)"

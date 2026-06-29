@@ -1,0 +1,4 @@
+# These are sourced bash rc files, not standalone scripts.
+shell=bash
+# Allow following `source`/`.` into files outside the repo.
+external-sources=true

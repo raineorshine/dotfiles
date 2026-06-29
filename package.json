@@ -20,6 +20,9 @@
     "url": "https://github.com/raineorshine/dotfiles/issues"
   },
   "homepage": "https://github.com/raineorshine/dotfiles",
+  "scripts": {
+    "lint": "shellcheck .bash_profile .bashrc"
+  },
   "dependencies": {
     "cint": "^6",
     "glob": "^3",
