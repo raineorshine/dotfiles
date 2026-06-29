@@ -12,9 +12,6 @@
     "bashrc",
     "zshrc"
   ],
-  "engines": {
-    "node": "10.15.0"
-  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/raineorshine/dotfiles/issues"
