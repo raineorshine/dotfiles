@@ -776,7 +776,7 @@ gm() {
   if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
-    printf '%s[copilot]%s generating commit message...\n' "$LAVENDER" "$RESET"
+    printf '%b[copilot]%b generating commit message...\n' "$LAVENDER" "$RESET"
     local gitstatus diff
     gitstatus=$(git status --porcelain)
     diff=$(git diff --staged | head -c 100000)
@@ -1672,7 +1672,6 @@ set bind-tty-special-chars Off
 PROMPT="%F{yellow}%n%f%F{cyan}[%1~]%# %f"
 
 # added by travis gem
-# shellcheck source=/dev/null
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
 # fnm

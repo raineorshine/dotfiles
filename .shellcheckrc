@@ -1,4 +1,5 @@
 # These are sourced bash rc files, not standalone scripts.
 shell=bash
-# Allow following `source`/`.` into files outside the repo.
-external-sources=true
+# These files source external runtime files (e.g. ~/.cargo/env, ~/.travis/travis.sh)
+# that aren't present at lint time. Don't warn about following them.
+disable=SC1090,SC1091
