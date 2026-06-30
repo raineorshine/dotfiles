@@ -1681,3 +1681,4 @@ PROMPT="%F{yellow}%n%f%F{cyan}[%1~]%# %f"
 #   fnm install --arch=arm64 VERSION
 # Run `node -p process.platform` to verify.
 [ -x "$(command -v fnm)" ] && eval "$(fnm env --use-on-cd)"
+. "$HOME/.cargo/env"
