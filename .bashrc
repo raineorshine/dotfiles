@@ -779,7 +779,7 @@ gm() {
     printf '%b[copilot]%b generating commit message...\n' "$LAVENDER" "$RESET"
     local gitstatus diff
     gitstatus=$(git status --porcelain)
-    diff=$(git diff --staged | head -c 100000)
+    diff=$(git diff --staged -- . ':(exclude)*package-lock.json' ':(exclude)*yarn.lock' | head -c 100000)
     # Run in a throwaway COPILOT_HOME so the session isn't written to ~/.copilot,
     # which is what VS Code scans for the Chat Sessions view. This keeps these
     # one-off commit-message sessions from cluttering the UI. Auth lives outside
