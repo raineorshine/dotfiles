@@ -627,6 +627,9 @@
       "url": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json"
     }
   ],
+  "json.schemaDownload.trustedDomains": {
+    "https://openapi.vercel.sh/": true
+  },
   "remote.SSH.remotePlatform": {
     "sandbox.68c5yh.csb": "linux"
   },
