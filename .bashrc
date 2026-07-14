@@ -1217,6 +1217,15 @@ pr() {
 
   git log -1
 
+  # Install dependencies using the package manager matching the repo's lockfile
+  if [ -f pnpm-lock.yaml ]; then
+    pnpm install
+  elif [ -f yarn.lock ]; then
+    yarn install
+  elif [ -f package-lock.json ]; then
+    npm install
+  fi
+
   notifyresult "Checked out PR #$pr_num"
 }
 
