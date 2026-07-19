@@ -18,6 +18,10 @@ alias brew="arch -x86_64 brew"
 
 # browse the home page of an npm module
 nbro() {
+  if [[ $# -eq 0 && ! -f package.json ]]; then
+    echo "nbro: no package.json in the current directory; specify a module name (e.g. nbro react)" >&2
+    return 1
+  fi
   npm view "$@" homepage | xargs open
 }
 
