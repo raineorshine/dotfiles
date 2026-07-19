@@ -116,7 +116,7 @@ alias rmrf="rm -rf"
 alias rmv="rm -rf node_modules/.vite"
 # strip colors
 alias strip='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g"'
-alias t="type -af"
+alias ty="type -af"
 alias tra="npx trash-cli"
 alias traa="npx trash-cli ./*"
 alias tw="npx tsc --watch"
@@ -190,8 +190,8 @@ _aliasdef() {
   return 1
 }
 
-# show the definition of a dotfiles alias or function via bat, falling back to native man
-man() {
+# show the definition of a dotfiles alias or function via bat, falling back to type -af
+t() {
   if [ "$#" -eq 1 ]; then
     local def
     def=$(_aliasdef "$1")
@@ -204,7 +204,7 @@ man() {
       return 0
     fi
   fi
-  command man "$@"
+  type -af "$@"
 }
 
 # sort by most recent with forced color, exclude .DS_Store, limit to the first arg, and pass remaining args to ls
