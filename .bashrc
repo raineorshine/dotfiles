@@ -1316,7 +1316,6 @@ alias nus="npm uninstall --save"
 alias nusd="npm uninstall --save-dev"
 alias npmo="npm outdated --depth=0"
 alias nr="npm run"
-alias ns="npm start"
 alias nrr="npm run restart"
 alias nbr="npm run build && npm run restart"
 alias nst="npm run stop"
@@ -1341,6 +1340,14 @@ alias ydd="yarn deploy:dev; notirfyresult deploy:dev"
 alias pi="pnpm install; notifyresult 'pnpm install'"
 alias pa="pnpm add"
 
+# npm start, falling back to ./scripts/start.sh if there is no package.json
+ns() {
+  if [ -f package.json ]; then
+    npm start "$@"
+  else
+    ./scripts/start.sh "$@"
+  fi
+}
 ni() {
   npm install "$@"
   notifyresult 'npm install'
