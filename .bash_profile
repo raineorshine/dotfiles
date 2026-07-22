@@ -9,6 +9,8 @@ export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:pwd:gs:gulp:gd:push:pull:p"
 export PKG_CONFIG_PATH="/usr/local/opt/postgresql@15/lib/pkgconfig"
 export FNM_DIR="$HOME/.fnm"
+# Download native Apple Silicon (arm64) Node builds instead of x64 under Rosetta.
+export FNM_ARCH=arm64
 
 export PATH=".cabal-sandbox/bin:$PATH"
 export PATH="/usr/local/opt/python3/libexec/bin:$PATH"
