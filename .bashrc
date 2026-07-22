@@ -51,9 +51,6 @@ RESET='\033[0m' # No Color
 
 dothome="$HOME/projects/dotfiles"
 
-# small/cheap copilot model used for quick tasks like commit message generation
-COPILOT_MODEL_SMALL="claude-haiku-4.5"
-
 #-------------------------#
 # UTIL
 #-------------------------#
@@ -781,7 +778,7 @@ gat() {
 }
 
 # git commit
-# When no arguments are provided, generates a commit message using Copilot based on the current git diff.
+# When no arguments are provided, generates a commit message using Claude based on the current git diff.
 # Usage:
 #   gm
 #   gm [shortmessage]
@@ -790,31 +787,24 @@ gm() {
   if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
-    printf '%b[copilot]%b generating commit message...\n' "$LAVENDER" "$RESET"
+    printf '%b[claude]%b generating commit message...\n' "$LAVENDER" "$RESET"
     local gitstatus diff
     gitstatus=$(git status --porcelain)
     diff=$(git diff --staged -- . ':(exclude)*package-lock.json' ':(exclude)*yarn.lock' | head -c 100000)
-    # Run in a throwaway COPILOT_HOME so the session isn't written to ~/.copilot,
-    # which is what VS Code scans for the Chat Sessions view. This keeps these
-    # one-off commit-message sessions from cluttering the UI. Auth lives outside
-    # COPILOT_HOME (in the gh CLI), so a fresh temp dir still authenticates.
-    local copilot_home
-    copilot_home=$(mktemp -d "${TMPDIR:-/tmp}/copilot-commit.XXXXXX")
-    local copilot_output
-    copilot_output=$(COPILOT_HOME="$copilot_home" copilot -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
+    local claude_output
+    claude_output=$(claude -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
 
 ${gitstatus}
 ${diff}" \
-      --model "$COPILOT_MODEL_SMALL")
-    local copilot_exit=$?
-    rm -rf "$copilot_home"
-    if [ $copilot_exit -ne 0 ]; then
+      --model sonnet)
+    local claude_exit=$?
+    if [ $claude_exit -ne 0 ]; then
       notify commit ✗
       return 1
     fi
-    msg=$(echo "$copilot_output" | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
+    msg=$(echo "$claude_output" | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
     if [ -z "$msg" ]; then
-      echo "copilot returned an empty message"
+      echo "claude returned an empty message"
       notify commit ✗
       return 1
     fi
