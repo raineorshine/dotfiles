@@ -332,9 +332,23 @@ pkg() {
   fi
 }
 
-# get the process using a port
+# get the process listening on a port, plus its executable path and cwd (helpful for debugging an orphaned port process)
 port() {
-  lsof -i ":$1"
+  local pid
+  pid=$(lsof -tiTCP:"$1" -sTCP:LISTEN)
+  if [ -z "$pid" ]; then
+    echo "nothing listening on port $1"
+    return 1
+  fi
+  local ppid command cwd
+  ppid=$(ps -o ppid= -p "$pid" | tr -d ' ')
+  command=$(ps -o command= -p "$pid")
+  cwd=$(lsof -a -p "$pid" -d cwd -Fn | sed -n 's/^n//p')
+  printf "${LAVENDER}%-8s${RESET} %s\n" "port" "$1"
+  printf "${LAVENDER}%-8s${RESET} %s\n" "pid" "$pid"
+  printf "${LAVENDER}%-8s${RESET} %s\n" "ppid" "$ppid"
+  printf "${LAVENDER}%-8s${RESET} %s\n" "command" "$command"
+  printf "${LAVENDER}%-8s${RESET} %s\n" "cwd" "$cwd"
 }
 
 # print the LAN URL for a local dev server (default port 3000)
