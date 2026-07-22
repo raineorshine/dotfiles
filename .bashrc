@@ -787,24 +787,32 @@ gm() {
   if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
-    printf '%b[claude]%b generating commit message...\n' "$LAVENDER" "$RESET"
     local gitstatus diff
     gitstatus=$(git status --porcelain)
     diff=$(git diff --staged -- . ':(exclude)*package-lock.json' ':(exclude)*yarn.lock' | head -c 100000)
+    if [ -z "$diff" ]; then
+      echo "gm: no staged changes to commit (use gam to stage everything first)"
+      return 1
+    fi
+    printf '%b[claude]%b generating commit message...\n' "$LAVENDER" "$RESET"
     local claude_output
+    # claude writes errors (e.g. "Not logged in") to stdout, so capture both
+    # streams together and surface them on failure rather than swallowing them.
     claude_output=$(claude -p "Write a short commit message for this diff. Output only the commit message itself — no explanation, no markdown, no extra text.
 
 ${gitstatus}
 ${diff}" \
-      --model sonnet)
+      --model sonnet 2>&1)
     local claude_exit=$?
     if [ $claude_exit -ne 0 ]; then
+      echo "gm: claude failed (exit $claude_exit): $claude_output"
       notify commit ✗
       return 1
     fi
+    local msg
     msg=$(echo "$claude_output" | grep -v '^[[:space:]]*$' | grep -v '^Co-authored-by:' | tail -1)
     if [ -z "$msg" ]; then
-      echo "claude returned an empty message"
+      echo "gm: claude returned an empty message"
       notify commit ✗
       return 1
     fi
