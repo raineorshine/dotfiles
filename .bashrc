@@ -1706,8 +1706,5 @@ PROMPT="%F{yellow}%n%f%F{cyan}[%1~]%# %f"
 
 # fnm
 # Auto switch to node version specified in .nvmrc or .node-version when changing directories.
-# Note, you may need to explicitly specify the architecture for ARM-based Mac M1:
-#   fnm install --arch=arm64 VERSION
-# Run `node -p process.platform` to verify.
 [ -x "$(command -v fnm)" ] && eval "$(fnm env --use-on-cd)"
 . "$HOME/.cargo/env"
