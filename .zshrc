@@ -39,8 +39,10 @@ nbro() {
 # default, so pressing Enter installs all of them. Packages that are already
 # installed on the target version are listed but not offered.
 # Registry packages are installed with `npm install -g`; linked packages
-# (npm link) are re-linked from ~/projects/<name>. Set FNM_MIGRATE_DRYRUN=1 to
-# print what would happen without making changes. All other fnm subcommands are
+# (npm link) are re-linked from ~/projects/<name>. Corepack is then enabled on
+# the target to recreate the yarn/pnpm shims, installing corepack first on
+# Node >=25 (which no longer bundles it). Set FNM_MIGRATE_DRYRUN=1 to print
+# what would happen without making changes. All other fnm subcommands are
 # passed through to the real fnm binary.
 fnm() {
   if [[ "$1" == migrate ]]; then
@@ -241,6 +243,25 @@ _fnm_migrate_globals() {
         ( cd "$dir" && command fnm exec --using "$to" npm link )
       fi
     done
+  fi
+
+  # Recreate yarn/pnpm shims on the target via corepack. Node no longer bundles
+  # corepack as of v25, so install it first when the target lacks it. Pin the
+  # install directory to the target's own bin (via node's execPath) so the shims
+  # can't land on another version through PATH fallthrough.
+  print "\nEnabling corepack (yarn/pnpm) on Node $to..."
+  if [[ -n "$dry" ]]; then
+    print "DRYRUN: fnm exec --using $to sh -c 'install corepack if missing; corepack enable --install-directory <to-bin>'"
+  else
+    if command fnm exec --using "$to" sh -c '
+        bin=$(dirname "$(node -p process.execPath)")
+        [ -x "$bin/corepack" ] || npm install -g corepack || exit 1
+        corepack enable --install-directory "$bin"
+      '; then
+      print ">> corepack enabled"
+    else
+      print -u2 ">> corepack setup failed"
+    fi
   fi
 }
 
