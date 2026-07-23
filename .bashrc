@@ -1351,6 +1351,7 @@ alias yd="yarn deploy; notifyresult deploy"
 alias ydd="yarn deploy:dev; notirfyresult deploy:dev"
 alias pi="pnpm install; notifyresult 'pnpm install'"
 alias pa="pnpm add"
+alias in="./scripts/install-app.sh --open"
 
 # npm start, falling back to ./scripts/start.sh if there is no package.json
 ns() {
