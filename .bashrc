@@ -784,6 +784,7 @@ gat() {
 #   gm [shortmessage]
 #   gm [shortmessage] -m [longmessage]
 gm() {
+  MODEL="sonnet"
   if [ $# -ne 0 ]; then
     git commit -m "$@"
   else
@@ -794,7 +795,7 @@ gm() {
       echo "gm: no staged changes to commit (use gam to stage everything first)"
       return 1
     fi
-    printf '%b[claude]%b generating commit message...\n' "$LAVENDER" "$RESET"
+    printf '%b[claude:%s]%b generating commit message...\n' "$LAVENDER" "$MODEL" "$RESET"
     local claude_output
     # claude writes errors (e.g. "Not logged in") to stdout, so capture both
     # streams together and surface them on failure rather than swallowing them.
@@ -802,7 +803,7 @@ gm() {
 
 ${gitstatus}
 ${diff}" \
-      --model sonnet 2>&1)
+      --model "$MODEL" 2>&1)
     local claude_exit=$?
     if [ $claude_exit -ne 0 ]; then
       echo "gm: claude failed (exit $claude_exit): $claude_output"
