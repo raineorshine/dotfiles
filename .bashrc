@@ -841,6 +841,15 @@ git_save_branch() {
   fi
 }
 
+# echo the name of the main branch: main if it exists, otherwise master
+git_main_branch() {
+  if git show-ref --verify --quiet refs/heads/main; then
+    echo main
+  else
+    echo master
+  fi
+}
+
 # loads the previously saved branch name, or guesses what branch we are in if detached
 git_load_branch() {
   if [ -f .git/_PREV_BRANCH ]; then
@@ -854,9 +863,14 @@ git_load_branch() {
 # Unable to find a way to get git autocompletions for a function.
 # Ideally would call fnm use 2>/dev/null after checkout, but this is not possible with an alias.
 alias gc="git_save_branch ; git checkout"
-alias gcm="git_save_branch ; git checkout main"
 alias gw="git_save_branch ; git switch"
 alias gwm="git_save_branch ; git switch main"
+
+# checkout the main branch, falling back to master if main does not exist
+gcm() {
+  git_save_branch
+  git checkout "$(git_main_branch)"
+}
 
 # checkout last saved branch
 gcr() {
