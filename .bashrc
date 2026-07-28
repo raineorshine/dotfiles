@@ -1409,6 +1409,12 @@ y() {
   yarn "$@"
   notifyresult yarn
 }
+# fetch current branch from origin, then yarn
+ffy() {
+  git pull --ff-only origin "$(git_local_branch)"
+  yarn "$@"
+  notifyresult yarn
+}
 yb() {
   yarn build "$@"
   notifyresult build
