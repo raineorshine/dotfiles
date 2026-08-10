@@ -1212,35 +1212,13 @@ pr() {
   # e.g. https://github.com/cybersemics/em/pull/4188 → 4188
   local pr_num="${1##*/pull/}"
   pr_num="${pr_num%%[^0-9]*}"
-  local_branch=pr/"$pr_num"
-  gh pr checkout "$pr_num" --branch "$local_branch" --force || return 1
 
-  # Determine the remote name based on the local branch.
-  # If the remote is not yet defined, remote_name will be set to the git url (e.g. https://github.com/ethan-james/em.git).
-  # Check if remote_name starts with http, and if so, change it to the expected github-desktop remote name.
-  remote_name=$(git config branch."$local_branch".remote)
-  if [[ $remote_name == http* ]]; then
-    remote_url="$remote_name"
-    remote_username=$(basename "$(dirname "$remote_name")")
-    remote_name="github-desktop-$remote_username"
-  else
-    remote_url=$(git remote get-url "$remote_name")
-  fi
-
-  # Add the remote and set remote tracking branch if it doesn't exist
-  if ! git remote | grep -q "$remote_name"; then
-    git remote add "$remote_name" "$remote_url"
-
-    # Get the remote branch name using the github cli since `git rev-parse --symbolic-full-name` does not work before the remote tracking branch is set.
-    remote_branch=$(gh pr view "$pr_num" --json headRefName -q .headRefName)
-
-    # Fetch the remote branch, otherwise we can't set the upstream:
-    #   fatal: refusing to fetch into branch 'refs/heads/pr/3047' checked out at '/Users/raine/projects/em'
-    # TODO: Why doesn't `gh pr checkout` do this already?
-    git fetch "$remote_name" "$remote_branch" || return 1
-
-    git branch --set-upstream-to="$remote_name/$remote_branch"
-  fi
+  # Let gh name the local branch after the PR's head branch (e.g. copilot/revert-pr-1980).
+  # With push.default=simple, a plain `git push` refuses to push when the local and
+  # upstream branch names differ, so renaming the branch (e.g. to pr/1234) breaks `push`.
+  # gh also configures branch.<name>.remote/pushremote/merge for fork PRs, so no extra
+  # remote setup is needed.
+  gh pr checkout "$pr_num" --force || return 1
 
   git log -1
 
