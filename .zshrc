@@ -16,6 +16,10 @@ alias chrome="open -a Google\ Chrome"
 alias preview="open -a Preview"
 alias brew="arch -x86_64 brew"
 
+# Allow pasting an unquoted GitHub PR URL with a query string (e.g. .../changes?diff=unified),
+# which zsh would otherwise treat as a failed glob ("no matches found").
+alias pr="noglob pr"
+
 # browse the home page of an npm module
 nbro() {
   if [[ $# -eq 0 && ! -f package.json ]]; then
