@@ -715,4 +715,8 @@
     "sound": "on"
   },
   "git.confirmSync": false,
+  "claudeCode.preferredLocation": "panel",
+  "extensions.supportAgentsWindow": {
+    "monokai.theme-monokai-pro-vscode": true
+  },
 }
