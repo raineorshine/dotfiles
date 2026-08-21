@@ -17,7 +17,15 @@ npm run lint
 
 - `npm run lint` — runs `shellcheck` on `.bash_profile` and `.bashrc` (config in `.shellcheckrc`).
 
-If you changed a shell file that isn't covered by the lint script (e.g. `.zshrc`, `.bash_profile`), run `shellcheck` on it as well. Fix every finding, then re-run before proceeding. There is no type check or test suite in this repo.
+Fix every finding, then re-run before proceeding. There is no type check or test suite in this repo.
+
+**Do not run `shellcheck` on `.zshrc`.** It is excluded from the lint script on purpose: shellcheck has no zsh dialect, so it can only be forced into bash mode (`-s bash`), where correct zsh — `$arr[i]` subscripts, `${(f)...}` expansion flags, `${=var}` splitting, `echo` escapes — reports as dozens of errors. Acting on those findings breaks the file. Syntax-check it with zsh itself instead:
+
+```bash
+zsh -n .zshrc
+```
+
+Same rule for any other zsh-only file. Only genuinely bash-targeted files belong under `shellcheck`.
 
 ### 2. Commit all staged and unstaged changes
 
