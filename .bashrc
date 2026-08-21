@@ -749,6 +749,7 @@ spull() {
 
 # git stash list
 gstls() {
+  local n
   n=${*:--10}
   git stash list | head "$n"
 }
@@ -785,6 +786,7 @@ gat() {
 #   gm [shortmessage]
 #   gm [shortmessage] -m [longmessage]
 gm() {
+  local MODEL
   MODEL="sonnet"
   if [ $# -ne 0 ]; then
     git commit -m "$@"
@@ -837,6 +839,7 @@ gam() {
 # save branch name (if not detached)
 # this allows gcr to exit detached HEAD state and gn to better determine the next commit
 git_save_branch() {
+  local branch
   branch=$(git_local_branch)
   if [ "$branch" != "HEAD" ]; then
     echo "$branch" >.git/_PREV_BRANCH
@@ -876,6 +879,7 @@ gcm() {
 
 # checkout last saved branch
 gcr() {
+  local branch
   branch=$(git_load_branch)
   if [ -n "$branch" ]; then
     git checkout "$branch"
@@ -893,6 +897,7 @@ gp() {
 
 # checkout next (newer) commit
 gn() {
+  local branch hash head_hash next
   branch=$(git_load_branch)
   hash=$(git rev-parse "$branch")
 
@@ -946,6 +951,7 @@ gclu() {
 # git create with the description set from your package.json
 # requires jq be installed
 gcreate() {
+  local desc private visibility
   desc=$(jq -r .description package.json) &&
     private=$(jq -r '.private // false' package.json) &&
     visibility=$([ "$private" = "true" ] && echo "--private" || echo "--public") &&
@@ -1096,6 +1102,7 @@ grmr() {
 
 # stash console.logs
 rmc() {
+  local reverseDiff reverseDiffColor
   # stage current changes
   git add -A &&
 
@@ -1148,6 +1155,7 @@ bb() {
 # git tag delete on local and remote
 # default to last tag
 gtd() {
+  local ref
   # get last tag
   ref=${*:-$(git_last_tag 2>/dev/null)}
   if [ -z "$ref" ]; then
@@ -1176,6 +1184,7 @@ gtd() {
 # git log --oneline
 # default to 10
 glo() {
+  local n
   n=${*:--10}
   git log --oneline "$n"
 }
@@ -1183,6 +1192,7 @@ glo() {
 # git log message only
 # default to 10
 glom() {
+  local n message
   n=${*:--10}
   message=$(git log --format=%s "$n")
   echo -n "$message"
@@ -1195,12 +1205,14 @@ alias glom5="glom -5"
 
 # show the changes of a specific commit
 gdd() {
+  local ref
   ref=${*:-head}
   git diff "$ref"^ "$ref"
 }
 
 # push to the current branch's upstream
 pushpr() {
+  local remote_fullname remote remote_branch
   remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}')
   remote=$(echo "$remote_fullname" | cut -d'/' -f1)
   remote_branch=$(echo "$remote_fullname" | cut -d'/' -f2-)
@@ -1442,6 +1454,7 @@ alias bup="bun upgrade"
 # bun run
 # shows available scripts like npm run if no arguments are passed
 br() {
+  local from to bunRunOutput truncated scripts
   if [ $# -eq 0 ]; then
     # only echo the scripts section
     from="package.json scripts"
@@ -1490,6 +1503,8 @@ dt() {
 
 # npm view short
 nvs() {
+  local underline yellow cyan gray reset pkg name description homepage version
+  local timeModified
   underline=$(tput smul)
   yellow=$(tput setaf 3)
   cyan=$(tput setaf 6)
@@ -1554,6 +1569,7 @@ npub() {
 
 # show files that will be published to npm
 nf() {
+  local name version tarfile
   name=$(jq -r .name <package.json)
   version=$(jq -r .version <package.json)
   tarfile="$name-$version.tgz"
@@ -1573,6 +1589,7 @@ nf() {
 # $1 = pager command used to display output (e.g. "less -R" or "cat")
 # remaining args = json/markdown/js file and optional jq selector
 lesscolor() {
+  local EXT MARKED_TERMINAL_TYPE
   # split the pager string into an array so multi-word commands (e.g. "less -R")
   # work in both bash and zsh (zsh does not word-split unquoted variables)
   local -a pager
