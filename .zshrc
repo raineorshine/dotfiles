@@ -3,6 +3,11 @@
 # This is loaded whenever an interactive shell is opened.
 # .bashrc and .zshrc can contain aliases, functions, and most anything except environment variables.
 
+# Drop aliases that shadow .bashrc functions of the same name before re-sourcing.
+# Without this, re-sourcing (`so`) expands the alias inside `pr() {` in .bashrc,
+# which zsh rejects with "defining function based on alias".
+unalias pr 2>/dev/null
+
 source ~/.bashrc
 
 so() {
