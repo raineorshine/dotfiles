@@ -1070,6 +1070,7 @@ gbD() {
 
 # delete all remote branches that are not in the local repo
 gbda() {
+  local branch
   git fetch --prune
   for branch in $(git for-each-ref --format='%(refname:lstrip=3)' refs/remotes/origin); do
     if ! git show-ref --quiet refs/heads/"${branch}"; then
