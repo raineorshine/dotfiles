@@ -244,6 +244,7 @@ notifyresult() {
 # prompt the user with a y/n question
 confirm() {
   printf '%s' "$@"
+  local old_stty_cfg answer
   old_stty_cfg=$(stty -g)
   stty raw -echo
   answer=$(while ! head -c 1; do true; done)
@@ -292,7 +293,7 @@ lessmd() {
 # repeat a command n times
 # e.g. loop 10 echo hello
 loop() {
-  n=$1
+  local n=$1 i
   shift
   for i in $(seq 1 "$n"); do
     "$@"
@@ -314,8 +315,8 @@ md() {
 # https://gist.github.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56
 # raw url must be updated if modified
 pkg() {
-  src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/c458511c390368e8dba14ac41f943b61bbe84820/package.json"
-  dest="$HOME/package.new.json"
+  local src="https://gist.githubusercontent.com/raineorshine/1c8288e915017004f1ebfd749b5cfe56/raw/c458511c390368e8dba14ac41f943b61bbe84820/package.json"
+  local dest="$HOME/package.new.json"
 
   if [ ! -f ./package.json ]; then
     if [ ! -f "$dest" ]; then
@@ -366,7 +367,7 @@ kport() {
 
 # echo the last command(s) entered
 prev() {
-  n=${1:-1}
+  local n=${1:-1}
   history "-$n" | head -1 | sed 's/^ *[[:digit:]]* *//'
 }
 
@@ -401,11 +402,11 @@ temp() {
 # measure the running time of a command repeated n times
 # e.g. timen 3 sleep 1
 timen() {
-  n=$1
-  command=$2
-  args=("${@:3}")
+  local n=$1 i
+  local cmd=$2
+  local args=("${@:3}")
   for i in $(seq 1 "$n"); do
-    time "$command" "${args[@]}" &>/dev/null
+    time "$cmd" "${args[@]}" &>/dev/null
   done
 }
 
