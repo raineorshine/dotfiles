@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/raineorshine/dotfiles",
   "scripts": {
-    "lint": "shellcheck .bash_profile .bashrc"
+    "lint": "shellcheck .bash_profile .bashrc && zsh -n .zshrc && zsh -n .zprofile"
   },
   "dependencies": {
     "cint": "^6",

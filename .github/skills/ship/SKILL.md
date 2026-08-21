@@ -15,17 +15,19 @@ Solo-developer workflow for this dotfiles repo. Take the current feature branch 
 npm run lint
 ```
 
-- `npm run lint` — runs `shellcheck` on `.bash_profile` and `.bashrc` (config in `.shellcheckrc`).
+- `npm run lint` — `shellcheck` on the bash files `.bash_profile` and `.bashrc` (config in `.shellcheckrc`), then `zsh -n` on the zsh files `.zshrc` and `.zprofile`.
 
-Fix every finding, then re-run before proceeding. There is no type check or test suite in this repo.
+This covers every shell file in the repo, so it is the whole gate. Fix every finding, then re-run before proceeding. There is no type check or test suite here.
 
-**Do not run `shellcheck` on `.zshrc`.** It is excluded from the lint script on purpose: shellcheck has no zsh dialect, so it can only be forced into bash mode (`-s bash`), where correct zsh — `$arr[i]` subscripts, `${(f)...}` expansion flags, `${=var}` splitting, `echo` escapes — reports as dozens of errors. Acting on those findings breaks the file. Syntax-check it with zsh itself instead:
+**Never run `shellcheck` on a zsh file.** shellcheck has no zsh dialect (`SC1071`), so it can only be forced into bash mode with `-s bash`, where correct zsh — `$arr[i]` subscripts, `${(f)...}` expansion flags, `${=var}` splitting, `echo` escapes — reports as dozens of errors. Acting on those findings breaks the file. `zsh -n` is the syntax check for those files, and the lint script already runs it.
+
+`zsh -n` only catches parse errors. To check function scoping in zsh, source the file and exercise the function under `setopt warn_create_global`, which reports any variable a function creates globally:
 
 ```bash
-zsh -n .zshrc
+zsh -c 'source ./.zshrc >/dev/null 2>&1; setopt warn_create_global; <function> <args> >/dev/null'
 ```
 
-Same rule for any other zsh-only file. Only genuinely bash-targeted files belong under `shellcheck`.
+This is runtime-only — it cannot be a lint gate, since it sees just the code paths that actually execute. Run it on functions you touched.
 
 ### 2. Commit all staged and unstaged changes
 

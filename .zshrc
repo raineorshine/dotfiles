@@ -288,7 +288,7 @@ ic() {
 
 # project directory
 p() {
-  if [ $# -eq 0 ]; then n=10; else n="$1"; fi
+  local n=${1:-10}
   pushd ~/projects &> /dev/null
   ls -AGFplht --color=always | grep -v .DS_Store | tail +2 | head -n "$n"
   echo ...
@@ -346,7 +346,7 @@ dm() {
 
 # add, amend, and force push to dotfiles repo
 daforce() {
-  dir=$(pwd)
+  local dir=$(pwd)
   cd "$dothome"
 
   so &&
@@ -370,7 +370,7 @@ dcs() {
 # diff the dotfiles repo
 # overrides unused /bin/dd
 dd() {
-  dir=$(pwd)
+  local dir=$(pwd)
   cd "$dothome"
 
   git --no-pager diff --exit-code --color=always ||
@@ -397,7 +397,7 @@ kardir() {
 
 # diff karabiner-config
 kardiff() {
-  dir=$(pwd)
+  local dir=$(pwd)
   cd ~/.config/karabiner
   git --no-pager diff
   cd "$dir"
@@ -405,7 +405,7 @@ kardiff() {
 
 # pull karabiner-config
 karpull() {
-  dir=$(pwd)
+  local dir=$(pwd)
   cd ~/.config/karabiner
   git pull
   cd "$dir"
