@@ -288,7 +288,7 @@ ic() {
 
 # project directory
 p() {
-  if [ $# -eq 0 ]; then n=10; else n="$1" fi
+  if [ $# -eq 0 ]; then n=10; else n="$1"; fi
   pushd ~/projects &> /dev/null
   ls -AGFplht --color=always | grep -v .DS_Store | tail +2 | head -n "$n"
   echo ...
@@ -327,7 +327,7 @@ alias stripr=sed 's/\w*✓//'
 # RPROMPT="%*"
 
 # set window title to current working directory after returning from a command
-precmd() { echo -ne "\e]1;${PWD##*/}\a" }
+precmd() { echo -ne "\e]1;${PWD##*/}\a"; }
 
 #-------------------------#
 # dotfiles
