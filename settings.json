@@ -593,7 +593,8 @@
     "**/*.js.map": true,
     "dist": true,
     "package-lock.json": true,
-    "yarn.lock": true
+    "yarn.lock": true,
+    "**/.yarn/releases/**": true
   },
   "explorer.confirmDelete": false,
   "editor.multiCursorModifier": "ctrlCmd",
