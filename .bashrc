@@ -508,8 +508,6 @@ alias force="git push --force"
 alias forceu="git push --set-upstream --force"
 # force push and skip pre-push hooks
 alias forcen="HUSKY_SKIP_HOOKS=1 git push --no-verify --force"
-# force push to the current branch's upstream
-alias forcepr="pushpr --force"
 # fetch current branch from origin
 alias ff='git pull --ff-only origin $(git_local_branch)'
 # fetches all remote branches
@@ -1209,15 +1207,6 @@ gdd() {
   local ref
   ref=${*:-head}
   git diff "$ref"^ "$ref"
-}
-
-# push to the current branch's upstream
-pushpr() {
-  local remote_fullname remote remote_branch
-  remote_fullname=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}')
-  remote=$(echo "$remote_fullname" | cut -d'/' -f1)
-  remote_branch=$(echo "$remote_fullname" | cut -d'/' -f2-)
-  git push "$remote" HEAD:"$remote_branch" "$@"
 }
 
 # fetch and hard reset to tracked remote branch of given PR number or URL
