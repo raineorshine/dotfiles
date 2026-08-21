@@ -293,7 +293,7 @@ lessmd() {
 # repeat a command n times
 # e.g. loop 10 echo hello
 loop() {
-  local n=$1 i
+  local n=$1
   shift
   for i in $(seq 1 "$n"); do
     "$@"
@@ -402,7 +402,7 @@ temp() {
 # measure the running time of a command repeated n times
 # e.g. timen 3 sleep 1
 timen() {
-  local n=$1 i
+  local n=$1
   local cmd=$2
   local args=("${@:3}")
   for i in $(seq 1 "$n"); do
