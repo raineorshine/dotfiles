@@ -7,6 +7,8 @@ description: 'Finish a feature branch in a worktree: run the shellcheck lint gat
 
 Solo-developer workflow for this dotfiles repo. Take the current feature branch (usually in a worktree), verify it, land it on `master` as a single commit via fast-forward merge, and push to `origin`. No PR.
 
+If the session is already on `master` in the main checkout (no feature branch), run the quality gate, commit, and push; steps 3–5 are no-ops there.
+
 ## Procedure
 
 ### 1. Quality gate (must pass before committing)
