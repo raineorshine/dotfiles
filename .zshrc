@@ -412,6 +412,43 @@ karpull() {
 }
 
 #-------------------------#
+# Text Replacements
+#-------------------------#
+
+# Manage macOS System Settings > Keyboard > Text Replacements from the shell.
+# add/rm go through keyboardservicesd (bin/ksreplace.swift, compiled on first
+# use), the same path the settings pane uses, so changes are stored, synced to
+# iCloud, and picked up by running apps immediately. ls reads the daemon's
+# sqlite store directly.
+#   textreplace ls           list from<TAB>to
+#   textreplace add FROM TO  add
+#   textreplace rm FROM      remove
+textreplace() {
+  local db=~/Library/KeyboardServices/TextReplacements.db to
+  case $1 in
+    ls) sqlite3 -separator $'\t' "$db" \
+          "select ZSHORTCUT, ZPHRASE from ZTEXTREPLACEMENTENTRY where ZWASDELETED=0 order by ZSHORTCUT;" ;;
+    add) [[ -n $2 && -n $3 ]] || { echo "usage: textreplace add FROM TO" >&2; return 1 }
+      _ksreplace add "$2" "$3" && echo "Added: $2 → $3" ;;
+    rm) [[ -n $2 ]] || { echo "usage: textreplace rm FROM" >&2; return 1 }
+      to=$(sqlite3 "$db" "select ZPHRASE from ZTEXTREPLACEMENTENTRY where ZWASDELETED=0 and ZSHORTCUT='${2//\'/''}' limit 1;")
+      [[ -n $to ]] || { echo "not found: $2" >&2; return 1 }
+      _ksreplace rm "$2" "$to" && echo "Removed: $2" ;;
+    *) echo "usage: textreplace ls | add FROM TO | rm FROM" >&2; return 1 ;;
+  esac
+}
+
+# run bin/ksreplace.swift, compiling it into the cache when missing or stale
+_ksreplace() {
+  local src=$dothome/bin/ksreplace.swift bin=~/.cache/dotfiles/ksreplace
+  if [[ ! -x $bin || $src -nt $bin ]]; then
+    mkdir -p "${bin:h}"
+    swiftc -O -o "$bin" "$src" || return 1
+  fi
+  "$bin" "$@"
+}
+
+#-------------------------#
 # gpg
 #-------------------------#
 
