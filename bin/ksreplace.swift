@@ -2,6 +2,7 @@
 // path System Settings > Keyboard > Text Replacements uses, so the change is
 // stored, pushed to iCloud, and picked up by running apps immediately.
 // Built on demand by the `textreplace` function in .zshrc.
+// Background and dead ends: docs/macos-text-replacements.md
 //   ksreplace add FROM TO
 //   ksreplace rm FROM TO
 import Foundation
