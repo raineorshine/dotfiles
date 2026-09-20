@@ -1,6 +1,6 @@
 ---
 name: ship
-description: 'Finish a feature branch in a worktree: run the shellcheck lint gate, commit, rebase on master, squash, fast-forward merge into master, and push. Use when done with a change in this dotfiles repo and want it on master without opening a PR.'
+description: 'Finish a feature branch in a worktree: run the shellcheck lint gate, commit, rebase on master, squash, fast-forward merge into master, push, and extract the session's learnings. Use when done with a change in this dotfiles repo and want it on master without opening a PR.'
 ---
 
 # Ship (finish feature → merge to master)
@@ -82,3 +82,11 @@ MAIN=$(git worktree list | head -1 | awk '{print $1}') && git -C "$MAIN" push or
   ```
 
   Only do this when the user confirms the worktree is no longer needed.
+
+### 7. Extract the learnings
+
+Invoke the `learn` skill. A shipped change is the moment its lessons are worth writing down: the branch is landed, nothing is pending, and whatever the session learned about the shell config, the tree or the workflow is still in context — an hour later it is in nobody's. This is not optional and the user does not have to ask for it; it is the last stage of shipping.
+
+Skip it only when `learn` or `learn-organize` is what invoked this ship — their own procedures end in one, and landing those learnings is that ship's whole job. Otherwise the two call each other forever.
+
+If `learn` finds nothing worth recording, that is a normal outcome — say so in one line and move on.
