@@ -14,8 +14,6 @@ so() {
   source $dothome/.zshrc
 }
 
-# https://hub.github.com/
-alias git=hub
 alias brave="open -a Brave\ Browser"
 alias chrome="open -a Google\ Chrome"
 alias preview="open -a Preview"
@@ -534,3 +532,49 @@ gpga() {
 # completion
 fpath+=~/.zcompletions
 autoload -Uz compinit && compinit
+
+# Claude Code (native install)
+export PATH="$HOME/.local/bin:$PATH"
+
+# Clear only the iTerm2 Hotkey Window prompt after 15 idle minutes.
+# TMOUT alone measures time since the prompt, so track editing activity too.
+# Leave running commands, partial input, and continuation prompts untouched.
+if [[ -o interactive && "$TERM_PROGRAM" == iTerm.app && "$ITERM_PROFILE" == "Hotkey Window" ]]; then
+  zmodload zsh/datetime
+  autoload -Uz add-zle-hook-widget
+  typeset -gi _iterm_idle_seconds=900 _iterm_last_activity=$EPOCHSECONDS
+
+  _iterm_idle_activity() {
+    _iterm_last_activity=$EPOCHSECONDS
+  }
+  add-zle-hook-widget line-init _iterm_idle_activity
+  add-zle-hook-widget line-pre-redraw _iterm_idle_activity
+
+  TRAPALRM() {
+    local remaining
+    TMOUT=$_iterm_idle_seconds
+    zle || return 0
+    remaining=$(( _iterm_idle_seconds - EPOCHSECONDS + _iterm_last_activity ))
+    if (( remaining > 0 )); then
+      TMOUT=$remaining
+      return 0
+    fi
+    [[ -z $BUFFER && $CONTEXT == start ]] || return 0
+    builtin cd -- "$HOME" || return 0
+    _iterm_last_activity=$EPOCHSECONDS
+    # Clear the visible screen; retain scrollback and command history.
+    print -n -- $'\e[2J\e[H'
+    print -n -- "\e]1;${PWD##*/}\a"
+    zle reset-prompt
+    zle -R
+    return 0
+  }
+  TMOUT=$_iterm_idle_seconds
+elif (( $+functions[_iterm_idle_activity] )); then
+  # Disable the old all-iTerm hook when reloading an ordinary window.
+  TMOUT=0
+  add-zle-hook-widget -d line-init _iterm_idle_activity
+  add-zle-hook-widget -d line-pre-redraw _iterm_idle_activity
+  unfunction TRAPALRM _iterm_idle_activity
+  unset _iterm_idle_seconds _iterm_last_activity
+fi
