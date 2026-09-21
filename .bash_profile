@@ -7,19 +7,20 @@ export EDITOR='code'
 export GIT_EDITOR='vim'
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:pwd:gs:gulp:gd:push:pull:p"
-export PKG_CONFIG_PATH="/usr/local/opt/postgresql@15/lib/pkgconfig"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/postgresql@15/lib/pkgconfig"
 export FNM_DIR="$HOME/.fnm"
 # Download native Apple Silicon (arm64) Node builds instead of x64 under Rosetta.
 export FNM_ARCH=arm64
 
+# Homebrew (arm64, /opt/homebrew). Must come before the prepends below so they win over it.
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 export PATH=".cabal-sandbox/bin:$PATH"
-export PATH="/usr/local/opt/python3/libexec/bin:$PATH"
-export PATH="/usr/local/heroku/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
+export PATH="/opt/homebrew/opt/python3/libexec/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/local/bin:$PATH"
 export PATH="/Users/raine/Library/pnpm:$PATH"
-export PATH="/usr/local/opt/postgresql@15/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
 # old fnm path did not work with vercel because of space in "Application Support"
 # export PATH="/Users/raine/Library/Application Support/fnm:$PATH"
