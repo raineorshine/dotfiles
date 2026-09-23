@@ -1,5 +1,6 @@
 # Dotfiles Conventions
 
+- Four files, split by kind and by shell, not by which shell the request names: environment variables go in .bash_profile, aliases and functions in .bashrc, and .zprofile/.zshrc hold only what cannot work in bash (they source their bash counterpart first). A request to "add this to ~/.zshrc" is about where the user happens to keep their own config — route it by kind, so an `export` lands in .bash_profile and both shells get it
 - Keep aliases and functions in SEPARATE sections in .bashrc — never define functions inside the alias block
 - Prefer separate named shortcuts (e.g. lst10/lst20/...) over a single parameterized function, but have them delegate to a shared helper (e.g. `_lst`)
 - zsh does NOT word-split unquoted variable expansions like bash does. To split a string into words, use `${=var}` in zsh (or build an array). Store multi-word commands in an array and invoke with `"${arr[@]}"` so they work in both bash and zsh
