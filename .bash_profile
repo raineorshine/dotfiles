@@ -8,7 +8,8 @@ export GIT_EDITOR='vim'
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:pwd:gs:gulp:gd:push:pull:p"
 # Searches in less ignore case unless the pattern contains an uppercase letter. Use -I to always ignore case.
-export LESS='-i'
+# Git sets LESS=FRX only when LESS is unset, so keep its flags here: -R renders color escapes, -F quits on one screen, -X keeps output on screen.
+export LESS='-iFRX'
 export PKG_CONFIG_PATH="/opt/homebrew/opt/postgresql@15/lib/pkgconfig"
 export FNM_DIR="$HOME/.fnm"
 # Download native Apple Silicon (arm64) Node builds instead of x64 under Rosetta.
