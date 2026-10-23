@@ -577,3 +577,17 @@ elif (( $+functions[_iterm_idle_activity] )); then
   unfunction TRAPALRM _iterm_idle_activity
   unset _iterm_idle_seconds _iterm_last_activity
 fi
+
+# Option+C copies the last command's output (Option sends "ç" in iTerm2).
+# iterm-last-output lives in ~/.agents/skills/iterm-last-output.
+if [[ -o interactive && "$TERM_PROGRAM" == iTerm.app ]]; then
+  copy-last-output() {
+    local out
+    out=$(iterm-last-output 2>&1) || { zle -M "$out"; return 1 }
+    local -a lines=("${(@f)out}")
+    print -rn -- "$out" | pbcopy
+    zle -M "Copied ${#lines} line$( (( ${#lines} == 1 )) || print s) of output"
+  }
+  zle -N copy-last-output
+  bindkey 'ç' copy-last-output
+fi
