@@ -417,21 +417,29 @@ karpull() {
 # use), the same path the settings pane uses, so changes are stored, synced to
 # iCloud, and picked up by running apps immediately. ls reads the daemon's
 # sqlite store directly.
-#   textreplace ls           list from<TAB>to
-#   textreplace add FROM TO  add
-#   textreplace rm FROM      remove
+#   textreplace ls              list from<TAB>to
+#   textreplace add FROM TO     add, or replace FROM's phrase if it exists
+#   textreplace update FROM TO  replace FROM's phrase; fails if FROM is missing
+#   textreplace rm FROM         remove
+# The daemon happily stores several entries for one shortcut, so every
+# subcommand that changes FROM first removes all of its existing entries.
 textreplace() {
-  local db=~/Library/KeyboardServices/TextReplacements.db to
+  local db=~/Library/KeyboardServices/TextReplacements.db olds old
+  [[ $1 == ls ]] || olds=(${(f)"$(sqlite3 "$db" \
+    "select ZPHRASE from ZTEXTREPLACEMENTENTRY where ZWASDELETED=0 and ZSHORTCUT='${2//\'/''}';")"})
   case $1 in
     ls) sqlite3 -separator $'\t' "$db" \
           "select ZSHORTCUT, ZPHRASE from ZTEXTREPLACEMENTENTRY where ZWASDELETED=0 order by ZSHORTCUT;" ;;
-    add) [[ -n $2 && -n $3 ]] || { echo "usage: textreplace add FROM TO" >&2; return 1 }
-      _ksreplace add "$2" "$3" && echo "Added: $2 → $3" ;;
+    add|update) [[ -n $2 && -n $3 ]] || { echo "usage: textreplace $1 FROM TO" >&2; return 1 }
+      [[ $1 == add || $#olds -gt 0 ]] || { echo "not found: $2" >&2; return 1 }
+      for old in $olds; do _ksreplace rm "$2" "$old" || return 1; done
+      _ksreplace add "$2" "$3" || return 1
+      if (( $#olds )); then echo "Updated: $2 → $3"; else echo "Added: $2 → $3"; fi ;;
     rm) [[ -n $2 ]] || { echo "usage: textreplace rm FROM" >&2; return 1 }
-      to=$(sqlite3 "$db" "select ZPHRASE from ZTEXTREPLACEMENTENTRY where ZWASDELETED=0 and ZSHORTCUT='${2//\'/''}' limit 1;")
-      [[ -n $to ]] || { echo "not found: $2" >&2; return 1 }
-      _ksreplace rm "$2" "$to" && echo "Removed: $2" ;;
-    *) echo "usage: textreplace ls | add FROM TO | rm FROM" >&2; return 1 ;;
+      (( $#olds )) || { echo "not found: $2" >&2; return 1 }
+      for old in $olds; do _ksreplace rm "$2" "$old" || return 1; done
+      echo "Removed: $2" ;;
+    *) echo "usage: textreplace ls | add FROM TO | update FROM TO | rm FROM" >&2; return 1 ;;
   esac
 }
 
