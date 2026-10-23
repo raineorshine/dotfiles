@@ -33,3 +33,5 @@ export PATH="$HOME/.docker/bin:$PATH"
 # local node_modules should take precedence over global modules
 export PATH="./node_modules/.bin:$PATH"
 . "$HOME/.cargo/env"
+
+export OTEL_RESOURCE_ATTRIBUTES="app=none,env=laptop"
