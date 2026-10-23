@@ -13,7 +13,9 @@ Never ship from the main checkout. A change found there uncommitted belongs to w
 
 ## Procedure
 
-### 0. Release the demo lock
+### 0. Clear the live slot
+
+Release this session's demo lock, then land whatever else the main checkout holds, before shipping anything of your own.
 
 ```bash
 ./scripts/dotfiles-test-lock.sh release --if-mine && ./scripts/dotfiles-test-lock.sh status
@@ -24,6 +26,23 @@ If the `test` skill demoed this branch, its files are still installed in the liv
 `status` tells you now what step 6 will face. **Locked by another session** means the ship still lands on `origin/main`, but the main checkout stays behind until that holder releases; say so in the report rather than waiting.
 
 Ship what you demoed — if the branch changed after the last `install`, demo again first.
+
+Then look at the main checkout:
+
+```bash
+MAIN=$(git worktree list --porcelain | head -1 | sed 's/^worktree //') && git -C "$MAIN" fetch -q origin && git -C "$MAIN" status --short --branch
+```
+
+- **Locked by another session:** the dirty files are that demo's installed copies. Leave them alone; step 6 explains what that means for going live.
+- **Unlocked with uncommitted edits:** someone edited the live files directly, so the edits are already running and committing them changes nothing that runs. Land them now, without stopping to ask:
+  1. Find the session that made each change, as AGENTS.md describes. If that session is still running, it may not be finished: leave its edits, and name it with a link in the report.
+  2. Read the diff for secrets; the repo is public. A change you cannot attribute still gets committed when it is harmless config; anything that looks like a credential stays uncommitted and goes in the report.
+  3. Run `npm run lint` in the main checkout. Fix only what the gate requires, such as a missing trailing newline.
+  4. Commit each change separately in the main checkout (`git -C "$MAIN" commit -- <file>`), with a subject that describes the change, not where it came from.
+  5. `git -C "$MAIN" rebase origin/main && git -C "$MAIN" push origin main`.
+- **Unlocked, and local `main` has commits ahead of `origin`:** a session committed in the main checkout and never pushed. Rebase and push them as in sub-step 5.
+
+Report each leftover you landed in one table row: the change, the session it came from, and the commit.
 
 ### 1. Quality gate (must pass before committing)
 
@@ -88,8 +107,7 @@ MAIN=$(git worktree list --porcelain | head -1 | sed 's/^worktree //') && if ! .
 This is what makes the change live: the main checkout's working tree *is* `~/.zshrc` and the rest.
 
 - **Lock held by another session:** the script prints the holder (with a `link` line) and skips. Its dirty files are that demo's installed copies — never commit, check out, or stash them. One line in the report, with the link: the change is on `origin/main` and goes live when that holder releases and anyone's next ship fast-forwards.
-- **Unlocked, and the merge refuses because local changes would be overwritten:** someone's uncommitted edits, already live, overlap the shipped files. Do not stop, and never `checkout --` them away. Follow AGENTS.md: find the session that made them, read the diff for secrets, commit each change separately in the main checkout, then `git -C "$MAIN" rebase origin/main`, run `npm run lint` there, and `git -C "$MAIN" push origin main`. Dirty files that do not overlap the shipped ones do not block the fast-forward; leave those for their owner.
-- **"Not possible to fast-forward":** local `main` has commits `origin` lacks (a session committed in the main checkout). Rebase it onto `origin/main` and push, as above.
+- **Unlocked, and the merge refuses because local changes would be overwritten**, or **"Not possible to fast-forward":** the main checkout picked up edits or commits after step 0. Never `checkout --` them away. Land them as step 0 describes, then retry this step.
 
 Then verify in a fresh login shell (`zsh -lic '…'`) that the shipped change is live. If `package.json` or `yarn.lock` changed, run `yarn install` in the main checkout.
 
