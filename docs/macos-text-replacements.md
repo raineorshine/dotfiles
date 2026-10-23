@@ -30,6 +30,9 @@ pane does. `bin/ksreplace.swift` does exactly this:
 - `-addEntries:removeEntries:withCompletionHandler:`; the completion receives an
   `NSError` whose code is 0 on success. Removal matches on shortcut + phrase, so
   `rm` looks the phrase up in the db first. Removed rows are hard-deleted.
+- Adding a shortcut that already exists does not replace it: the daemon stores a
+  second entry beside the first. `textreplace add`/`update` therefore remove every
+  existing entry for the shortcut before adding.
 - Effects are immediate: db row, mirror rewrite, iCloud push, and running apps
   pick it up without relaunch.
 - `-queryTextReplacementsWithCallback:` crashed when handed a two-argument block
