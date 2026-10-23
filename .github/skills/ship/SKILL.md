@@ -96,7 +96,7 @@ This is the ship. It runs from the worktree and touches no other working tree, s
 
 **If the push is rejected as non-fast-forward:** someone else landed first. Nothing was lost. Go back to **step 3**, redo **step 4** to re-squash onto the new base, and push again. Because `origin/main` only advances by fast-forward, at most one branch wins each round and the others rebase and retry — no merge commits, no clobbering.
 
-Once the push succeeds, and not before, set the title's prefix to `🚀 ` (`get_session` with `"self"`, then `set_session_title`, replacing the previous prefix). Do not report this.
+Once the push succeeds, and not before, set the title's prefix to `🚀 `, replacing the previous prefix rather than stacking: read the title with `mcp__ccd_session_mgmt__get_session` (`"self"`) and set it with `mcp__ccd_session_mgmt__set_session_title`. In a cloud session, where those do not exist, `mcp__claude-code-remote__get_session` with no `session_id` describes this session (`ccr.id`, `ccr.title`), and `mcp__claude-code-remote__set_session_title` takes that id. Skip only when neither tool exists. Do not report this.
 
 ### 6. Fast-forward the main checkout (go live)
 
@@ -125,8 +125,8 @@ Print `🚀 Shipped` as the last line of the response, after the learn report.
 
 ### 9. Archive the session
 
-Last of all, after `learn` has finished, archive this session: `mcp__ccd_session_mgmt__archive_session` with `"self"`
-and a reason naming the ship. It is the final tool call of the ship, made in the same response as the completion message and after it — nothing after the
+Last of all, after `learn` has finished, archive this session: `mcp__ccd_session_mgmt__archive_session` with `"self"`, or in a cloud session
+`mcp__claude-code-remote__archive_session` with this session's `ccr.id`, and a reason naming the ship. It is the final tool call of the ship, made in the same response as the completion message and after it — nothing after the
 archive reaches the user. Asking to ship is the agreement to archive; do not ask again.
 
 Skip it when `learn` or `learn-organize` invoked this ship: the session goes on after that ship. A

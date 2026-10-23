@@ -47,15 +47,20 @@ into the message; never build one from an id you did not read there.
 
 ### 2. Acquire
 
-Prefix this session's title with `🔓 ` first (`set_session_title`, replacing any existing lifecycle
-prefix — docs/workflow.md "Session titles"). If the acquire is denied, keep `🔓 ` only while queued
+Prefix this session's title with `🔓 ` first, replacing any existing lifecycle prefix rather than
+stacking (docs/workflow.md "Session titles"): read the title with `mcp__ccd_session_mgmt__get_session`
+(`"self"`) and set it with `mcp__ccd_session_mgmt__set_session_title`. In a cloud session, where those
+do not exist, `mcp__claude-code-remote__get_session` with no `session_id` describes this session
+(`ccr.id`, `ccr.title`), and `mcp__claude-code-remote__set_session_title` takes that id. Skip only when
+neither tool exists. If the acquire is denied, keep `🔓 ` only while queued
 for it. Do not report this.
 
 ```bash
 ./scripts/dotfiles-test-lock.sh acquire "what you are demoing" "<this session's title>"
 ```
 
-Pass this session's title without its lifecycle prefix (read it from `get_session` with `"self"`),
+Pass this session's title without its lifecycle prefix (read it from `mcp__ccd_session_mgmt__get_session` with `"self"`,
+or in a cloud session `ccr.title` from `mcp__claude-code-remote__get_session` with no `session_id`),
 since the prefix changes while the lock is held. The host session id is
 recorded from the environment. Re-running from the same worktree is a no-op and does not
 re-snapshot, so an interrupted session can resume.
